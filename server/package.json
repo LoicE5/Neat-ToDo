@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx parallelshell 'npx tsc -w' 'nodemon --no-warnings build'",
+    "start": "npx tsc && node build"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "type": "module",
+  "dependencies": {
+    "parallelshell": "^3.0.2"
+  }
+}
