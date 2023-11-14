@@ -1,5 +1,5 @@
-import sequelize from "../../db";
-import { DataTypes } from "sequelize";
+import sequelize from "../../db"
+import { DataTypes } from "sequelize"
 
 const UserGroup = sequelize.define('UserGroup', {
     user_id: {
@@ -40,6 +40,6 @@ const UserGroup = sequelize.define('UserGroup', {
         },
       },
     ],
-} as any);
+} as any)
 
 export default UserGroup

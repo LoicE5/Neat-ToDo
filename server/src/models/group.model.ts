@@ -1,5 +1,5 @@
-import sequelize from "../../db";
-import { DataTypes } from "sequelize";
+import sequelize from "../../db"
+import { DataTypes } from "sequelize"
 
 const Group = sequelize.define('Group', {
     id: {
