@@ -5,6 +5,7 @@ const User = sequelize.define('User', {
     email: {
       type: DataTypes.STRING(50),
       allowNull: false,
+      unique: true
     },
     id: {
       type: DataTypes.INTEGER,
@@ -19,6 +20,7 @@ const User = sequelize.define('User', {
     nickname: {
       type: DataTypes.STRING(30),
       allowNull: false,
+      unique: true
     },
   }, {
     tableName: 'user', // Set the table name if it's not pluralized and underscored
