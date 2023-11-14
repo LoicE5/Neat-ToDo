@@ -2,7 +2,8 @@ import { Sequelize, Options } from "sequelize"
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: './database.sqlite'
+    storage: process.env.SQLITE_PATH || './database.sqlite',
+    logging: false
 } as Options)
 
 sequelize.authenticate()
