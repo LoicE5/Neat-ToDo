@@ -1,3 +1,5 @@
+import dotenv from "dotenv"
+dotenv.config()
 import express, { Express } from "express"
 import sequelize from "./db"
 import User from "./src/models/user.model"
@@ -7,8 +9,9 @@ import Todoom from "./src/models/todoom.model"
 import TodoomHistory from "./src/models/todoom_history.model"
 import routerAuth from "./src/routes/auth.route"
 
+
 const app:Express = express()
-const port:number = 3001
+const port:number = Number(process.env.PORT) || 3001
 
 app.use(express.json())
 app.use(express.text())

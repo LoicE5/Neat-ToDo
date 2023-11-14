@@ -1,13 +1,9 @@
 import { Strategy as JwtStrategy, ExtractJwt, VerifiedCallback } from 'passport-jwt'
 import User from '../models/user.model.js'
 import { Model } from 'sequelize'
+import { jwtPayload } from './interfaces.js'
 
-// TODO use env variable and a more robust auto generated secret
-const secret:string = 't3$t'
-
-interface jwtPayload {
-    id:number
-}
+const secret:string = process.env.JWT_SECRET
 
 const jwtStrategy = new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

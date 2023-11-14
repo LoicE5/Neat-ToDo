@@ -15,10 +15,12 @@
   "type": "commonjs",
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.21",
     "@types/passport-jwt": "^3.0.13",
     "@types/sequelize": "^4.28.18",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "parallelshell": "^3.0.2",
