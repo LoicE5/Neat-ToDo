@@ -1,5 +1,5 @@
-import sequelize from "../../db";
-import { DataTypes } from "sequelize";
+import sequelize from "../../db"
+import { DataTypes } from "sequelize"
 
 const User = sequelize.define('User', {
     email: {
@@ -30,6 +30,6 @@ const User = sequelize.define('User', {
             fields: ['email', 'nickname'],
       },
     },
-  } as any);
+  } as any)
   
 export default User
