@@ -36,6 +36,10 @@ async function getUserById(req: Request, res: Response): Promise<void> {
 async function getUserGroupsById(req: Request, res: Response): Promise<void> {
     try {
         const id: number = Number(validator.escape(req.params.id))
+
+        if(!isUserIdFromTokenMatchingRequest(req.headers.authorization, id))
+            return failRequest(res, 401, `Unauthorized`)
+        
         const user = await User.findByPk(id, {
             include: [{
                 model: Group,
