@@ -7,3 +7,8 @@ export interface userCreationPayload {
 export interface jwtPayload {
     id:number
 }
+
+export interface userDecodedJwtToken {
+    id: number, 
+    iat: number
+}
