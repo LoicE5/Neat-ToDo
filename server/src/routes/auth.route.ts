@@ -56,6 +56,7 @@ async function signup(req: Request, res: Response): Promise<void> {
 
     const salt: string = await bcrypt.genSalt(10)
     const hash: string = await bcrypt.hash(password, salt)
+    
     const payload: userCreationPayload = {
         nickname: nickname,
         email: email,
@@ -63,9 +64,12 @@ async function signup(req: Request, res: Response): Promise<void> {
     }
     
     try {
+
         const newUser: Model = await User.create(payload as Optional<any, any>)
         res.status(201).json(newUser)
-    } catch (e: Error|any) {
+
+    } catch (e: Error | any) {
+        
         if (e.name == 'SequelizeUniqueConstraintError')
             failRequest(res,409,`This email or nickname already exists.`)
         else
