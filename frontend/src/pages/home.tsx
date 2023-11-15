@@ -15,7 +15,7 @@ export default function Home() {
                     display:"block"
                     }}
                 />
-                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" style={{
+                <button type="submit" className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black" style={{
                     marginTop: "2em"
                     }}
                 >Connexion</button>
