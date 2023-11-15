@@ -25,9 +25,15 @@ export async function hashPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, salt)
 }
 
+/**
+ * Decode a JWT token as an object containing the user id, needed to check which resource a user can access
+ * @param authHeader 
+ * @param secret 
+ * @returns {userDecodedJwtToken}
+ */
 export function decodeJwtToken(authHeader: IncomingHttpHeaders["authorization"]|string, secret: string = jwtSecret): userDecodedJwtToken {
-    const reqToken = authHeader.slice(7);
-    const decodedToken = jwt.verify(reqToken, secret) as userDecodedJwtToken;
+    const reqToken = authHeader.slice(7) // Remove the "Bearer " string before the actual token
+    const decodedToken = jwt.verify(reqToken, secret) as userDecodedJwtToken
     return decodedToken
 }
 
