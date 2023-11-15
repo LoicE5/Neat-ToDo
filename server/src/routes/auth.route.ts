@@ -5,7 +5,8 @@ import User from '../models/user.model'
 import { Error, Model, Optional } from 'sequelize'
 import { secret } from '../utils/jwt_strategy'
 import { userCreationPayload } from '../utils/interfaces'
-import { failRequest, isEmailValid } from '../utils/functions'
+import { failRequest } from '../utils/functions'
+import validator from 'validator'
 
 const routerAuth: Router = express.Router()
 
@@ -22,7 +23,7 @@ async function login(req: Request, res: Response):Promise<void> {
     if (!email || !password)
         return defaultFail()
 
-    if (!isEmailValid(email))
+    if (!validator.isEmail(email))
         return defaultFail()
 
     User.findOne({ where: { email: email } })
@@ -51,7 +52,7 @@ async function signup(req: Request, res: Response): Promise<void> {
     if (!nickname || !email || !password)
         return defaultFail()
 
-    if (!isEmailValid(email))
+    if (!validator.isEmail(email))
         return defaultFail()
 
     const salt: string = await bcrypt.genSalt(10)
