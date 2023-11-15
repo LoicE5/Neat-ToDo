@@ -1,45 +1,14 @@
 import sequelize from "../../db"
-import { DataTypes } from "sequelize"
+import User from "./user.model"
+import Group from "./group.model"
 
-const UserGroup = sequelize.define('UserGroup', {
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'User', // Assuming your User model is named 'User'
-        key: 'id',
-      },
-    },
-    group_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Group', // Assuming your Group model is named 'Group'
-        key: 'id',
-      },
-    },
-}, {
-    tableName: 'user_group',
-    timestamps: false,
-    primaryKey: true, // Sequelize will automatically set the primary key based on the model attributes
-    foreignKeys: [
-      {
-        name: 'user_group_user_id_fk',
-        fields: ['user_id'],
-        references: {
-          table: 'user',
-          field: 'id',
-        },
-      },
-      {
-        name: 'user_group_group_id_fk',
-        fields: ['group_id'],
-        references: {
-          table: 'group',
-          field: 'id',
-        },
-      },
-    ],
+const UserGroup = sequelize.define('UserGroup', {}, {
+        tableName: 'user_group',
+        timestamps: false,
+        primaryKey: true
 } as any)
+
+User.belongsToMany(Group, { through: UserGroup });
+Group.belongsToMany(User, { through: UserGroup });
 
 export default UserGroup
