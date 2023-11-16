@@ -60,12 +60,12 @@ async function getUserGroupsById(req: Request, res: Response): Promise<void> {
 
 async function updateUserById(req: Request, res: Response): Promise<void> {
     try {
-        const defaultFail = (): void => failRequest(res, 401, `Incorrect email`)
-        // I'm trying to find a solution tu re-use the fonction getuserById
-        const id: number = Number(req.params.id);
+        const defaultFail = (): void => failRequest(res, 401, `Failed to update`)
+        
+        const id: number = Number(req.params.id)
 
         if (!isUserIdFromTokenMatchingRequest(req.headers.authorization, id))
-            return failRequest(res, 401, `Unauthorized`);
+            return failRequest(res, 401, `Unauthorized`)
 
         if (!validator.isEmail(req.body.email))
             return defaultFail();
@@ -74,16 +74,15 @@ async function updateUserById(req: Request, res: Response): Promise<void> {
             {   
                 nickname: req.body.nickname, 
                 email: req.body.email,
-                password:await hashPassword(req.body.password)
-
+                password: await hashPassword(req.body.password)
             },
             { 
-                where: { id }, 
+                where: { id },
                 returning: true 
             }
-        );
+        )
 
-        res.json(updatedUser);
+        res.json(updatedUser)
     } catch (error) {
         console.error(error)
         failRequest(res, 500, `Internal server error`)
