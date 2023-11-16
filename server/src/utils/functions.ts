@@ -55,3 +55,12 @@ export function isUserIdFromTokenMatchingRequest(authHeader:IncomingHttpHeaders[
 
     return true
 }
+
+/**
+ * Checks if an object have no keys at all
+ * @param obj 
+ * @returns {boolean}
+ */
+export function isObjectEmpty(obj: Record<string, any>): boolean {
+    return Object.keys(obj).length === 0;
+}
