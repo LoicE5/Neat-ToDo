@@ -18,3 +18,9 @@ export interface userDecodedJwtToken {
     id: number, 
     iat: number
 }
+
+export interface groupCreationPayload {
+    name:string
+}
+
+export interface groupRenamePayload extends groupCreationPayload {}
