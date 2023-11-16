@@ -71,7 +71,7 @@ async function updateUserById(req: Request, res: Response): Promise<void> {
 
         let updatePayload: userUpdatePayload = {}
 
-        if (nickname) 
+        if (nickname)
             updatePayload.nickname = validator.escape(nickname)
         
         // If an email is provided, we check if it is well formed and push it, otherwise we warn
