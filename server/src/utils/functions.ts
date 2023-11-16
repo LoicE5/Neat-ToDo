@@ -39,8 +39,8 @@ export function decodeJwtToken(authHeader: IncomingHttpHeaders["authorization"]|
 
 /**
  * Checks if the user's id of the JWT token matches the provided user's id
- * @param authHeader 
- * @param id 
+ * @param authHeader often req.headers.authorization
+ * @param id often found in the params : req.params.id
  * @returns {boolean}
  */
 export function isUserIdFromTokenMatchingRequest(authHeader:IncomingHttpHeaders["authorization"]|string, id:number|string): boolean {
