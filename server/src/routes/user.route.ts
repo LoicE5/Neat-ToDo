@@ -6,8 +6,6 @@ import Group from '../models/group.model'
 import { failRequest, isUserIdFromTokenMatchingRequest, hashPassword, isObjectEmpty } from '../utils/functions'
 import { userUpdatePayload } from '../utils/interfaces'
 
-
-
 const routerUser: Router = express.Router()
 
 routerUser.get('/:id', getUserById)
@@ -99,8 +97,9 @@ async function updateUserById(req: Request, res: Response): Promise<void> {
         )
 
         res.json(updatedUser)
-    } catch (e) {
-        if (e.name == 'SequelizeUniqueConstraintError')
+    } catch (error) {
+        console.error(error)
+        if (error.name == 'SequelizeUniqueConstraintError')
             failRequest(res, 409, `This nickname and/or email address is already taken`)
         else
             failRequest(res, 500, `Internal server error`)
@@ -124,7 +123,8 @@ async function deleteUserById(req: Request, res: Response): Promise<void> {
 
         res.json({ message: 'User deleted successfully' });
           
-    } catch (e) {
+    } catch (error) {
+        console.error(error)
         failRequest(res, 500, `Internal server error`)
     }
 }
