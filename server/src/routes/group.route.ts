@@ -12,6 +12,8 @@ const routerGroup: Router = express.Router()
 routerGroup.post('/', createGroup)
 routerGroup.get('/:id', getGroupById)
 routerGroup.patch('/:id', renameGroupById)
+routerGroup.delete('/:id', deleteGroupById)
+routerGroup.get('/:id/users', getUsersOfGroupById)
 
 export default routerGroup
 
@@ -77,6 +79,52 @@ async function renameGroupById(req: Request, res: Response): Promise<void> {
         })
     
         res.json(renamedGroup)
+    } catch (error) {
+        console.error(error)
+        failRequest(res, 500, `Internal server error`)
+    }
+}
+
+async function deleteGroupById(req: Request, res: Response): Promise<void> {
+    try {
+        const id = Number(req.params.id)
+
+        const userId = decodeJwtToken(req.headers.authorization, secret).id
+        const currentUser = await User.findByPk(userId) as any
+
+        // If the user isn't inside the group, he can't rename it
+        if (!await currentUser.hasGroup(id))
+            return failRequest(res, 401, 'Unauthorized')
+
+        const group = await Group.findByPk(id);
+
+        if (!group) 
+            return failRequest(res, 404, `Group not found`)
+
+        await group.destroy()
+
+        res.json({ message: 'Group deleted successfully' })
+    } catch (error) {
+        console.error(error)
+        failRequest(res, 500, `Internal server error`)
+    }
+}
+
+async function getUsersOfGroupById(req: Request, res: Response): Promise<void> {
+    try {
+        const id = Number(req.params.id)
+
+        const userId = decodeJwtToken(req.headers.authorization, secret).id
+        const currentUser = await User.findByPk(userId) as any
+
+        // If the user isn't inside the group, he can't rename it
+        if (!await currentUser.hasGroup(id))
+            return failRequest(res, 401, 'Unauthorized')
+
+        const group = await Group.findByPk(id) as any
+        const usersOfGroup = await group.getUsers()
+
+        res.json([...usersOfGroup].map(user=>user.id))
     } catch (error) {
         console.error(error)
         failRequest(res, 500, `Internal server error`)
