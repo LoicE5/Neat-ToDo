@@ -13,6 +13,7 @@ const routerUser: Router = express.Router()
 routerUser.get('/:id', getUserById)
 routerUser.get('/:id/groups', getUserGroupsById)
 routerUser.put('/:id', updateUserById)
+routerUser.delete('/:id', deleteUserById)
 
 export default routerUser
 
@@ -62,7 +63,7 @@ async function getUserGroupsById(req: Request, res: Response): Promise<void> {
 async function updateUserById(req: Request, res: Response): Promise<void> {
     try {
         
-        const id: number = Number(req.params.id)
+        const id = Number(req.params.id)
 
         // If the user tries to access another user's profile (token's id doesn't match params id)
         if (!isUserIdFromTokenMatchingRequest(req.headers.authorization, id))
@@ -103,5 +104,27 @@ async function updateUserById(req: Request, res: Response): Promise<void> {
             failRequest(res, 409, `This nickname and/or email address is already taken`)
         else
             failRequest(res, 500, `Internal server error`)
+    }
+}
+
+async function deleteUserById(req: Request, res: Response): Promise<void> {
+    try {
+        const id = Number(req.params.id)
+
+        // If the user tries to access another user's profile (token's id doesn't match params id)
+        if (!isUserIdFromTokenMatchingRequest(req.headers.authorization, id))
+            return failRequest(res, 401, `Unauthorized`)
+
+        const user = await User.findByPk(id);
+
+        if (!user) 
+            return failRequest(res, 404, `User not found`)
+
+        await user.destroy();
+
+        res.json({ message: 'User deleted successfully' });
+          
+    } catch (e) {
+        failRequest(res, 500, `Internal server error`)
     }
 }
