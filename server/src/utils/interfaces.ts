@@ -22,3 +22,5 @@ export interface userDecodedJwtToken {
 export interface groupCreationPayload {
     name:string
 }
+
+export interface groupRenamePayload extends groupCreationPayload {}
