@@ -14,6 +14,7 @@ routerGroup.get('/:id', getGroupById)
 routerGroup.patch('/:id', renameGroupById)
 routerGroup.delete('/:id', deleteGroupById)
 routerGroup.get('/:id/users', getUsersOfGroupById)
+routerGroup.put('/:id/:user_id', addUserToGroupById)
 
 export default routerGroup
 
@@ -129,6 +130,33 @@ async function getUsersOfGroupById(req: Request, res: Response): Promise<void> {
         })
 
         res.json(usersOfGroup)
+    } catch (error) {
+        console.error(error)
+        failRequest(res, 500, `Internal server error`)
+    }
+}
+
+async function addUserToGroupById(req: Request, res: Response): Promise<void> {
+    try {
+        const id = Number(req.params.id)
+        const userId = Number(req.params.user_id)
+
+        if (!id || !userId)
+            return failRequest(res, 400, `You must provide a group id and a user id in the request parameters`)
+
+        const group = await Group.findByPk(id) as any
+
+        if (!group)
+            return failRequest(res, 404, `Group not found`)
+
+        const user = await User.findByPk(userId)
+
+        if (!user)
+            return failRequest(res, 404, `User not found`)
+
+        await group.addUser(user)
+
+        res.json({ message: `User n°${userId} added to group n°${id}.` })
     } catch (error) {
         console.error(error)
         failRequest(res, 500, `Internal server error`)
