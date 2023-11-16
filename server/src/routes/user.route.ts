@@ -122,7 +122,7 @@ async function deleteUserById(req: Request, res: Response): Promise<void> {
         await user.destroy();
 
         res.json({ message: 'User deleted successfully' });
-          
+
     } catch (error) {
         console.error(error)
         failRequest(res, 500, `Internal server error`)
