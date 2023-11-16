@@ -122,9 +122,13 @@ async function getUsersOfGroupById(req: Request, res: Response): Promise<void> {
             return failRequest(res, 401, 'Unauthorized')
 
         const group = await Group.findByPk(id) as any
-        const usersOfGroup = await group.getUsers()
+        const usersOfGroup = await group.getUsers({
+            attributes: {
+                exclude: ['email','password']
+            }
+        })
 
-        res.json([...usersOfGroup].map(user=>user.id))
+        res.json(usersOfGroup)
     } catch (error) {
         console.error(error)
         failRequest(res, 500, `Internal server error`)
