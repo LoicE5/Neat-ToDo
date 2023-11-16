@@ -27,8 +27,8 @@ export async function hashPassword(password: string): Promise<string> {
 
 /**
  * Decode a JWT token as an object containing the user id, needed to check which resource a user can access
- * @param authHeader 
- * @param secret 
+ * @param authHeader often req.headers.authorization
+ * @param secret The secret use to encode the token
  * @returns {userDecodedJwtToken}
  */
 export function decodeJwtToken(authHeader: IncomingHttpHeaders["authorization"]|string, secret: string = jwtSecret): userDecodedJwtToken {
