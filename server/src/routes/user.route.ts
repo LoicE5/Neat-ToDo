@@ -3,7 +3,8 @@ import User from '../models/user.model'
 import UserGroup from '../models/user_group.model'
 import validator from 'validator'
 import Group from '../models/group.model'
-import { failRequest, isUserIdFromTokenMatchingRequest, hashPassword } from '../utils/functions'
+import { failRequest, isUserIdFromTokenMatchingRequest, hashPassword, isObjectEmpty } from '../utils/functions'
+import { userUpdatePayload } from '../utils/interfaces'
 
 
 
@@ -60,25 +61,39 @@ async function getUserGroupsById(req: Request, res: Response): Promise<void> {
 
 async function updateUserById(req: Request, res: Response): Promise<void> {
     try {
-        const defaultFail = (): void => failRequest(res, 401, `Failed to update`)
         
         const id: number = Number(req.params.id)
 
+        // If the user tries to access another user's profile (token's id doesn't match params id)
         if (!isUserIdFromTokenMatchingRequest(req.headers.authorization, id))
             return failRequest(res, 401, `Unauthorized`)
 
-        if (!validator.isEmail(req.body.email))
-            return defaultFail();
+        const { nickname, email, password }: userUpdatePayload = req.body
 
+        let updatePayload: userUpdatePayload = {}
+
+        if (nickname) 
+            updatePayload.nickname = validator.escape(nickname)
+        
+        // If an email is provided, we check if it is well formed and push it, otherwise we warn
+        if (email) {
+            if(validator.isEmail(email))
+                updatePayload.email = validator.escape(email)
+            else
+                return failRequest(res, 400, `Your email address doesn't have the right format`)
+        }
+        
+        if (password) 
+            updatePayload.password = await hashPassword(password)
+
+        // If the payload we generate haven't been populated (wrong params, empty body, ...), we fail the req
+        if (isObjectEmpty(updatePayload))
+            return failRequest(res, 400, `Your request doesn't have the adequate parameters`)
+        
         const updatedUser = await User.update(
-            {   
-                nickname: req.body.nickname, 
-                email: req.body.email,
-                password: await hashPassword(req.body.password)
-            },
+            updatePayload,
             { 
-                where: { id },
-                returning: true 
+                where: { id }
             }
         )
 
