@@ -98,8 +98,10 @@ async function updateUserById(req: Request, res: Response): Promise<void> {
         )
 
         res.json(updatedUser)
-    } catch (error) {
-        console.error(error)
-        failRequest(res, 500, `Internal server error`)
+    } catch (e) {
+        if (e.name == 'SequelizeUniqueConstraintError')
+            failRequest(res, 409, `This nickname and/or email address is already taken`)
+        else
+            failRequest(res, 500, `Internal server error`)
     }
 }
