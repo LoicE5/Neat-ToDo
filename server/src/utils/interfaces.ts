@@ -18,3 +18,21 @@ export interface userDecodedJwtToken {
     id: number, 
     iat: number
 }
+
+export interface todoCreatePayload{
+    group_id?:number,
+    title:string,
+    description?:string,
+    deadline?:Date,
+    status?:string,
+    assignee_id: number,
+    author_id:number
+}
+
+export interface todoUpdatePayload{
+    title?:string,
+    description?:string,
+    deadline?:Date,
+    status?:string,
+    assignee_id?: number,
+}
