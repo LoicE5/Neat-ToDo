@@ -4,6 +4,7 @@ import { secret as jwtSecret} from "./jwt_strategy"
 import { userDecodedJwtToken } from "./interfaces"
 import { IncomingHttpHeaders } from "http"
 import jwt from 'jsonwebtoken'
+import { Model } from "sequelize"
 
 /**
  * Creates a standardized response, with the response code in params and a custom message forwarded via json
@@ -63,4 +64,22 @@ export function isUserIdFromTokenMatchingRequest(authHeader:IncomingHttpHeaders[
  */
 export function isObjectEmpty(obj: Record<string, any>): boolean {
     return Object.keys(obj).length === 0;
+}
+
+/**
+ * 
+ * @param user A User's model instance
+ * @param todo A Todoom model instance
+ * @param userId Optional, the userId of the user if already given
+ * @returns {boolean}
+ */
+export async function isUserRelatedToTodo(user: Model<any, any>|any, todo: Model<any, any>|any, userId: number = null):Promise<boolean> {
+    if (!userId)
+        userId = user.id
+    
+    return (
+        userId !== todo.assignee_id &&
+        userId !== todo.author_id &&
+        !await user.hasGroup(todo.group_id)
+    )
 }
