@@ -163,25 +163,25 @@ async function updateTodoById(req: Request,res: Response):Promise<void> {
     
 }  
 
-//TODO refactor this thing
-async function getAllTodoForAUser(req: Request,res: Response):Promise<void>{
-    const authorId = Number(req.body.id)
-
-    // Log the authorId to check if it's a valid number
-    console.log('Author ID:', authorId)
-
-    if (!authorId) 
-        return failRequest(res,400, 'Invalid author ID')
-
+async function getAllTodoForAUser(req: Request, res: Response): Promise<void>{
     try {
+        const userId = Number(req.params.user_id)
+
+        if (!userId) 
+            return failRequest(res, 400, 'Invalid author ID')
+        
+        const currentUserId = decodeJwtToken(req.headers.authorization, secret).id
+
+        if (userId !== currentUserId)
+            return failRequest(res, 401, `Unauthorized`)
+
         const todos = await Todoom.findAll({
-            attributes: ['id', 'group_id', 'title', 'description', 'deadline', 'status', 'assignee_id', 'author_id', 'createdAt', 'updatedAt'],
-            where: { author_id: authorId },
+            where: { author_id: userId },
         })
 
         res.json(todos)
     } catch (error) {
-        console.error('Error fetching todos:', error)
-        res.status(500).json({ error: 'Internal server error' })
+        console.error(error)
+        failRequest(res, 500, `Internal server error`)
     }
 }
