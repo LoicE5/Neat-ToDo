@@ -3,7 +3,7 @@ import User from '../models/user.model'
 import { Model, Optional } from 'sequelize'
 import { secret } from '../utils/jwt_strategy'
 import { todoCreationPayload, todoUpdatePayload } from '../utils/interfaces'
-import { failRequest, isObjectEmpty, decodeJwtToken, isUserRelatedToTodo } from '../utils/functions'
+import { failRequest, isObjectEmpty, decodeJwtToken, isUserRelatedToTodo, isValidTodoomStatus } from '../utils/functions'
 import validator from 'validator'
 import Todoom from '../models/todoom.model'
 
@@ -58,9 +58,12 @@ async function createATodo(req: Request,res: Response):Promise<void>{
                 return failRequest(res, 400, `Your date format is not valid`)
         }
 
-        // TODO add a enum check for allowed status
-        if (status)
-            createPayload.status = validator.escape(status)
+        if (status) {
+            if(isValidTodoomStatus(status))
+                createPayload.status = validator.escape(status)
+            else
+                return failRequest(res, 400, `Your todoom's status is not valid`)
+        }
     
         const newTodo: Model = await Todoom.create(createPayload as Optional<any, any>)
         res.status(201).json(newTodo)
@@ -124,9 +127,12 @@ async function updateTodoById(req: Request,res: Response):Promise<void> {
         if (description)
             updatePayload.description = validator.escape(description)
 
-        // TODO Filter the status with enum
-        if (status)
-            updatePayload.status = validator.escape(status)
+        if (status) {
+            if(isValidTodoomStatus(status))
+                updatePayload.status = validator.escape(status)
+            else
+                return failRequest(res, 400, `Your todoom's status is not valid`)
+        }
 
         if (deadline) {
             if(validator.isDate(deadline as string))

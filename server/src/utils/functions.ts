@@ -5,6 +5,7 @@ import { userDecodedJwtToken } from "./interfaces"
 import { IncomingHttpHeaders } from "http"
 import jwt from 'jsonwebtoken'
 import { Model } from "sequelize"
+import { TodoomStatus } from "./enums"
 
 /**
  * Creates a standardized response, with the response code in params and a custom message forwarded via json
@@ -82,4 +83,13 @@ export async function isUserRelatedToTodo(user: Model<any, any>|any, todo: Model
         userId === todo.author_id ||
         await user.hasGroup(todo.group_id)
     )
+}
+
+/**
+ * Checks if the string provided is a valid Todoom status as stated in the TodoomStatus enum
+ * @param status The status we want to check
+ * @returns {boolean}
+ */
+export function isValidTodoomStatus(status: string): status is TodoomStatus {
+    return Object.values(TodoomStatus).includes(status as TodoomStatus)
 }
