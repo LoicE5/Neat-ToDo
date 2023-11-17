@@ -14,7 +14,8 @@ const routerToDoom: Router = express.Router()
 routerToDoom.post('/', createATodo)
 routerToDoom.get('/:id', getTodoById)
 routerToDoom.put('/:id', updateTodoById)
-routerToDoom.get('/user/:user_id', getAllTodoForAUser)
+routerToDoom.get('/author/:user_id', getAllTodoOfAuthor)
+routerToDoom.get('/assignee/:user_id', getAllTodoOfAssignee)
 routerToDoom.delete('/:id', deleteTodoById)
 
 export default routerToDoom
@@ -154,30 +155,6 @@ async function updateTodoById(req: Request,res: Response):Promise<void> {
     }
 
     
-}  
-
-//! TODO remove/refator this function according to Notion
-async function getAllTodoForAUser(req: Request, res: Response): Promise<void>{
-    try {
-        const userId = Number(req.params.user_id)
-
-        if (!userId) 
-            return failRequest(res, 400, 'Invalid author ID')
-        
-        const currentUserId = decodeJwtToken(req.headers.authorization, secret).id
-
-        if (userId !== currentUserId)
-            return failRequest(res, 401, `Unauthorized`)
-
-        const todos = await Todoom.findAll({
-            where: { author_id: userId },
-        })
-
-        res.json(todos)
-    } catch (error) {
-        console.error(error)
-        failRequest(res, 500, `Internal server error`)
-    }
 }
 
 async function deleteTodoById(req: Request, res: Response):Promise<void>{
@@ -199,6 +176,38 @@ async function deleteTodoById(req: Request, res: Response):Promise<void>{
 
         res.json({ message: 'Todo deleted successfully' })
 
+    } catch (error) {
+        console.error(error)
+        failRequest(res, 500, `Internal server error`)
+    }
+}
+
+async function getAllTodoOfAuthor(req: Request, res: Response):Promise<void> {
+    getAllTodoByCriteria(req,res,"author")
+}
+
+async function getAllTodoOfAssignee(req: Request, res: Response):Promise<void> {
+    getAllTodoByCriteria(req,res,"assignee")
+}
+
+// Utility function used for DRY, not an actual endpoint
+async function getAllTodoByCriteria(req: Request, res: Response, criteria:"author"|"assignee"): Promise<void>{
+    try {
+        const userId = Number(req.params.user_id)
+
+        if (!userId) 
+            return failRequest(res, 400, 'Invalid author ID')
+        
+        const currentUserId = decodeJwtToken(req.headers.authorization, secret).id
+
+        if (userId !== currentUserId)
+            return failRequest(res, 401, `Unauthorized`)
+
+        const todos = await Todoom.findAll({
+            where: criteria == "author" ? { author_id: userId } : { assignee_id: userId }
+        })
+
+        res.json(todos)
     } catch (error) {
         console.error(error)
         failRequest(res, 500, `Internal server error`)
