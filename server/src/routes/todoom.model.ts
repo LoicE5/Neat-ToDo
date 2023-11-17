@@ -4,8 +4,8 @@ import bcrypt from 'bcryptjs'
 import User from '../models/user.model'
 import { Error, Model, Optional } from 'sequelize'
 import { secret } from '../utils/jwt_strategy'
-import { todoCreatePayload, todoUpdatePayload } from '../utils/interfaces'
-import { failRequest, isObjectEmpty } from '../utils/functions'
+import { todoCreationPayload, todoUpdatePayload } from '../utils/interfaces'
+import { failRequest, isObjectEmpty, decodeJwtToken } from '../utils/functions'
 import validator from 'validator'
 import Todoom from '../models/todoom.model'
 
@@ -14,50 +14,63 @@ const routerToDoom: Router = express.Router()
 routerToDoom.post('/', createATodo)
 routerToDoom.get('/:id', getTodoById)
 routerToDoom.put('/:id', updateTodoById)
-/*
-routerToDoom.patch('/:id', updateTodoStatus)
-routerToDoom.delete('/:id', deleteTodoById)
-routerToDoom.post('/user/:user_id', addUserToATodo)*/
-routerToDoom.get('/test', getAllTodoForAUser)
+
+routerToDoom.get('/user/:user_id', getAllTodoForAUser)
 
 export default routerToDoom
 
 async function createATodo(req: Request,res: Response):Promise<void>{
-    const defaultFail = (): void => failRequest(res,500,`There have been an error processing your signup.`)
-    const { 
-        group_id,
-        title,
-        description,
-        deadline,
-        status,
-        assignee_id,
-        author_id 
-    }: todoCreatePayload = req.body
-
-    let createPayload: todoCreatePayload = {
-        group_id,
-        title,
-        description,
-        deadline,
-        status,
-        assignee_id,
-        author_id 
-    }
-
-    // If the payload we generate haven't been populated (wrong params, empty body, ...), we fail the req
-    if (isObjectEmpty(createPayload))
-        return failRequest(res, 400, `Your request doesn't have the adequate parameters`)
-    
     try {
+        const { 
+            group_id,
+            title,
+            description,
+            deadline,
+            status,
+            assignee_id,
+            author_id 
+        }: todoCreationPayload = req.body
 
-            const newTodo: Model = await Todoom.create(createPayload as Optional<any, any>)
-            res.status(201).json(newTodo)
+        if (!title || !assignee_id || !author_id)
+            return failRequest(res, 400, `Required parameters haven't been set`)
+
+        const currentUserId = decodeJwtToken(req.headers.authorization, secret).id
+
+        if (currentUserId !== author_id)
+            failRequest(res, 400, `You cannot assign a todo on behalf of others`)
+
+        let createPayload: todoCreationPayload = {
+            title: validator.escape(title),
+            assignee_id: Number(assignee_id),
+            author_id : Number(author_id)
+        }
+
+        if (group_id)
+            createPayload.group_id = Number(group_id)
+
+        if (description)
+            createPayload.description = validator.escape(description)
+
+        if (deadline) {
+            if(validator.isDate(deadline as string))
+                createPayload.deadline = new Date(deadline)
+            else
+                return failRequest(res, 400, `Your date format is not valid`)
+        }
+
+        // TODO add a enum check for allowed status
+        if (status)
+            createPayload.status = validator.escape(status)
     
-    } catch (err: Error | any) {
-                defaultFail()
+        const newTodo: Model = await Todoom.create(createPayload as Optional<any, any>)
+        res.status(201).json(newTodo)
+    
+    } catch (error) {
+        failRequest(res,500, `Internal server error`)
     }
 }
 
+// TODO validate this
 async function getTodoById(req: Request, res: Response): Promise<void> {
     try {
         const id = Number(req.params.id)
@@ -74,6 +87,7 @@ async function getTodoById(req: Request, res: Response): Promise<void> {
     }
 }
 
+// TODO validate this
 async function updateTodoById(req: Request,res: Response):Promise<void>{
     try{
         const id = Number(req.params.id)
@@ -118,6 +132,7 @@ async function updateTodoById(req: Request,res: Response):Promise<void>{
     
 }  
 
+//TODO refactor this thing
 async function getAllTodoForAUser(req: Request,res: Response):Promise<void>{
     const authorId = Number(req.body.id)
 
