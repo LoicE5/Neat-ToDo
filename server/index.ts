@@ -11,6 +11,7 @@ import UserGroup from "./src/models/user_group.model"
 import Todoom from "./src/models/todoom.model"
 import TodoomHistory from "./src/models/todoom_history.model"
 import Group from "./src/models/group.model"
+import routerToDoom from "./src/routes/todoom.model"
 
 const app:Express = express()
 const port:number = Number(process.env.PORT) || 3001
@@ -22,6 +23,7 @@ app.use(express.text())
 
 app.use('/auth', routerAuth)
 app.use('/user', passport.authenticate('jwt', { session: false }) , routerUser)
+app.use('/todoom', routerToDoom)
 
 app.listen(port, ():void => console.info(`The server is listening to the port ${port}`))
 
