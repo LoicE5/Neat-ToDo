@@ -67,7 +67,7 @@ export function isObjectEmpty(obj: Record<string, any>): boolean {
 }
 
 /**
- * 
+ * Checks if a user is a todo's assignee, a todo's author or member of the group the todo is in
  * @param user A User's model instance
  * @param todo A Todoom model instance
  * @param userId Optional, the userId of the user if already given
@@ -78,8 +78,8 @@ export async function isUserRelatedToTodo(user: Model<any, any>|any, todo: Model
         userId = user.id
     
     return (
-        userId !== todo.assignee_id &&
-        userId !== todo.author_id &&
-        !await user.hasGroup(todo.group_id)
+        userId === todo.assignee_id ||
+        userId === todo.author_id ||
+        await user.hasGroup(todo.group_id)
     )
 }

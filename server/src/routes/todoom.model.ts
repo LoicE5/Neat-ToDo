@@ -5,7 +5,7 @@ import User from '../models/user.model'
 import { Error, Model, Optional } from 'sequelize'
 import { secret } from '../utils/jwt_strategy'
 import { todoCreationPayload, todoUpdatePayload } from '../utils/interfaces'
-import { failRequest, isObjectEmpty, decodeJwtToken } from '../utils/functions'
+import { failRequest, isObjectEmpty, decodeJwtToken, isUserRelatedToTodo } from '../utils/functions'
 import validator from 'validator'
 import Todoom from '../models/todoom.model'
 
@@ -82,11 +82,7 @@ async function getTodoById(req: Request, res: Response): Promise<void> {
         const currentUserId = decodeJwtToken(req.headers.authorization, secret).id
         const currentUser = await User.findByPk(currentUserId) as any
 
-        if (
-            currentUserId !== toDo.assignee_id &&
-            currentUserId !== toDo.author_id &&
-            !await currentUser.hasGroup(toDo.group_id)
-        )
+        if (!await isUserRelatedToTodo(currentUser, toDo, currentUserId))
             return failRequest(res, 401, `Unauthorized`)
         
         res.json(toDo)
@@ -109,11 +105,7 @@ async function updateTodoById(req: Request,res: Response):Promise<void> {
             return failRequest(res,404, `Todo not found`)
 
         // A user can't update a todo he's not related to
-        if (
-            currentUserId !== toBeUpdatedTodo.assignee_id &&
-            currentUserId !== toBeUpdatedTodo.author_id &&
-            !await currentUser.hasGroup(toBeUpdatedTodo.group_id)
-        )
+        if (!await isUserRelatedToTodo(currentUser, toBeUpdatedTodo, currentUserId))
             return failRequest(res, 401, `Unauthorized`)
 
         const {
@@ -164,6 +156,7 @@ async function updateTodoById(req: Request,res: Response):Promise<void> {
     
 }  
 
+//! TODO remove/refator this function according to Notion
 async function getAllTodoForAUser(req: Request, res: Response): Promise<void>{
     try {
         const userId = Number(req.params.user_id)
@@ -190,14 +183,21 @@ async function getAllTodoForAUser(req: Request, res: Response): Promise<void>{
 async function deleteTodoById(req: Request, res: Response):Promise<void>{
     try {
         const id = Number(req.params.id)
-        const todo = await Todoom.findByPk(id);
+        const todo = await Todoom.findByPk(id)
 
         if (!todo) 
-            return failRequest(res, 404, `Todo not found`)
+        return failRequest(res, 404, `Todo not found`)
+
+        const currentUserId = decodeJwtToken(req.headers.authorization, secret).id
+        const currentUser = await User.findByPk(currentUserId) as any
+
+        // A user can't delete a todo he's not related to
+        if (!await isUserRelatedToTodo(currentUser, todo, currentUserId))
+            return failRequest(res, 401, `Unauthorized`)
 
         await todo.destroy();
 
-        res.json({ message: 'Todo deleted successfully' });
+        res.json({ message: 'Todo deleted successfully' })
 
     } catch (error) {
         console.error(error)
