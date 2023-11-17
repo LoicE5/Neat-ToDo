@@ -29,10 +29,10 @@ export interface todoCreationPayload{
     author_id:number
 }
 
-export interface todoUpdatePayload{
+export interface todoUpdatePayload {
     title?:string,
     description?:string,
-    deadline?:Date,
+    deadline?:Date|string,
     status?:string,
     assignee_id?: number,
 }

@@ -14,7 +14,6 @@ const routerToDoom: Router = express.Router()
 routerToDoom.post('/', createATodo)
 routerToDoom.get('/:id', getTodoById)
 routerToDoom.put('/:id', updateTodoById)
-
 routerToDoom.get('/user/:user_id', getAllTodoForAUser)
 
 export default routerToDoom
@@ -96,46 +95,69 @@ async function getTodoById(req: Request, res: Response): Promise<void> {
     }
 }
 
-// TODO validate this
-async function updateTodoById(req: Request,res: Response):Promise<void>{
-    try{
+async function updateTodoById(req: Request,res: Response):Promise<void> {
+    try {
         const id = Number(req.params.id)
-        const toDO = await Todoom.findByPk(id)
-        const { 
+
+        const currentUserId = decodeJwtToken(req.headers.authorization, secret).id
+        const currentUser = await User.findByPk(currentUserId) as any
+
+        const toBeUpdatedTodo = await Todoom.findByPk(id) as any
+        
+        if (!toBeUpdatedTodo)
+            return failRequest(res,404, `Todo not found`)
+
+        // A user can't update a todo he's not related to
+        if (
+            currentUserId !== toBeUpdatedTodo.assignee_id &&
+            currentUserId !== toBeUpdatedTodo.author_id &&
+            !await currentUser.hasGroup(toBeUpdatedTodo.group_id)
+        )
+            return failRequest(res, 401, `Unauthorized`)
+
+        const {
             title,
             description,
             deadline,
             status,
-            assignee_id,
+            assignee_id
         }: todoUpdatePayload = req.body
 
-        let updatePayload: todoUpdatePayload = {title,
-            description,
-            deadline,
-            status,
-            assignee_id}
+        let updatePayload: todoUpdatePayload = {}
 
-        if (title) updatePayload.title = validator.escape(title)
-        if(description) updatePayload.description = validator.escape(description)
-        if(status) updatePayload.status = validator.escape(status)
+        if (title)
+            updatePayload.title = validator.escape(title)
+
+        if (description)
+            updatePayload.description = validator.escape(description)
+
+        // TODO Filter the status with enum
+        if (status)
+            updatePayload.status = validator.escape(status)
+
+        if (deadline) {
+            if(validator.isDate(deadline as string))
+                updatePayload.deadline = new Date(deadline)
+            else
+                return failRequest(res, 400, `Your date format is not valid`)
+        }
+
+        if (assignee_id)
+            updatePayload.assignee_id = Number(assignee_id)
 
         // If the payload we generate haven't been populated (wrong params, empty body, ...), we fail the req
         if (isObjectEmpty(updatePayload))
             return failRequest(res, 400, `Your request doesn't have the adequate parameters`)
-        
-        const updatedTodo = await Todoom.update(
-            
-            updatePayload,
-            { 
-                where: { id }
-            }
-        ) 
-        res.json(updatedTodo)
-    }catch(err){
+
+        await toBeUpdatedTodo.update(updatePayload)
+
+        res.json(toBeUpdatedTodo)
+
+    } catch(err) {
         if (err.name == 'SequelizeUniqueConstraintError')
-        failRequest(res, 409, `You can't assign the todo to this user`)
+            failRequest(res, 409, `You can't assign the todo to this user`)
         else
-        failRequest(res, 500, `Internal server error`)
+            failRequest(res, 500, `Internal server error`)
     }
 
     
