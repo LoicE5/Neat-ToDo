@@ -38,7 +38,8 @@ async function login(req: Request, res: Response): Promise<void> {
         }
 
         return defaultFail()
-    } catch (e: Error|any) {
+    } catch (error) {
+        console.error(error)
         defaultFail()
     }
 }
@@ -65,9 +66,9 @@ async function signup(req: Request, res: Response): Promise<void> {
         const newUser: Model = await User.create(payload as Optional<any, any>)
         res.status(201).json(newUser)
 
-    } catch (e: Error | any) {
-        
-        if (e.name == 'SequelizeUniqueConstraintError')
+    } catch (error) {
+        console.error(error)
+        if (error.name == 'SequelizeUniqueConstraintError')
             failRequest(res,409,`This email or nickname already exists.`)
         else
             defaultFail()

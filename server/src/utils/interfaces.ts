@@ -36,3 +36,8 @@ export interface todoUpdatePayload{
     status?:string,
     assignee_id?: number,
 }
+export interface groupCreationPayload {
+    name:string
+}
+
+export interface groupRenamePayload extends groupCreationPayload {}
