@@ -15,6 +15,7 @@ routerToDoom.post('/', createATodo)
 routerToDoom.get('/:id', getTodoById)
 routerToDoom.put('/:id', updateTodoById)
 routerToDoom.get('/user/:user_id', getAllTodoForAUser)
+routerToDoom.delete('/:id', deleteTodoById)
 
 export default routerToDoom
 
@@ -180,6 +181,24 @@ async function getAllTodoForAUser(req: Request, res: Response): Promise<void>{
         })
 
         res.json(todos)
+    } catch (error) {
+        console.error(error)
+        failRequest(res, 500, `Internal server error`)
+    }
+}
+
+async function deleteTodoById(req: Request, res: Response):Promise<void>{
+    try {
+        const id = Number(req.params.id)
+        const todo = await Todoom.findByPk(id);
+
+        if (!todo) 
+            return failRequest(res, 404, `Todo not found`)
+
+        await todo.destroy();
+
+        res.json({ message: 'Todo deleted successfully' });
+
     } catch (error) {
         console.error(error)
         failRequest(res, 500, `Internal server error`)
