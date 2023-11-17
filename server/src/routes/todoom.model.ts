@@ -1,8 +1,6 @@
 import express, { Request, Response, Router } from 'express'
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcryptjs'
 import User from '../models/user.model'
-import { Error, Model, Optional } from 'sequelize'
+import { Model, Optional } from 'sequelize'
 import { secret } from '../utils/jwt_strategy'
 import { todoCreationPayload, todoUpdatePayload } from '../utils/interfaces'
 import { failRequest, isObjectEmpty, decodeJwtToken, isUserRelatedToTodo } from '../utils/functions'
@@ -17,6 +15,7 @@ routerToDoom.put('/:id', updateTodoById)
 routerToDoom.get('/author/:user_id', getAllTodoOfAuthor)
 routerToDoom.get('/assignee/:user_id', getAllTodoOfAssignee)
 routerToDoom.delete('/:id', deleteTodoById)
+routerToDoom.get('/group/:group_id', getAllTodoOfGroup)
 
 export default routerToDoom
 
@@ -190,13 +189,33 @@ async function getAllTodoOfAssignee(req: Request, res: Response):Promise<void> {
     getAllTodoByCriteria(req,res,"assignee")
 }
 
+async function getAllTodoOfGroup(req: Request, res: Response): Promise<void> {
+    const id = Number(req.params.group_id)
+
+    if (!id) 
+        return failRequest(res, 400, 'Invalid group ID')
+
+    const currentUserId = decodeJwtToken(req.headers.authorization, secret).id
+    const currentUser = await User.findByPk(currentUserId) as any
+
+    // If the user isn't inside the group, he can't access the todos
+    if (!await currentUser.hasGroup(id))
+        return failRequest(res, 401, 'Unauthorized')
+
+    const todos = await Todoom.findAll({
+        where: {group_id: id}
+    })
+
+    res.json(todos)
+}
+
 // Utility function used for DRY, not an actual endpoint
 async function getAllTodoByCriteria(req: Request, res: Response, criteria:"author"|"assignee"): Promise<void>{
     try {
         const userId = Number(req.params.user_id)
 
         if (!userId) 
-            return failRequest(res, 400, 'Invalid author ID')
+            return failRequest(res, 400, 'Invalid ID')
         
         const currentUserId = decodeJwtToken(req.headers.authorization, secret).id
 
