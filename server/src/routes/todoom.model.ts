@@ -70,17 +70,26 @@ async function createATodo(req: Request,res: Response):Promise<void>{
     }
 }
 
-// TODO validate this
 async function getTodoById(req: Request, res: Response): Promise<void> {
     try {
         const id = Number(req.params.id)
 
-        const toDO = await Todoom.findByPk(id)
+        const toDo = await Todoom.findByPk(id) as any
 
-        if (!toDO) 
-            return failRequest(res,404,`ToDO not found`)
+        if (!toDo) 
+            return failRequest(res, 404, `ToDo not found`)
         
-        res.json(toDO)
+        const currentUserId = decodeJwtToken(req.headers.authorization, secret).id
+        const currentUser = await User.findByPk(currentUserId) as any
+
+        if (
+            currentUserId !== toDo.assignee_id &&
+            currentUserId !== toDo.author_id &&
+            !await currentUser.hasGroup(toDo.group_id)
+        )
+            return failRequest(res, 401, `Unauthorized`)
+        
+        res.json(toDo)
     } catch (err) {
         console.error(err)
         failRequest(res,500,`Internal server error`)
