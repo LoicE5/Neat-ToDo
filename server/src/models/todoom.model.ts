@@ -1,7 +1,8 @@
 import sequelize from "../../db"
 import {
-    DataTypes
+    DataTypes, InstanceDestroyOptions, Model
 } from "sequelize"
+import TodoomHistory from "./todoom_history.model";
 
 const Todoom = sequelize.define('Todoom', {
     id: {
@@ -61,6 +62,10 @@ const Todoom = sequelize.define('Todoom', {
 }, {
     tableName: 'todoom',
     timestamps: true,
+})
+
+Todoom.afterDestroy(async (instance:Model<any,any>, options:InstanceDestroyOptions):Promise<void> => {
+    await TodoomHistory.create(instance.get(), { transaction: options.transaction }) as any
 })
 
 export default Todoom
