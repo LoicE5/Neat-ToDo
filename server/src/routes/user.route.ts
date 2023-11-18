@@ -114,14 +114,14 @@ async function deleteUserById(req: Request, res: Response): Promise<void> {
         if (!isUserIdFromTokenMatchingRequest(req.headers.authorization, id))
             return failRequest(res, 401, `Unauthorized`)
 
-        const user = await User.findByPk(id);
+        const user = await User.findByPk(id)
 
         if (!user) 
             return failRequest(res, 404, `User not found`)
 
-        await user.destroy();
+        await user.destroy()
 
-        res.json({ message: 'User deleted successfully' });
+        res.json({ message: 'User deleted successfully' })
 
     } catch (error) {
         console.error(error)

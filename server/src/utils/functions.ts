@@ -64,7 +64,7 @@ export function isUserIdFromTokenMatchingRequest(authHeader:IncomingHttpHeaders[
  * @returns {boolean}
  */
 export function isObjectEmpty(obj: Record<string, any>): boolean {
-    return Object.keys(obj).length === 0;
+    return Object.keys(obj).length === 0
 }
 
 /**
