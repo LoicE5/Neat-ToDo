@@ -28,7 +28,7 @@ async function createATodo(req: Request,res: Response):Promise<void>{
             deadline,
             status,
             assignee_id,
-            author_id 
+            author_id
         }: todoCreationPayload = req.body
 
         if (!title || !assignee_id || !author_id)
@@ -177,7 +177,7 @@ async function deleteTodoById(req: Request, res: Response):Promise<void>{
         if (!await isUserRelatedToTodo(currentUser, todo, currentUserId))
             return failRequest(res, 401, `Unauthorized`)
 
-        await todo.destroy();
+        await todo.destroy()
 
         res.json({ message: 'Todo deleted successfully' })
 
