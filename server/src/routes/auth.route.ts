@@ -5,7 +5,8 @@ import User from '../models/user.model'
 import { Error, Model, Optional } from 'sequelize'
 import { secret } from '../utils/jwt_strategy'
 import { userCreationPayload } from '../utils/interfaces'
-import { failRequest, isEmailValid } from '../utils/functions'
+import { failRequest, hashPassword } from '../utils/functions'
+import validator from 'validator'
 
 const routerAuth: Router = express.Router()
 
@@ -14,33 +15,33 @@ routerAuth.post('/signup', signup)
 
 export default routerAuth
 
-async function login(req: Request, res: Response):Promise<void> {
+async function login(req: Request, res: Response): Promise<void> {
     const { email, password } = req.body
+    const defaultFail = (): void => failRequest(res, 401, `Incorrect email or password`)
 
-    const defaultFail = (): void => failRequest(res,401,`Incorrect email or password`)
-    
     if (!email || !password)
         return defaultFail()
 
-    if (!isEmailValid(email))
+    if (!validator.isEmail(email))
         return defaultFail()
 
-    User.findOne({ where: { email: email } })
-        .then(async (user: Model|any): Promise<void> => {
-            
-            if (!user)
-                return defaultFail()
+    try {
+        const user: Model | any = await User.findOne({ where: { email: email } })
 
-            if (await bcrypt.compare(password, user.password)) {
-                const payload = { id: user.id }
-                const token = jwt.sign(payload, secret)
-                return res.json({message: 'ok', token: token}) as any
-            }
-
+        if (!user)
             return defaultFail()
-        })
-        .catch(defaultFail)
 
+        if (await bcrypt.compare(password, user.password)) {
+            const payload = { id: user.id }
+            const token = jwt.sign(payload, secret)
+            return res.json({ message: 'ok', token: token }) as any
+        }
+
+        return defaultFail()
+    } catch (error) {
+        console.error(error)
+        defaultFail()
+    }
 }
 
 async function signup(req: Request, res: Response): Promise<void> {
@@ -51,16 +52,13 @@ async function signup(req: Request, res: Response): Promise<void> {
     if (!nickname || !email || !password)
         return defaultFail()
 
-    if (!isEmailValid(email))
+    if (!validator.isEmail(email))
         return defaultFail()
-
-    const salt: string = await bcrypt.genSalt(10)
-    const hash: string = await bcrypt.hash(password, salt)
     
     const payload: userCreationPayload = {
         nickname: nickname,
         email: email,
-        password: hash
+        password: await hashPassword(password)
     }
     
     try {
@@ -68,9 +66,9 @@ async function signup(req: Request, res: Response): Promise<void> {
         const newUser: Model = await User.create(payload as Optional<any, any>)
         res.status(201).json(newUser)
 
-    } catch (e: Error | any) {
-        
-        if (e.name == 'SequelizeUniqueConstraintError')
+    } catch (error) {
+        console.error(error)
+        if (error.name == 'SequelizeUniqueConstraintError')
             failRequest(res,409,`This email or nickname already exists.`)
         else
             defaultFail()
