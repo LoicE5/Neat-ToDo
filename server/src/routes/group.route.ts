@@ -98,7 +98,7 @@ async function deleteGroupById(req: Request, res: Response): Promise<void> {
         if (!await currentUser.hasGroup(id))
             return failRequest(res, 401, 'Unauthorized')
 
-        const group = await Group.findByPk(id);
+        const group = await Group.findByPk(id)
 
         if (!group) 
             return failRequest(res, 404, `Group not found`)

@@ -8,7 +8,7 @@ const UserGroup = sequelize.define('UserGroup', {}, {
         primaryKey: true
 } as any)
 
-User.belongsToMany(Group, { through: UserGroup });
-Group.belongsToMany(User, { through: UserGroup });
+User.belongsToMany(Group, { through: UserGroup })
+Group.belongsToMany(User, { through: UserGroup })
 
 export default UserGroup
