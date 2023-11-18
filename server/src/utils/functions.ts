@@ -4,6 +4,8 @@ import { secret as jwtSecret} from "./jwt_strategy"
 import { userDecodedJwtToken } from "./interfaces"
 import { IncomingHttpHeaders } from "http"
 import jwt from 'jsonwebtoken'
+import { Model } from "sequelize"
+import { TodoomStatus } from "./enums"
 
 /**
  * Creates a standardized response, with the response code in params and a custom message forwarded via json
@@ -28,7 +30,7 @@ export async function hashPassword(password: string): Promise<string> {
 /**
  * Decode a JWT token as an object containing the user id, needed to check which resource a user can access
  * @param authHeader often req.headers.authorization
- * @param secret The secret use to encode the token
+ * @param secret The secret used to encode the token
  * @returns {userDecodedJwtToken}
  */
 export function decodeJwtToken(authHeader: IncomingHttpHeaders["authorization"]|string, secret: string = jwtSecret): userDecodedJwtToken {
@@ -63,4 +65,31 @@ export function isUserIdFromTokenMatchingRequest(authHeader:IncomingHttpHeaders[
  */
 export function isObjectEmpty(obj: Record<string, any>): boolean {
     return Object.keys(obj).length === 0;
+}
+
+/**
+ * Checks if a user is a todo's assignee, a todo's author or member of the group the todo is in
+ * @param user A User's model instance
+ * @param todo A Todoom model instance
+ * @param userId Optional, the userId of the user if already given
+ * @returns {boolean}
+ */
+export async function isUserRelatedToTodo(user: Model<any, any>|any, todo: Model<any, any>|any, userId: number = null):Promise<boolean> {
+    if (!userId)
+        userId = user.id
+    
+    return (
+        userId === todo.assignee_id ||
+        userId === todo.author_id ||
+        await user.hasGroup(todo.group_id)
+    )
+}
+
+/**
+ * Checks if the string provided is a valid Todoom status as stated in the TodoomStatus enum
+ * @param status The status we want to check
+ * @returns {boolean}
+ */
+export function isValidTodoomStatus(status: string): status is TodoomStatus {
+    return Object.values(TodoomStatus).includes(status as TodoomStatus)
 }
