@@ -6,7 +6,7 @@ interface ToDoomProps {
     author: string
 }
 
-export default function ToDoom({ deadline, status, title, description, author }: ToDoomProps) {
+export default function Todoom({ deadline, status, title, description, author }: ToDoomProps) {
     let showStatus;
     switch (status) {
         case "Pas commencé":
@@ -24,16 +24,16 @@ export default function ToDoom({ deadline, status, title, description, author }:
             showStatus = <p className="ml-auto italic text-white">Statut inconnu</p>
             break;
     }
-    
+
     if (!(deadline instanceof Date))
         deadline = new Date(deadline)
 
     let todayDate = new Date()
     let late = null
 
-    if (deadline < todayDate && status != "Terminé") 
+    if (deadline < todayDate && status != "Terminé")
         late = <p className="mr-2 font-bold text-red-500">EN RETARD</p>
-    
+
     return (
         <div className="rounded p-4 text-white" style={{
             margin: "2em", backgroundColor: "#706c6c", borderRadius: "1em"
