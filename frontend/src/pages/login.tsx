@@ -19,7 +19,7 @@ export default function login() {
                 </div>
             </div>
                 <br />
-                <div className=" bottom-0 w-full text-center mb-16" style={{textAlign:"center"}}>
+                <div className="bottom-0 w-full text-center mb-16" style={{textAlign:"center"}}>
                     <button type="submit" className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black">Se connecter</button>
                 </div>
             </form>
