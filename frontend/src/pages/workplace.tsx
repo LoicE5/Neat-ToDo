@@ -42,8 +42,8 @@ export default function Workplace() {
                 title={todoom.title}
                 status={todoom.status}
                 description={decodeSafeHtmlChars(todoom.description as string) || ""}
-                author={String(todoom.author_id)}
-                deadline={todoom.deadline || ""}
+                author={todoom.author ? todoom.author.nickname : "Auteur supprimé"}
+                deadline={todoom.deadline || "Pas de deadline"}
             />
         ))
 
@@ -53,13 +53,17 @@ export default function Workplace() {
     return (
         <div>
             <Header />
-            <br />
-            <br />
-            <h1 style={{ fontWeight: 'bold', fontSize: '1.5em', marginLeft: '20px' }}>Vos ToDoom Perso</h1>
-            <br />
+            <h1
+                style={{
+                    fontWeight: 'bold',
+                    fontSize: '1.5em',
+                    marginLeft: '20px'
+                }}
+            >
+                Vos ToDoom Perso
+            </h1>
             {todooms}
         </div>
-
     )
 
 }

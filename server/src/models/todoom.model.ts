@@ -2,7 +2,9 @@ import sequelize from "../../db"
 import {
     DataTypes, InstanceDestroyOptions, Model
 } from "sequelize"
-import TodoomHistory from "./todoom_history.model";
+import TodoomHistory from "./todoom_history.model"
+import User from "./user.model"
+import Group from "./group.model"
 
 const Todoom = sequelize.define('Todoom', {
     id: {
@@ -63,6 +65,10 @@ const Todoom = sequelize.define('Todoom', {
     tableName: 'todoom',
     timestamps: true,
 })
+
+Todoom.belongsTo(User, { as: 'author', foreignKey: 'author_id' });
+Todoom.belongsTo(User, { as: 'assignee', foreignKey: 'assignee_id' });
+Todoom.belongsTo(Group, { as: 'group', foreignKey: 'group_id' });
 
 Todoom.afterDestroy(async (instance:Model<any,any>, options:InstanceDestroyOptions):Promise<void> => {
     await TodoomHistory.create(instance.get(), { transaction: options.transaction }) as any
