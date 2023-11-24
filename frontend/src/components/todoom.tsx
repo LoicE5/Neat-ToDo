@@ -1,3 +1,5 @@
+import { TodoomStatus } from "@/utils/enums";
+
 interface ToDoomProps {
     deadline: Date | string,
     status: string,
@@ -9,15 +11,15 @@ interface ToDoomProps {
 export default function Todoom({ deadline, status, title, description, author }: ToDoomProps) {
     let showStatus;
     switch (status) {
-        case "Pas commencé":
+        case TodoomStatus.NotStarted:
             showStatus = <p className="ml-auto italic text-white">Pas commencé</p>
             break;
 
-        case "En cours":
+        case TodoomStatus.InProgress:
             showStatus = <p className="ml-auto italic text-blue-300">En cours</p>
             break;
 
-        case "Terminé":
+        case TodoomStatus.Done:
             showStatus = <p className="ml-auto italic text-green-500">Terminé</p>
             break;
         default:
