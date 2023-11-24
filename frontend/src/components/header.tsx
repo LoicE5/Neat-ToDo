@@ -1,4 +1,14 @@
+import storage from "@/utils/storage"
+import { useRouter } from "next/router"
+
 export default function Header() {
+    const router = useRouter()
+
+    async function userLogout() {
+        storage.clear()
+        router.push('/')
+    }
+
     return (
         <header className="bg-gray-800" style={{ marginBottom: "20px" }}>
             <nav className="mx-auto flex max-w-7xl items-center justify-between p-2 lg:px-8" aria-label="Global">
@@ -20,7 +30,13 @@ export default function Header() {
                     <a href="#" className="text-lg font-semibold leading-6 text-red-500 no-underline">Vos groupes</a>
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="#" className="text-lg font-semibold leading-6 text-red-500 no-underline">Log out</a>
+                    <a
+                        href="#"
+                        className="text-lg font-semibold leading-6 text-red-500 no-underline"
+                        onClick={userLogout}
+                    >
+                        Log out
+                    </a>
                 </div>
             </nav>
         </header>
