@@ -14,7 +14,7 @@ export default function Workplace() {
     useEffect(() => {
 
         if (!storage.jwt.exists()) {
-            router.push('/login') as any
+            router.push('/login')
             return
         }
 
