@@ -4,7 +4,7 @@ import storage from "@/utils/storage"
 import { server } from '../../config.json'
 import { loginResponse } from "@/utils/interfaces"
 
-export async function userLogin(email: string, password: string, router: NextRouter) {
+export async function userLogin(email: string, password: string, router: NextRouter): Promise<void> {
     // In this function, we assume that all necessary checks have been done in handleFormSubmit
 
     const payload = {
@@ -25,7 +25,7 @@ export async function userLogin(email: string, password: string, router: NextRou
         if (router.asPath.includes('login'))
             return alert(`Your login have failed. Response code : ${response.status}. Error message : ${await response.text()}`)
         else
-            return router.push('/login')
+            return router.push('/login') as any
     }
 
     const responsePayload: loginResponse = await response.json()
