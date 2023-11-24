@@ -9,7 +9,7 @@ export default function signup() {
 
     useEffect(() => {
         if (storage.jwt.exists())
-            router.push('/')
+            router.push('/workplace')
     }, [])
 
     const [email, setEmail] = useState('')
