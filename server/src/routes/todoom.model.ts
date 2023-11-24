@@ -6,6 +6,7 @@ import { todoCreationPayload, todoUpdatePayload } from '../utils/interfaces'
 import { failRequest, isObjectEmpty, decodeJwtToken, isUserRelatedToTodo, isValidTodoomStatus } from '../utils/functions'
 import validator from 'validator'
 import Todoom from '../models/todoom.model'
+import Group from '../models/group.model'
 
 const routerToDoom: Router = express.Router()
 
@@ -229,7 +230,23 @@ async function getAllTodoByCriteria(req: Request, res: Response, criteria:"autho
             return failRequest(res, 401, `Unauthorized`)
 
         const todos = await Todoom.findAll({
-            where: criteria == "author" ? { author_id: userId } : { assignee_id: userId }
+            where: criteria == "author" ? { author_id: userId } : { assignee_id: userId },
+            include: [
+                {
+                    model: User,
+                    as: 'assignee',
+                    attributes: { exclude: ['password'] }
+                },
+                {
+                    model: User,
+                    as: 'author',
+                    attributes: { exclude: ['password'] }
+                },
+                {
+                    model: Group,
+                    as: 'group'
+                }
+            ]
         })
 
         res.json(todos)
