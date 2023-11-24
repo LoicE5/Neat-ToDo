@@ -13,8 +13,10 @@ export default function Workplace() {
 
     useEffect(() => {
 
-        if (!storage.jwt.exists())
-            return router.push('/login') as any
+        if (!storage.jwt.exists()) {
+            router.push('/login') as any
+            return
+        }
 
         getAssigneeTodos()
     }, [])

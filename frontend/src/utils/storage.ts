@@ -1,6 +1,9 @@
 import { userGetResponse } from "./interfaces"
 
 const storage = {
+    clear():void {
+        window.sessionStorage.clear()
+    },
     jwt: {
         save(token: string): void {
             window.sessionStorage.setItem(`jwt`, token)
