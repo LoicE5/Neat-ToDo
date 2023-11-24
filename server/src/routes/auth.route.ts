@@ -34,7 +34,8 @@ async function login(req: Request, res: Response): Promise<void> {
         if (await bcrypt.compare(password, user.password)) {
             const payload = { id: user.id }
             const token = jwt.sign(payload, secret)
-            return res.json({ message: 'ok', token: token }) as any
+            delete user.dataValues.password
+            return res.json({ message: 'ok', token: token, user: user }) as any
         }
 
         return defaultFail()
