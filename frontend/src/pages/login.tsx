@@ -33,7 +33,7 @@ export async function userLogin(email: string, password: string, router: NextRou
     storage.jwt.save(responsePayload.token)
     storage.user.save(responsePayload.user)
 
-    router.push(`/`)
+    router.push('/workplace')
 }
 
 export default function login() {
@@ -41,7 +41,7 @@ export default function login() {
 
     useEffect(() => {
         if (storage.jwt.exists())
-            router.push('/')
+            router.push('/workplace')
     }, [])
 
     const [email, setEmail] = useState('')
