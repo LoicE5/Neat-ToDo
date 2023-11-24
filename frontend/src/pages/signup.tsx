@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from "react"
 import { server } from '../../config.json'
 import { useRouter } from 'next/router';
 import storage from "@/utils/storage";
-import { loginResponse } from "@/utils/interfaces";
+import { userLogin } from "./login";
 
 export default function signup() {
     const router = useRouter()
@@ -43,35 +43,7 @@ export default function signup() {
         if (!response.ok)
             return alert(`Your signup have failed. Response code : ${response.status}. Error message : ${await response.text()}`)
 
-        await userLogin()
-    }
-
-    async function userLogin() {
-        // In this function, we assume that all necessary checks have been done in handleFormSubmit
-
-        const payload = {
-            email: email,
-            password: password
-        }
-
-        const response = await fetch(`http://${server.host}:${server.port}/auth/login`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        })
-
-        // If we can't login the user automatically, we invite him to do so
-        if (!response.ok)
-            return router.push('/login')
-
-        const responsePayload: loginResponse = await response.json()
-
-        storage.jwt.save(responsePayload.token)
-        storage.user.save(responsePayload.user)
-
-        router.push(`/`)
+        await userLogin(email, password, router)
     }
 
     return (
