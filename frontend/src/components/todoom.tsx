@@ -33,7 +33,7 @@ export default function Todoom({ deadline, status, title, description, author }:
     let todayDate = new Date()
     let late = null
 
-    if (deadline < todayDate && status != "Terminé")
+    if (deadline < todayDate && status !== TodoomStatus.Done)
         late = <p className="mr-2 font-bold text-red-500">EN RETARD</p>
 
     return (
