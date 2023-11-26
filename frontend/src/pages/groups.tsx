@@ -1,5 +1,6 @@
 import Header from "@/components/header"
 import Group from "@/components/group"
+import Link from "next/link"
 
 export default function Groups() {
 
@@ -32,18 +33,21 @@ export default function Groups() {
             
             <div className="fixed bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent filter blur-1" style={{ height: "15vh" }}>
             </div>
-            <button type="submit"
-                className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
-                style={{
-                position: "fixed",
-                zIndex: "2",
-                marginTop: "2em",
-                bottom: "2em",
-                left: "50%",
-                transform: "translateX(-50%)",
-                }}>
-                Créer un groupe
-            </button>
+            <Link href="/createGroup">
+                <button type="submit"
+                    className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
+                    style={{
+                    position: "fixed",
+                    zIndex: "2",
+                    marginTop: "2em",
+                    bottom: "2em",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    }}>
+                    Créer un groupe
+                </button>
+            </Link>
+            
         </div>
     )
 
