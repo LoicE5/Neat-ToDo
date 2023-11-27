@@ -52,20 +52,28 @@ export default function Workplace() {
         setTodooms(todoomElements as any)
     }
 
+    const skewStyleContainer = {
+        transform: 'skewX(-30deg)',
+        transformOrigin: 'top right',
+        width: '50%',
+      };
+    
+    const skewStyleText = {
+        transform: 'skewX(30deg)',
+      }
+
     return (
         <div>
             <Header />
-            <h1
-                style={{
-                    fontWeight: 'bold',
-                    fontSize: '1.5em',
-                    marginLeft: '20px'
-                }}
-            >
-                Vos ToDoom Perso
-            </h1>
+            <div style={skewStyleContainer}>
+                <div className="bg-gray-800 p-4" >
+                    <h1 className="font-bold text-lg ml-4 text-red-500 " style={skewStyleText}>Vos ToDoom Perso</h1>
+                </div>
+            </div>
             {todooms}
         </div>
     )
 
 }
+
+
