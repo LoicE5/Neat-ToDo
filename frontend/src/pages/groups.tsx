@@ -4,17 +4,25 @@ import Link from "next/link"
 
 export default function Groups() {
 
+    const skewStyleContainer = {
+        transform: 'skewX(-30deg)',
+        transformOrigin: 'top right',
+        width: '50%',
+      }
+    
+    const skewStyleText = {
+        transform: 'skewX(30deg)',
+      }
+
     return (
         <div>
             <Header />
-            <h1
-                style={{
-                    fontWeight: 'bold',
-                    fontSize: '1.5em',
-                    marginLeft: '20px'
-                }}>
-                Vos Groupes
-            </h1>
+
+            <div style={skewStyleContainer}>
+                <div className="bg-gray-800 p-4" >
+                    <h1 className="font-bold text-lg ml-4 text-red-500 " style={skewStyleText}>Vos Groupes</h1>
+                </div>
+            </div>
             <br />
             <div style={{zIndex:"1"}}>
                 <Group title="Nom Groupe 1" id="1"></Group>
