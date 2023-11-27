@@ -13,7 +13,7 @@ export default function Group(props) {
                 <p style={{marginLeft : "4em"}}>3 membres</p>
                 {/* <Link href="#"> CRASH SI CE LINK */}
                     <div style={{display:"block", width:"2em", marginRight:"1em"}}>
-                        <img src="trash.png" alt="TrashIcon"/>
+                        <img src="exitGroup.png" alt="TrashIcon"/>
                     </div>
                 {/* </Link> */}
                 
