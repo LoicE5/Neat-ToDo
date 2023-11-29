@@ -1,4 +1,5 @@
 import storage from "@/utils/storage"
+import Link from "next/link"
 import { useRouter } from "next/router"
 
 export default function Header() {
@@ -26,8 +27,8 @@ export default function Header() {
                     </button>
                 </div>
                 <div className="hidden lg:flex lg:gap-x-12">
-                    <a href="#" className="text-lg font-semibold leading-6 text-red-500 no-underline">Créer une ToDoom</a>
-                    <a href="#" className="text-lg font-semibold leading-6 text-red-500 no-underline">Vos groupes</a>
+                    <Link href="#" className="text-lg font-semibold leading-6 text-red-500 no-underline">Créer une ToDoom</Link>
+                    <Link href="/groups" className="text-lg font-semibold leading-6 text-red-500 no-underline">Vos groupes</Link>
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                     <a
