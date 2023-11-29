@@ -37,7 +37,8 @@ export interface todoUpdatePayload {
     assignee_id?: number,
 }
 export interface groupCreationPayload {
-    name:string
+    name: string,
+    firstUsersEmails?:string[]
 }
 
 export interface groupRenamePayload extends groupCreationPayload {}
