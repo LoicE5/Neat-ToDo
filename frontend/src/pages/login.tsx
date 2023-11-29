@@ -62,8 +62,7 @@ export default function login() {
             style={{
                 backgroundImage: `url("doom_eternal.jpg")`,
                 backgroundSize: "cover",
-                height: "100vh",
-                // filter: "blur(5px)"
+                height: "100vh"
             }}
         >
             <a href="#">

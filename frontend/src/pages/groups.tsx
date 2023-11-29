@@ -5,6 +5,7 @@ import storage from "@/utils/storage"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { server } from '../../config.json'
+import Link from "next/link"
 
 export default function Groups() {
     const router = useRouter()
@@ -46,17 +47,25 @@ export default function Groups() {
         setGroups(groupsElements)
     }
 
+    const skewStyleContainer = {
+        transform: 'skewX(-30deg)',
+        transformOrigin: 'top right',
+        width: '50%',
+      }
+    
+    const skewStyleText = {
+        transform: 'skewX(30deg)',
+      }
+
     return (
         <div>
             <Header />
-            <h1
-                style={{
-                    fontWeight: 'bold',
-                    fontSize: '1.5em',
-                    marginLeft: '20px'
-                }}>
-                Vos Groupes
-            </h1>
+
+            <div style={skewStyleContainer}>
+                <div className="bg-gray-800 p-4" >
+                    <h1 className="font-bold text-lg ml-4 text-red-500 " style={skewStyleText}>Vos Groupes</h1>
+                </div>
+            </div>
             <br />
             <div style={{ zIndex: "1" }}>
 
@@ -70,18 +79,21 @@ export default function Groups() {
 
             <div className="fixed bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent filter blur-1" style={{ height: "15vh" }}>
             </div>
-            <button type="submit"
-                className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
-                style={{
+            <Link href="/createGroup">
+                <button type="submit"
+                    className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
+                    style={{
                     position: "fixed",
                     zIndex: "2",
                     marginTop: "2em",
                     bottom: "2em",
                     left: "50%",
                     transform: "translateX(-50%)",
-                }}>
-                Créer un groupe
-            </button>
+                    }}>
+                    Créer un groupe
+                </button>
+            </Link>
+            
         </div>
     )
 
