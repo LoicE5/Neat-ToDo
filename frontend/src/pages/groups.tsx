@@ -1,5 +1,5 @@
 import Header from "@/components/Header"
-import Group from "@/components/group"
+import Group from "@/components/Group"
 import { userGetResponse, userGroupResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import { useRouter } from "next/router"
