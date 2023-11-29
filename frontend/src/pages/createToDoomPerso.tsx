@@ -6,11 +6,11 @@ export default function CreateToDoomPerso() {
         transform: 'skewX(-30deg)',
         transformOrigin: 'top right',
         width: '50%',
-    };
-
+      };
+    
     const skewStyleText = {
         transform: 'skewX(30deg)',
-    }
+      }
 
     return (
         <div>
