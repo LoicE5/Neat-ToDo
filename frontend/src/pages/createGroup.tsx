@@ -1,4 +1,4 @@
-import Header from "@/components/header"
+import Header from "@/components/Header"
 import { userGetResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import { FormEvent, useState } from "react"

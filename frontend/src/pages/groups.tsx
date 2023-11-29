@@ -1,4 +1,4 @@
-import Header from "@/components/header"
+import Header from "@/components/Header"
 import Group from "@/components/Group"
 import { userGetResponse, userGroupResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
