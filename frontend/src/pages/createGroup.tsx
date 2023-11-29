@@ -1,9 +1,13 @@
 import Header from "@/components/Header"
-import { userGetResponse } from "@/utils/interfaces";
-import storage from "@/utils/storage";
+import { userGetResponse } from "@/utils/interfaces"
+import storage from "@/utils/storage"
+import { FormEvent, useState } from "react"
+import { server } from '../../config.json'
+import { useRouter } from "next/router"
 
 export default function CreateGroup() {
     const user = storage.user.load() as userGetResponse
+    const router = useRouter()
 
     const skewStyleContainer = {
         transform: 'skewX(-30deg)',
@@ -15,6 +19,35 @@ export default function CreateGroup() {
         transform: 'skewX(30deg)',
     }
 
+    const [groupName, setGroupName] = useState("")
+    const [firstUserEmail, setFirstUserEmail] = useState(user.email)
+
+    async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
+        event.preventDefault()
+
+        if (!groupName || !firstUserEmail)
+            return alert(`Please fill the form as required`)
+
+        const payload = {
+            name: groupName,
+            firstUsersEmails: [firstUserEmail]
+        }
+
+        const response = await fetch(`http://${server.host}:${server.port}/group`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': storage.jwt.load()
+            },
+            body: JSON.stringify(payload)
+        })
+
+        if (!response.ok)
+            return alert(`We failed creating your group. Response code : ${response.status}. Error message : ${await response.text()}`)
+
+        router.push('/groups')
+    }
+
     return (
         <div>
             <Header />
@@ -24,7 +57,7 @@ export default function CreateGroup() {
                 </div>
             </div>
 
-            <form action="">
+            <form onSubmit={handleSubmit}>
                 <div className="flex flex-col items-center" style={{ marginTop: "50px" }}>
                     <label>Nom de votre groupe</label>
                     <input
@@ -32,6 +65,8 @@ export default function CreateGroup() {
                         name="inputNewGroupName"
                         placeholder="Projet Todoom, Département IT..."
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        onChange={event => setGroupName(event.target.value)}
+                        required
                     />
                 </div>
 
@@ -44,6 +79,8 @@ export default function CreateGroup() {
                         placeholder="jean.dupont@dauphine.eu"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         value={user.email}
+                        onChange={event => setFirstUserEmail(event.target.value)}
+                        required
                     />
                 </div>
 

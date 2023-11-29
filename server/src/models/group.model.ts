@@ -12,10 +12,7 @@ const Group = sequelize.define('Group', {
     },
     name: {
         type: DataTypes.STRING(100),
-        allowNull: false,
-        validate: {
-            isAlphanumeric: true
-        }
+        allowNull: false
     },
 }, {
     tableName: 'group',
