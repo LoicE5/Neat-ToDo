@@ -1,16 +1,19 @@
 import Header from "@/components/Header"
+import { userGetResponse } from "@/utils/interfaces";
+import storage from "@/utils/storage";
 
 export default function CreateGroup() {
+    const user = storage.user.load() as userGetResponse
 
     const skewStyleContainer = {
         transform: 'skewX(-30deg)',
         transformOrigin: 'top right',
         width: '50%',
-      };
-    
+    };
+
     const skewStyleText = {
         transform: 'skewX(30deg)',
-      }
+    }
 
     return (
         <div>
@@ -23,23 +26,24 @@ export default function CreateGroup() {
 
             <form action="">
                 <div className="flex flex-col items-center" style={{ marginTop: "50px" }}>
-                    <label>Le nom de votre groupe</label>
+                    <label>Nom de votre groupe</label>
                     <input
                         type="text"
                         name="inputNewGroupName"
-                        placeholder="Le nom"
+                        placeholder="Projet Todoom, Département IT..."
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                     />
                 </div>
 
 
                 <div className="flex flex-col items-center" style={{ marginTop: "25px" }}>
-                    <label htmlFor="email">Le mail de la personne à ajouter</label>
+                    <label htmlFor="email">Premier membre du groupe</label>
                     <input
-                        type="password"
-                        name="password"
-                        placeholder="Personne à ajouter"
+                        type="email"
+                        name="email"
+                        placeholder="jean.dupont@dauphine.eu"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        value={user.email}
                     />
                 </div>
 

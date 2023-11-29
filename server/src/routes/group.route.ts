@@ -21,16 +21,27 @@ export default routerGroup
 
 async function createGroup(req: Request, res: Response): Promise<void> {
     try {
-        const { name }:groupCreationPayload = req.body
+        const { name, firstUsersEmails }:groupCreationPayload = req.body
 
         if (!name)
             return failRequest(res, 400, `You must provide a name for your group`)
     
-        const payload:groupCreationPayload = {
-            name: validator.escape(name)
+        let payload:groupCreationPayload = {
+            name: validator.escape(name),
         }
 
-        const createdGroup = await Group.create(payload as Optional<any, any>)
+        const createdGroup = await Group.create(payload as Optional<any, any>) as any
+
+        if (firstUsersEmails && firstUsersEmails.length > 0) {
+            const users = await User.findAll({
+                where: {
+                    email: firstUsersEmails.map(email=>validator.escape(email))
+                } as any
+            })
+
+            await createdGroup.addUsers(users)
+        }
+            
 
         res.status(201).json(createdGroup)
 
