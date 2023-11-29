@@ -5,6 +5,7 @@ import validator from 'validator'
 import Group from '../models/group.model'
 import { failRequest, isUserIdFromTokenMatchingRequest, hashPassword, isObjectEmpty } from '../utils/functions'
 import { userUpdatePayload } from '../utils/interfaces'
+import sequelize from '../../db'
 
 const routerUser: Router = express.Router()
 
@@ -37,7 +38,7 @@ async function getUserById(req: Request, res: Response): Promise<void> {
 
 async function getUserGroupsById(req: Request, res: Response): Promise<void> {
     try {
-        const id: number = Number(validator.escape(req.params.id))
+        const id = Number(validator.escape(req.params.id))
 
         if(!isUserIdFromTokenMatchingRequest(req.headers.authorization, id))
             return failRequest(res, 401, `Unauthorized`)
@@ -46,12 +47,21 @@ async function getUserGroupsById(req: Request, res: Response): Promise<void> {
             include: [{
                 model: Group,
                 through: UserGroup,
+                attributes: [
+                    'id',
+                    'name',
+                    [
+                        sequelize.literal('(SELECT COUNT(*) FROM user_group WHERE user_group.GroupId = `Groups`.`id`)'),
+                        'userCount'
+                    ]
+                ],
             } as any],
-        })
+        }) as any
+
         if (!user) 
             return failRequest(res,404,`User not found`)
         
-        res.json(user)
+        res.json(user.Groups)
     } catch (error) {
         console.error(error)
         failRequest(res,500,`Internal server error`)
