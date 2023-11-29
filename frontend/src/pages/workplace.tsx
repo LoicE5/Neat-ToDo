@@ -1,5 +1,5 @@
-import Header from "@/components/Header"
-import Todoom from "@/components/Todoom"
+import Header from "@/components/header"
+import Todoom from "@/components/todoom"
 import { server } from '../../config.json'
 import storage from "@/utils/storage"
 import { TodoomResponse, userGetResponse } from "@/utils/interfaces"
