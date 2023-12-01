@@ -48,7 +48,7 @@ export default function signup() {
 
     return (
         <div style={{
-            backgroundImage: `url("doom_eternal.jpg")`,
+            backgroundImage: `url("doom_eternal_blur.jpg")`,
             backgroundSize: "cover",
             height: "100vh"
         }}>
