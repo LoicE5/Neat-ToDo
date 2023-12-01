@@ -55,6 +55,11 @@ async function getUserGroupsById(req: Request, res: Response): Promise<void> {
                         'userCount'
                     ]
                 ],
+                include: [{
+                    model: User,
+                    attributes: ['id', 'nickname', 'email'],
+                    through: { attributes: [] } // Exclude the UserGroup association attributes
+                }]
             } as any],
         }) as any
 
