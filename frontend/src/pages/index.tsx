@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Home() {
     return (
         <div style={{
-            backgroundImage: `url("doom_eternal.jpg")`,
+            backgroundImage: `url("doom_eternal_focus.jpg")`,
             backgroundSize: "cover",
             height: "100vh"
         }}>
