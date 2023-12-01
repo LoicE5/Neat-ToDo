@@ -1,11 +1,31 @@
 import Header from "@/components/Header"
 import Group from "@/components/Group"
-import { userGetResponse, userGroupResponse } from "@/utils/interfaces"
+import { groupGetResponse, userGetResponse, userGroupResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { server } from '../../config.json'
 import Link from "next/link"
+
+export async function getGroups(user: userGetResponse): Promise<groupGetResponse[] | void> {
+    const response = await fetch(`http://${server.host}:${server.port}/user/${user.id}/groups`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': storage.jwt.load()
+        }
+    })
+
+    if (!response.ok)
+        return alert(`We failed deleting your groups. Response code : ${response.status}. Error message : ${await response.text()}`)
+
+    const responsePayload = await response.json()
+
+    if (responsePayload.length <= 0)
+        return []
+
+    return responsePayload
+}
 
 export default function Groups() {
     const router = useRouter()
@@ -18,34 +38,18 @@ export default function Groups() {
             return
         }
 
-        getGroups()
-    }, [])
+        getGroups(user).then((groups: any) => {
 
-    const [groups, setGroups] = useState([])
+            const elements = groups.map((group: userGroupResponse) => (
+                <Group id={group.id} title={group.name} userCount={group.userCount} />
+            ))
 
-    async function getGroups(): Promise<void> {
-        const response = await fetch(`http://${server.host}:${server.port}/user/${user.id}/groups`, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': storage.jwt.load()
-            }
+            setGroupElements(elements)
         })
 
-        if (!response.ok)
-            return alert(`We failed deleting your groups. Response code : ${response.status}. Error message : ${await response.text()}`)
+    }, [])
 
-        const responsePayload = await response.json()
-
-        if (responsePayload.length <= 0)
-            return setGroups([])
-
-        const groupsElements = responsePayload.map((group: userGroupResponse) => (
-            <Group id={group.id} title={group.name} userCount={group.userCount} />
-        ))
-
-        setGroups(groupsElements)
-    }
+    const [groupElements, setGroupElements] = useState([])
 
     const skewStyleContainer = {
         transform: 'skewX(-30deg)',
@@ -56,7 +60,6 @@ export default function Groups() {
     const skewStyleText = {
         transform: 'skewX(30deg)',
     }
-
 
     return (
         <div>
@@ -71,7 +74,7 @@ export default function Groups() {
             <div style={{ zIndex: "1" }}>
 
 
-                {groups.length > 0 ? groups : (<h2 style={{ textAlign: "center" }}>Vous n'êtes dans aucun groupe.</h2>)}
+                {groupElements.length > 0 ? groupElements : (<h2 style={{ textAlign: "center" }}>Vous n'êtes dans aucun groupe.</h2>)}
 
                 {/* Div ci dessous permet de compenser la place pris par le footer,
                 Pour pas que le dernier groupe de la liste se retrouve caché derrière */}
