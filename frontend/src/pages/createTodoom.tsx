@@ -29,7 +29,12 @@ export default function CreateTodoom() {
 
     const todayDate = new Date()
 
-    function groupUsersOptionElements(groupId: number): any[] | void {
+    /**
+     * Gives a set of HTML options, each of them corresponding to 
+     * @param groupId The id of the currently selected group in the relevant dropdown menu (via selectedGroupId)
+     * @returns {HTMLOptionElement[]}
+     */
+    function groupUsersOptionElements(groupId: number): HTMLOptionElement[] | void {
         if (selectedGroupId <= 0)
             return
 
@@ -40,7 +45,7 @@ export default function CreateTodoom() {
 
         return foundUsers.Users.map(oneUser => (
             <option id={`${oneUser.id}`} value={oneUser.id}>{oneUser.nickname} ({oneUser.email})</option>
-        ))
+        ) as any)
     }
 
     useEffect(() => {
@@ -53,7 +58,9 @@ export default function CreateTodoom() {
         getGroups(user).then((groups: any) => {
 
             const groupOptions: any = [
+
                 (<option id="0" value={0}>🏡 ToDoom Perso</option>),
+
                 ...groups.map((group: userGroupResponse) => (
                     <option id={`${group.id}`} value={group.id}>{group.name}</option>
                 ))
