@@ -13,7 +13,7 @@ interface GroupProps {
 export default function Group({ id, title, userCount }: GroupProps) {
     const router = useRouter()
 
-    async function deleteTodoom(): Promise<void> {
+    async function deleteUserFromGroup(): Promise<void> {
         const user = storage.user.load() as userGetResponse
 
         const response = await fetch(`http://${server.host}:${server.port}/group/${id}/${user.id}`, {
@@ -25,7 +25,7 @@ export default function Group({ id, title, userCount }: GroupProps) {
         })
 
         if (!response.ok)
-            return alert(`We failed deleting your Todoom. Response code : ${response.status}. Error message : ${await response.text()}`)
+            return alert(`We failed removing you from the group. Response code : ${response.status}. Error message : ${await response.text()}`)
 
         router.reload()
     }
@@ -46,7 +46,7 @@ export default function Group({ id, title, userCount }: GroupProps) {
                             width: "2em",
                             marginRight: "1em"
                         }}
-                        onClick={deleteTodoom}
+                        onClick={deleteUserFromGroup}
                     >
                         <img src="trash.png" alt="TrashIcon" />
                     </div>
