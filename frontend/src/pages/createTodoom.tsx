@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { getGroups } from "./groups"
 import { useRouter } from "next/router"
 import storage from "@/utils/storage"
-import { groupGetResponse, userGetResponse } from "@/utils/interfaces"
+import { userGetResponse, userGroupResponse } from "@/utils/interfaces"
 
 export default function CreateTodoom() {
 
@@ -23,9 +23,25 @@ export default function CreateTodoom() {
     const router = useRouter()
     const user = storage.user.load() as userGetResponse
 
+    const [groups, setGroups] = useState([])
     const [groupOptions, setGroupOptions] = useState([])
+    const [selectedGroupId, setselectedGroupId] = useState(0)
 
     const todayDate = new Date()
+
+    function groupUsersOptionElements(groupId: number): any[] | void {
+        if (selectedGroupId <= 0)
+            return
+
+        const foundUsers = groups.find((group: userGroupResponse) => group.id === groupId)! as userGroupResponse
+
+        if (!foundUsers)
+            return
+
+        return foundUsers.Users.map(oneUser => (
+            <option id={`${oneUser.id}`} value={oneUser.id}>{oneUser.nickname} ({oneUser.email})</option>
+        ))
+    }
 
     useEffect(() => {
 
@@ -36,14 +52,15 @@ export default function CreateTodoom() {
 
         getGroups(user).then((groups: any) => {
 
-            const elements: any = [
+            const groupOptions: any = [
                 (<option id="0" value={0}>🏡 ToDoom Perso</option>),
-                ...groups.map((group: groupGetResponse) => (
+                ...groups.map((group: userGroupResponse) => (
                     <option id={`${group.id}`} value={group.id}>{group.name}</option>
                 ))
             ]
 
-            setGroupOptions(elements)
+            setGroups(groups)
+            setGroupOptions(groupOptions)
         })
     }, [])
 
@@ -92,8 +109,26 @@ export default function CreateTodoom() {
 
                 <div className="flex flex-col items-center" style={{ marginTop: "25px" }}>
                     <label>Dans quel groupe souhaitez-vous créer cette ToDoom ?</label>
-                    <select name="groupTD" className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4">
+                    <select
+                        name="groupTD"
+                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        onChange={event => setselectedGroupId(Number(event.target.value))}
+                    >
                         {groupOptions}
+                    </select>
+                </div>
+
+                <div className="flex flex-col items-center" style={{
+                    marginTop: "25px",
+                    display: selectedGroupId <= 0 ? 'none' : 'flex'
+                }}>
+                    <label>À quel membre du groupe souhaitez-vous assigner cette ToDoom ?</label>
+                    <select
+                        name="groupTD"
+                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        disabled={selectedGroupId <= 0}
+                    >
+                        {groupUsersOptionElements(selectedGroupId) as any}
                     </select>
                 </div>
 

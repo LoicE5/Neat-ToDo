@@ -36,7 +36,8 @@ export interface TodoomResponse {
 export interface userGroupResponse {
     id: number,
     name: string,
-    userCount: number
+    userCount: number,
+    Users: userGetResponse[],
     UserGroup: {
         UserId: number,
         GroupId: number
