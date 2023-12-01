@@ -1,12 +1,13 @@
 import Header from "@/components/Header"
 import { TodoomStatus } from "@/utils/enums"
-import { useEffect, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { getGroups } from "./groups"
 import { useRouter } from "next/router"
 import storage from "@/utils/storage"
 import { userGetResponse, userGroupResponse } from "@/utils/interfaces"
+import { server } from '../../config.json'
 
-export default function CreateTodoom() {
+export default function createTodoom() {
 
     // Style
     const skewStyleContainer = {
@@ -27,7 +28,30 @@ export default function CreateTodoom() {
     const [groupOptions, setGroupOptions] = useState([])
     const [selectedGroupId, setselectedGroupId] = useState(0)
 
-    const todayDate = new Date()
+    const todayDateAsString = new Date().toISOString().split('T')[0]
+
+    useEffect(() => {
+
+        if (!storage.jwt.exists()) {
+            router.push('/login')
+            return
+        }
+
+        getGroups(user).then((groups: any) => {
+
+            const groupOptions: any = [
+
+                (<option key={0} value={0}>🏡 ToDoom Perso</option>),
+
+                ...groups.map((group: userGroupResponse) => (
+                    <option key={group.id} value={group.id}>{group.name}</option>
+                ))
+            ]
+
+            setGroups(groups)
+            setGroupOptions(groupOptions)
+        })
+    }, [])
 
     /**
      * Gives a set of HTML options, each of them corresponding to 
@@ -44,32 +68,50 @@ export default function CreateTodoom() {
             return
 
         return foundUsers.Users.map(oneUser => (
-            <option id={`${oneUser.id}`} value={oneUser.id}>{oneUser.nickname} ({oneUser.email})</option>
+            <option key={oneUser.id} value={oneUser.id}>{oneUser.nickname} ({oneUser.email})</option>
         ) as any)
     }
 
-    useEffect(() => {
+    const [todoomTitle, setTodoomTitle] = useState('')
+    const [todoomDescription, setTodoomDescription] = useState('')
+    const [todoomDeadline, setTodoomDeadline] = useState(todayDateAsString)
+    const [todoomAssigneeId, setTodoomAssigneeId] = useState(0)
+    const [todoomFirstStatus, setTodoomFirstStatus] = useState(TodoomStatus.NotStarted)
 
-        if (!storage.jwt.exists()) {
-            router.push('/login')
-            return
+    async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
+        event.preventDefault()
+
+        if (!todoomTitle)
+            return alert(`Please give your todoom a title`)
+
+        const payload = {
+            title: todoomTitle,
+            description: todoomDescription || null,
+            deadline: todoomDeadline,
+            group_id: selectedGroupId > 0 ? selectedGroupId : null,
+            assignee_id: todoomAssigneeId > 0 ? todoomAssigneeId : user.id,
+            author_id: user.id,
+            status: todoomFirstStatus
         }
 
-        getGroups(user).then((groups: any) => {
-
-            const groupOptions: any = [
-
-                (<option id="0" value={0}>🏡 ToDoom Perso</option>),
-
-                ...groups.map((group: userGroupResponse) => (
-                    <option id={`${group.id}`} value={group.id}>{group.name}</option>
-                ))
-            ]
-
-            setGroups(groups)
-            setGroupOptions(groupOptions)
+        const response = await fetch(`http://${server.host}:${server.port}/todoom`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': storage.jwt.load()
+            },
+            body: JSON.stringify(payload)
         })
-    }, [])
+
+        if (!response.ok)
+            return alert(`We failed creating your ToDoom. Response code : ${response.status}. Error message : ${await response.text()}`)
+
+        if (selectedGroupId > 0)
+            // TODO If the group_id is set, redirect to the page of this group instead of workplace (GET param)
+            router.push('/workplace')
+        else
+            router.push('/workplace')
+    }
 
     return (
         <div>
@@ -80,7 +122,7 @@ export default function CreateTodoom() {
                 </div>
             </div>
 
-            <form action="">
+            <form onSubmit={handleSubmit}>
                 <div className="flex flex-col items-center" style={{ marginTop: "50px" }}>
                     <label>Le titre de votre ToDoom</label>
                     <input
@@ -88,6 +130,8 @@ export default function CreateTodoom() {
                         name="inptNewTDTitle"
                         placeholder="Faire virement Paypal à Alexandre"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        required
+                        onChange={event => setTodoomTitle(event.target.value)}
                     />
                 </div>
 
@@ -99,6 +143,7 @@ export default function CreateTodoom() {
                         name="inptNewTDDescription"
                         placeholder="Pour le café d'avant-hier"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        onChange={event => setTodoomDescription(event.target.value)}
                     />
                 </div>
 
@@ -109,8 +154,9 @@ export default function CreateTodoom() {
                         name="inptNewTDDeadline"
                         min="2023-01-01"
                         max="2050-12-31"
-                        value={todayDate.toISOString().split('T')[0]}
+                        value={todayDateAsString}
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        onChange={event => setTodoomDeadline(event.target.value)}
                     />
                 </div>
 
@@ -134,6 +180,7 @@ export default function CreateTodoom() {
                         name="groupTD"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         disabled={selectedGroupId <= 0}
+                        onChange={event => setTodoomAssigneeId(Number(event.target.value))}
                     >
                         {groupUsersOptionElements(selectedGroupId) as any}
                     </select>
@@ -141,7 +188,11 @@ export default function CreateTodoom() {
 
                 <div className="flex flex-col items-center" style={{ marginTop: "25px" }}>
                     <label>Le statut de la ToDoom</label>
-                    <select name="statusTD" className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4">
+                    <select
+                        name="statusTD"
+                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        onChange={event => setTodoomFirstStatus(event.target.value as TodoomStatus)}
+                    >
                         <option value={TodoomStatus.NotStarted}>Pas commencé</option>
                         <option value={TodoomStatus.InProgress} >En cours</option>
                         <option value={TodoomStatus.Done}>Terminé</option>
