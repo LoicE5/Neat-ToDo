@@ -10,8 +10,8 @@ import jwtStrategy from "./src/utils/jwt_strategy"
 import routerToDoom from "./src/routes/todoom.model"
 import routerGroup from "./src/routes/group.route"
 import { failRequest } from "./src/utils/functions"
-import Group from "./src/models/group.model"
-Group.sync({force:true})
+
+
 const app:Express = express()
 const port:number = Number(process.env.PORT) || 3001
 
