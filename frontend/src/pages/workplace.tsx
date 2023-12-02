@@ -38,16 +38,18 @@ export default function Workplace() {
 
         const responsePayload = await response.json() as TodoomResponse[]
 
-        const todoomElements = responsePayload.map((todoom: TodoomResponse) =>
-        (
-            <Todoom
-                title={todoom.title}
-                status={todoom.status}
-                description={decodeSafeHtmlChars(todoom.description as string) || ""}
-                author={todoom.author ? todoom.author.nickname : "Auteur supprimé"}
-                deadline={todoom.deadline || "Pas de deadline"}
-            />
-        ))
+        const todoomElements = responsePayload
+            .sort((a: TodoomResponse, b: TodoomResponse) => b.status.localeCompare(a.status))
+            .map((todoom: TodoomResponse) =>
+            (
+                <Todoom
+                    title={todoom.title}
+                    status={todoom.status}
+                    description={decodeSafeHtmlChars(todoom.description as string) || ""}
+                    author={todoom.author ? todoom.author.nickname : "Auteur supprimé"}
+                    deadline={todoom.deadline || "Pas de deadline"}
+                />
+            ))
 
         setTodooms(todoomElements as any)
     }
