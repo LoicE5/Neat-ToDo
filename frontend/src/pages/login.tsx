@@ -3,6 +3,7 @@ import { NextRouter, useRouter } from 'next/router'
 import storage from "@/utils/storage"
 import { server } from '../../config.json'
 import { loginResponse } from "@/utils/interfaces"
+import Link from "next/link"
 
 export async function userLogin(email: string, password: string, router: NextRouter): Promise<void> {
     // In this function, we assume that all necessary checks have been done in handleFormSubmit
@@ -65,9 +66,10 @@ export default function login() {
                 height: "100vh"
             }}
         >
-            <a href="#">
+            <Link href="/">
                 <img src="logoV1.png" alt="logo" style={{ width: "200px" }} />
-            </a>
+            </Link>
+
 
             <form onSubmit={handleFormSubmit}>
                 <div className="flex flex-col items-center mx-auto" style={{ paddingTop: "1vw" }}>
