@@ -60,7 +60,7 @@ export default function login() {
         <div
             className="flex flex-col items-center mx-auto"
             style={{
-                backgroundImage: `url("doom_eternal.jpg")`,
+                backgroundImage: `url("doom_eternal_blur.jpg")`,
                 backgroundSize: "cover",
                 height: "100vh"
             }}
