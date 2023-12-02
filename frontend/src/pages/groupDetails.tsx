@@ -116,7 +116,7 @@ export default function GroupDetails() {
                     )}
                     
                     <br />
-                    <div style={{textAlign:"center"}}>
+                    <div style={{textAlign:"center", overflowY:"auto"}}>
                         TODO Liste membres du groupes /!\
                     </div>
                 </aside>
