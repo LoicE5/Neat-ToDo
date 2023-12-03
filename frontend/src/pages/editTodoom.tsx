@@ -1,5 +1,4 @@
 import Header from "@/components/Header"
-import { TodoomStatus } from "@/utils/enums"
 import { useRouter } from "next/router"
 import storage from "@/utils/storage"
 import { todoomGetResponse, userGetResponse } from "@/utils/interfaces"
