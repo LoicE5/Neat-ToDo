@@ -2,7 +2,7 @@ import Header from "@/components/Header"
 import Todoom from "@/components/Todoom"
 import { server } from '../../config.json'
 import storage from "@/utils/storage"
-import { TodoomResponse, userGetResponse } from "@/utils/interfaces"
+import { todoomGetResponse, userGetResponse } from "@/utils/interfaces"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { decodeSafeHtmlChars } from "@/utils/functions"
@@ -36,13 +36,14 @@ export default function Workplace() {
         if (!response.ok)
             return alert(`We failed fetching your todoom. Response code : ${response.status}. Error message : ${await response.text()}`)
 
-        const responsePayload = await response.json() as TodoomResponse[]
+        const responsePayload = await response.json() as todoomGetResponse[]
 
         const todoomElements = responsePayload
-            .sort((a: TodoomResponse, b: TodoomResponse) => b.status.localeCompare(a.status))
-            .map((todoom: TodoomResponse) =>
-            (
+            .sort((a: todoomGetResponse, b: todoomGetResponse) => b.status.localeCompare(a.status))
+            .map((todoom: todoomGetResponse) => (
                 <Todoom
+                    key={todoom.id}
+                    id={todoom.id}
                     title={todoom.title}
                     status={todoom.status}
                     description={decodeSafeHtmlChars(todoom.description as string) || ""}
