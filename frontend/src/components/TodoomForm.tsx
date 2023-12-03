@@ -6,6 +6,7 @@ import storage from "@/utils/storage"
 import { userGetResponse, userGroupGetResponse } from "@/utils/interfaces"
 import { server } from '../../config.json'
 import { decodeSafeHtmlChars } from "@/utils/functions"
+import SkewTitle from "./SkewTitle"
 
 interface TodoomFormProps {
     todoomId?: number,
@@ -23,15 +24,6 @@ interface TodoomFormProps {
 export default function TodoomForm({ todoomId, title, description, deadline, groupId, assigneeId, status, user, router, context }: TodoomFormProps) {
 
     // Style
-    const skewStyleContainer = {
-        transform: 'skewX(-30deg)',
-        transformOrigin: 'top right',
-        width: '50%',
-    }
-
-    const skewStyleText = {
-        transform: 'skewX(30deg)',
-    }
 
     // Component logic
 
@@ -158,14 +150,7 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
 
     return (
         <div>
-            <div style={skewStyleContainer}>
-                <div className="bg-gray-800 p-4" >
-                    <h1 className="font-bold text-lg ml-4 text-red-500 " style={skewStyleText}>
-                        {context === 'create' ? 'Créez une nouvelle ToDoom' : 'Modifiez une ToDoom'}
-                    </h1>
-                </div>
-            </div>
-
+            <SkewTitle>{context === 'create' ? 'Créez une nouvelle ToDoom' : 'Modifiez une ToDoom'}</SkewTitle>
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col items-center" style={{ marginTop: "50px" }}>
                     <label>Le titre de votre ToDoom</label>

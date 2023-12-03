@@ -15,6 +15,7 @@ routerGroup.patch('/:id', renameGroupById)
 routerGroup.delete('/:id', deleteGroupById)
 routerGroup.get('/:id/users', getUsersOfGroupById)
 routerGroup.put('/:id/:user_id', addUserToGroupById)
+routerGroup.put('/:id/email/:email', addUserToGroupByEmail)
 routerGroup.delete('/:id/:user_id', removeUserFromGroupById)
 
 export default routerGroup
@@ -137,7 +138,7 @@ async function getUsersOfGroupById(req: Request, res: Response): Promise<void> {
         const group = await Group.findByPk(id) as any
         const usersOfGroup = await group.getUsers({
             attributes: {
-                exclude: ['email','password']
+                exclude: ['password']
             }
         })
 
@@ -169,6 +170,36 @@ async function addUserToGroupById(req: Request, res: Response): Promise<void> {
         await group.addUser(user)
 
         res.json({ message: `User n°${userId} added to group n°${id}.` })
+    } catch (error) {
+        console.error(error)
+        failRequest(res, 500, `Internal server error`)
+    }
+}
+
+async function addUserToGroupByEmail(req: Request, res: Response): Promise<void> {
+    try {
+        const id = Number(req.params.id)
+        const email = validator.escape(req.params.email)
+
+        if (!id || !email || !validator.isEmail(email))
+            return failRequest(res, 400, `You must provide a group id and a user email in the request parameters`)
+
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        }) as any
+        const group = await Group.findByPk(id) as any
+
+        if (!group)
+            return failRequest(res, 404, `Group not found`)
+
+        if (!user)
+            return failRequest(res, 404, `User not found`)
+
+        await group.addUser(user)
+
+        res.json({ message: `User n°${user.id} added to group n°${id}.` })
     } catch (error) {
         console.error(error)
         failRequest(res, 500, `Internal server error`)
