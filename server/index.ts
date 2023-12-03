@@ -7,7 +7,7 @@ import sequelize from "./db"
 import routerAuth from "./src/routes/auth.route"
 import routerUser from "./src/routes/user.route"
 import jwtStrategy from "./src/utils/jwt_strategy"
-import routerToDoom from "./src/routes/todoom.model"
+import routerToDoom from "./src/routes/todoom.route"
 import routerGroup from "./src/routes/group.route"
 import { failRequest } from "./src/utils/functions"
 
