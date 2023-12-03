@@ -40,9 +40,10 @@ export default function Workplace() {
 
         const todoomElements = responsePayload
             .sort((a: todoomGetResponse, b: todoomGetResponse) => b.status.localeCompare(a.status))
-            .map((todoom: todoomGetResponse) =>
-            (
+            .map((todoom: todoomGetResponse) => (
                 <Todoom
+                    key={todoom.id}
+                    id={todoom.id}
                     title={todoom.title}
                     status={todoom.status}
                     description={decodeSafeHtmlChars(todoom.description as string) || ""}
