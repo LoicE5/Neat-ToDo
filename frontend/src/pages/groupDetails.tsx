@@ -24,6 +24,8 @@ export default function GroupDetails() {
     const [inputVisible, setInputVisible] = useState(false);
     const [textInput, setTextInput] = useState('');
     const [todoomElements, setTodoomElements] = useState([])
+    const [userElements, setUserElements] = useState([])
+    const [groupName, setGroupName] = useState("Groupe inconnu")
 
     const toggleInput = () => {
         setInputVisible(!inputVisible);
@@ -62,6 +64,23 @@ export default function GroupDetails() {
         return responsePayload
     }
 
+    async function getUsersOfGroupById(groupId: number): Promise<userGetResponse[] | void> {
+        const response = await fetch(`http://${server.host}:${server.port}/group/${groupId}/users`, {
+            method: 'GET',
+            headers: {
+                'Authorization': storage.jwt.load(),
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (!response.ok)
+            return alert(`We failed getting the users of your group. Response code : ${response.status}. Error message : ${await response.text()}`)
+
+        const responsePayload = await response.json() as userGetResponse[]
+
+        return responsePayload
+    }
+
     useEffect(() => {
 
         if (!storage.jwt.exists()) {
@@ -87,9 +106,13 @@ export default function GroupDetails() {
         }
 
         getGroupTodoomsById(groupIdInteger).then((todooms: any) => {
+
+            setGroupName((todooms as todoomGetResponse[])[0].group!.name)
+
             setTodoomElements(
                 todooms.map((todoom: todoomGetResponse) => (
                     <Todoom
+                        key={todoom.id}
                         id={todoom.id}
                         deadline={todoom.deadline as string}
                         status={todoom.status}
@@ -102,6 +125,14 @@ export default function GroupDetails() {
             )
         })
 
+        getUsersOfGroupById(groupIdInteger).then((users: any) => {
+            setUserElements(
+                users.map((oneUser: userGetResponse) => (
+                    <li key={oneUser.id}>{oneUser.nickname} (<i>{oneUser.email}</i>)</li>
+                ))
+            )
+        })
+
     }, [])
 
     return (
@@ -110,7 +141,7 @@ export default function GroupDetails() {
 
             <div style={skewStyleContainer}>
                 <div className="bg-gray-800 p-4" >
-                    <h1 className="font-bold text-lg ml-4 text-red-500" style={skewStyleText}>Group Name</h1>
+                    <h1 className="font-bold text-lg ml-4 text-red-500" style={skewStyleText}>{groupName}</h1>
                 </div>
             </div>
             <br />
@@ -125,25 +156,25 @@ export default function GroupDetails() {
                 <aside className="bg-gray-300 rounded-md p-4 items-center ml-auto w-20vw mr-4 border border-gray-800"
                     style={{ height: "50vh" }}
                 >
-                    <h3 style={{ color: "red", fontWeight: "bold", textAlign: "center", marginBottom: "0.5em" }}>Group Name</h3>
+                    <h3 style={{ color: "red", fontWeight: "bold", textAlign: "center", marginBottom: "0.5em" }}>{groupName}</h3>
                     <div className="flex space-x-4 justify-center">
                         <div
                         // onClick={}
                         >
-                            <img className="h-8 w-auto" src="trash.png" alt="trashIcon" />
+                            <img className="h-8 w-auto" src="trash.png" alt="trashIcon" draggable={false} />
                         </div>
 
                         <div
                         // onClick={}
                         >
-                            <img className="h-8 w-auto" src="exitGroup.png" alt="exitGroupIcon" />
+                            <img className="h-8 w-auto" src="exitGroup.png" alt="exitGroupIcon" draggable={false} />
                         </div>
 
                         <div
                             onClick={toggleInput}
                             className="cursor-pointer"
                         >
-                            <img className="h-8 w-auto" src="add.png" alt="addUserInGroupIcon" />
+                            <img className="h-8 w-auto" src="add.png" alt="addUserInGroupIcon" draggable={false} />
                         </div>
                     </div>
 
@@ -165,7 +196,9 @@ export default function GroupDetails() {
 
                     <br />
                     <div style={{ textAlign: "center", overflowY: "auto" }}>
-                        TODO Liste membres du groupes /!\
+                        <ul>
+                            {userElements}
+                        </ul>
                     </div>
                 </aside>
             </div>
