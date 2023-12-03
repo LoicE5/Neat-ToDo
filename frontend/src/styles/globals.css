@@ -11,3 +11,13 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.skew-style-container {
+    transform: skewX(-30deg);
+    transform-origin: top right;
+    width: 50%;
+}
+
+.skew-style-text {
+    transform: skewX(30deg);
+}
