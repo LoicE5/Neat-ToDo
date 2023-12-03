@@ -9,12 +9,17 @@ import { server } from '../../config.json'
 
 export default function createTodoom() {
 
-    const user = storage.user.load() as userGetResponse
     const router = useRouter()
+    const user = storage.user.load() as userGetResponse
 
     const [todoomFormElement, setTodoomFormElement] = useState((<p>Please wait for the Todoom to load</p>))
 
     useEffect(() => {
+        
+        if (!storage.jwt.exists()) {
+            router.push('/login')
+            return
+        }
 
         const { todoom_id } = router.query
         let todoomIdInteger = parseInt(todoom_id as string)

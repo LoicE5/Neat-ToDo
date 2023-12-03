@@ -99,9 +99,18 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
         if (!foundUsers)
             return
 
-        return foundUsers.Users.map(oneUser => (
-            <option key={oneUser.id} value={oneUser.id}>{oneUser.nickname} ({oneUser.email})</option>
-        ) as any)
+        // We sort the users in order to keep the current user first, so that the first option available is always his nickname & email
+        return foundUsers.Users
+            .sort((a, b): number => {
+                if (a.id === user!.id)
+                    return -1
+                if (b.id === user!.id)
+                    return 1
+                return a.id - b.id
+            })
+            .map(oneUser => (
+                <option key={oneUser.id} value={oneUser.id}>{oneUser.nickname} ({oneUser.email})</option>
+            ) as any)
     }
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
