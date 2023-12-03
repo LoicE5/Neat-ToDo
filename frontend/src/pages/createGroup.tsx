@@ -45,7 +45,7 @@ export default function CreateGroup() {
         if (!response.ok)
             return alert(`We failed creating your group. Response code : ${response.status}. Error message : ${await response.text()}`)
 
-        router.push('/groups')
+        await router.push('/groups')
     }
 
     return (
@@ -78,7 +78,7 @@ export default function CreateGroup() {
                         name="email"
                         placeholder="jean.dupont@dauphine.eu"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
-                        value={user.email}
+                        value={firstUserEmail}
                         onChange={event => setFirstUserEmail(event.target.value)}
                         required
                     />
