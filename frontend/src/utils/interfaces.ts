@@ -17,7 +17,7 @@ export interface groupGetResponse {
     name: string
 }
 
-export interface TodoomResponse {
+export interface todoomGetResponse {
     id: number,
     group_id?: number,
     title: string,
@@ -33,7 +33,7 @@ export interface TodoomResponse {
     group: groupGetResponse|null
 }
 
-export interface userGroupResponse {
+export interface userGroupGetResponse {
     id: number,
     name: string,
     userCount: number,

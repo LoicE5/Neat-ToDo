@@ -7,7 +7,7 @@ export default function Header() {
 
     async function userLogout() {
         storage.clear()
-        router.push('/')
+        await router.push('/')
     }
 
     return (

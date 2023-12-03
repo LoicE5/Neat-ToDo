@@ -2,7 +2,7 @@ import Header from "@/components/Header"
 import { TodoomStatus } from "@/utils/enums"
 import { useRouter } from "next/router"
 import storage from "@/utils/storage"
-import { userGetResponse, userGroupResponse } from "@/utils/interfaces"
+import { userGetResponse } from "@/utils/interfaces"
 import TodoomForm from "@/components/TodoomForm"
 
 export default function createTodoom() {

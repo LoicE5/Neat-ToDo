@@ -45,7 +45,7 @@ export default function CreateGroup() {
         if (!response.ok)
             return alert(`We failed creating your group. Response code : ${response.status}. Error message : ${await response.text()}`)
 
-        router.push('/groups')
+        await router.push('/groups')
     }
 
     return (
