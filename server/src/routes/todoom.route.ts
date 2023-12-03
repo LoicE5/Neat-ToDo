@@ -216,7 +216,25 @@ async function getAllTodoOfGroup(req: Request, res: Response): Promise<void> {
         return failRequest(res, 401, 'Unauthorized')
 
     const todos = await Todoom.findAll({
-        where: {group_id: id}
+        where: {
+            group_id: id
+        },
+        include: [
+            {
+                model: User,
+                as: 'assignee',
+                attributes: { exclude: ['password'] }
+            },
+            {
+                model: User,
+                as: 'author',
+                attributes: { exclude: ['password'] }
+            },
+            {
+                model: Group,
+                as: 'group'
+            }
+        ]
     })
 
     res.json(todos)
