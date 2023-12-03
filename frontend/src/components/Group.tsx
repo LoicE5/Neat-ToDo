@@ -32,7 +32,7 @@ export default function Group({ id, title, userCount }: GroupProps) {
 
     return (
         // TODO Il faudra remplacer la cible du lien
-        <Link href="/workplace" style={{ textDecoration: "none", color: "black" }}>
+        <Link href="/groupDetails" style={{ textDecoration: "none", color: "black" }}>
             <div style={{
                 marginLeft: "7em", marginRight: "7em", marginBottom: "1.7em", paddingTop: "0.5em", borderRadius: "1em", height: "92px", backgroundColor: "#D7D7D7", position: "relative"
             }}>
@@ -48,7 +48,7 @@ export default function Group({ id, title, userCount }: GroupProps) {
                         }}
                         onClick={deleteUserFromGroup}
                     >
-                        <img src="trash.png" alt="TrashIcon" />
+                        <img src="exitGroup.png" alt="TrashIcon" />
                     </div>
 
                 </div>
