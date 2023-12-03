@@ -137,7 +137,7 @@ async function getUsersOfGroupById(req: Request, res: Response): Promise<void> {
         const group = await Group.findByPk(id) as any
         const usersOfGroup = await group.getUsers({
             attributes: {
-                exclude: ['email','password']
+                exclude: ['password']
             }
         })
 
