@@ -35,6 +35,7 @@ export interface todoUpdatePayload {
     deadline?:Date|string,
     status?:string,
     assignee_id?: number,
+    group_id?: number
 }
 export interface groupCreationPayload {
     name: string,
