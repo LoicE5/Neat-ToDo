@@ -41,7 +41,7 @@ export default function Groups() {
         getGroups(user).then((groups: any) => {
 
             const elements = groups.map((group: userGroupGetResponse) => (
-                <Group id={group.id} title={group.name} userCount={group.userCount} />
+                <Group id={group.id} title={group.name} userCount={group.userCount} user={user} />
             ))
 
             setGroupElements(elements)

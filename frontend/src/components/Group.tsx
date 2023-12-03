@@ -2,36 +2,43 @@ import Link from "next/link"
 import { server } from '../../config.json'
 import storage from "@/utils/storage"
 import { userGetResponse } from "@/utils/interfaces"
-import { useRouter } from "next/router"
+import { NextRouter, useRouter } from "next/router"
 
 interface GroupProps {
     id: number,
     title: string,
-    userCount: number
+    userCount: number,
+    user?: userGetResponse,
+    router?: NextRouter
 }
 
-export default function Group({ id, title, userCount }: GroupProps) {
-    const router = useRouter()
+export async function removeUserFromGroup(groupId: number, user: userGetResponse, router: NextRouter, reload: boolean = true): Promise<void> {
 
-    async function deleteUserFromGroup(): Promise<void> {
-        const user = storage.user.load() as userGetResponse
+    const response = await fetch(`http://${server.host}:${server.port}/group/${groupId}/${user.id}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': storage.jwt.load()
+        }
+    })
 
-        const response = await fetch(`http://${server.host}:${server.port}/group/${id}/${user.id}`, {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': storage.jwt.load()
-            }
-        })
+    if (!response.ok)
+        return alert(`We failed removing you from the group. Response code : ${response.status}. Error message : ${await response.text()}`)
 
-        if (!response.ok)
-            return alert(`We failed removing you from the group. Response code : ${response.status}. Error message : ${await response.text()}`)
+    if (reload)
+        return router.reload()
+    else
+        return await router.push('/groups') as any
+}
 
-        router.reload()
-    }
+export default function Group({ id, title, userCount, user, router }: GroupProps) {
+    if (!router)
+        router = useRouter()
+
+    if (!user)
+        user = storage.user.load() as userGetResponse
 
     return (
-        // TODO Il faudra remplacer la cible du lien
         <Link href={`/groupDetails?group_id=${id}`} style={{ textDecoration: "none", color: "black" }}>
             <div style={{
                 marginLeft: "7em", marginRight: "7em", marginBottom: "1.7em", paddingTop: "0.5em", borderRadius: "1em", height: "92px", backgroundColor: "#D7D7D7", position: "relative"
@@ -46,7 +53,7 @@ export default function Group({ id, title, userCount }: GroupProps) {
                             width: "2em",
                             marginRight: "1em"
                         }}
-                        onClick={deleteUserFromGroup}
+                        onClick={() => removeUserFromGroup(id, user as userGetResponse, router as NextRouter, true)}
                     >
                         <img src="exitGroup.png" alt="TrashIcon" />
                     </div>

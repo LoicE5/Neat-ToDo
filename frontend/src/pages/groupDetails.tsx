@@ -5,6 +5,7 @@ import storage from "@/utils/storage"
 import React, { useEffect, useState } from 'react'
 import { server } from '../../config.json'
 import { useRouter } from "next/router"
+import { removeUserFromGroup } from "@/components/Group"
 
 export default function GroupDetails() {
 
@@ -26,60 +27,7 @@ export default function GroupDetails() {
     const [todoomElements, setTodoomElements] = useState([])
     const [userElements, setUserElements] = useState([])
     const [groupName, setGroupName] = useState("Groupe inconnu")
-
-    const toggleInput = () => {
-        setInputVisible(!inputVisible);
-
-        // If hiding the input, clear the text
-        if (!inputVisible) {
-            setTextInput('');
-        }
-    }
-
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            // Requete pour le backend
-            alert('Request backend: ' + textInput);
-
-            // Vide et cache l'input
-            setTextInput('');
-            setInputVisible(false);
-        }
-    }
-
-    async function getGroupTodoomsById(groupId: number): Promise<todoomGetResponse[] | void> {
-        const response = await fetch(`http://${server.host}:${server.port}/todoom/group/${groupId}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': storage.jwt.load(),
-                'Content-Type': 'application/json'
-            }
-        })
-
-        if (!response.ok)
-            return alert(`We failed getting the todooms of your group. Response code : ${response.status}. Error message : ${await response.text()}`)
-
-        const responsePayload = await response.json() as todoomGetResponse[]
-
-        return responsePayload
-    }
-
-    async function getUsersOfGroupById(groupId: number): Promise<userGetResponse[] | void> {
-        const response = await fetch(`http://${server.host}:${server.port}/group/${groupId}/users`, {
-            method: 'GET',
-            headers: {
-                'Authorization': storage.jwt.load(),
-                'Content-Type': 'application/json'
-            }
-        })
-
-        if (!response.ok)
-            return alert(`We failed getting the users of your group. Response code : ${response.status}. Error message : ${await response.text()}`)
-
-        const responsePayload = await response.json() as userGetResponse[]
-
-        return responsePayload
-    }
+    const [groupId, setGroupId] = useState(0)
 
     useEffect(() => {
 
@@ -133,7 +81,81 @@ export default function GroupDetails() {
             )
         })
 
+        setGroupId(groupIdInteger)
+
     }, [])
+
+    const toggleInput = () => {
+        setInputVisible(!inputVisible);
+
+        // If hiding the input, clear the text
+        if (!inputVisible) {
+            setTextInput('');
+        }
+    }
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            // Requete pour le backend
+            alert('Request backend: ' + textInput);
+
+            // Vide et cache l'input
+            setTextInput('');
+            setInputVisible(false);
+        }
+    }
+
+    async function getGroupTodoomsById(groupId: number): Promise<todoomGetResponse[] | void> {
+        const response = await fetch(`http://${server.host}:${server.port}/todoom/group/${groupId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': storage.jwt.load(),
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (!response.ok) {
+            console.error(`We failed getting the todooms of your group. Response code : ${response.status}. Error message : ${await response.text()}`)
+            return await router.push('/groups') as any
+        }
+
+        const responsePayload = await response.json() as todoomGetResponse[]
+
+        return responsePayload
+    }
+
+    async function getUsersOfGroupById(groupId: number): Promise<userGetResponse[] | void> {
+        const response = await fetch(`http://${server.host}:${server.port}/group/${groupId}/users`, {
+            method: 'GET',
+            headers: {
+                'Authorization': storage.jwt.load(),
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (!response.ok)
+            return alert(`We failed getting the users of your group. Response code : ${response.status}. Error message : ${await response.text()}`)
+
+        const responsePayload = await response.json() as userGetResponse[]
+
+        return responsePayload
+    }
+
+    async function deleteGroupById(groupId: number): Promise<void> {
+        const response = await fetch(`http://${server.host}:${server.port}/group/${groupId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': storage.jwt.load(),
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (!response.ok)
+            return alert(`We failed deleting your group. Response code : ${response.status}. Error message : ${await response.text()}`)
+
+        await router.push('/groups')
+    }
+
 
     return (
         <div>
@@ -158,24 +180,27 @@ export default function GroupDetails() {
                 >
                     <h3 style={{ color: "red", fontWeight: "bold", textAlign: "center", marginBottom: "0.5em" }}>{groupName}</h3>
                     <div className="flex space-x-4 justify-center">
-                        <div
-                        // onClick={}
-                        >
-                            <img className="h-8 w-auto" src="trash.png" alt="trashIcon" draggable={false} />
-                        </div>
-
-                        <div
-                        // onClick={}
-                        >
-                            <img className="h-8 w-auto" src="exitGroup.png" alt="exitGroupIcon" draggable={false} />
-                        </div>
-
-                        <div
+                        <img
+                            className="h-8 w-auto cursor-pointer"
+                            src="trash.png"
+                            alt="trashIcon"
+                            draggable={false}
+                            onClick={() => deleteGroupById(groupId)}
+                        />
+                        <img
+                            className="h-8 w-auto cursor-pointer"
+                            src="exitGroup.png"
+                            alt="exitGroupIcon"
+                            draggable={false}
+                            onClick={() => removeUserFromGroup(groupId, user, router, false)}
+                        />
+                        <img
+                            className="h-8 w-auto cursor-pointer"
+                            src="add.png"
+                            alt="addUserInGroupIcon"
+                            draggable={false}
                             onClick={toggleInput}
-                            className="cursor-pointer"
-                        >
-                            <img className="h-8 w-auto" src="add.png" alt="addUserInGroupIcon" draggable={false} />
-                        </div>
+                        />
                     </div>
 
                     {/* Div cachée qui s'active quand on clique sur l'icone Ajouter une personne dans le groupe */}
