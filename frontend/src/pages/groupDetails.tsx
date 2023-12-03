@@ -6,21 +6,12 @@ import React, { useEffect, useState } from 'react'
 import { server } from '../../config.json'
 import { useRouter } from "next/router"
 import { removeUserFromGroup } from "@/components/Group"
+import SkewTitle from "@/components/SkewTitle"
 
 export default function GroupDetails() {
 
     const router = useRouter()
     const user = storage.user.load() as userGetResponse
-
-    const skewStyleContainer = {
-        transform: 'skewX(-30deg)',
-        transformOrigin: 'top right',
-        width: '50%',
-    }
-
-    const skewStyleText = {
-        transform: 'skewX(30deg)',
-    }
 
     const [inputVisible, setInputVisible] = useState(false);
     const [textInput, setTextInput] = useState('');
@@ -193,11 +184,7 @@ export default function GroupDetails() {
         <div>
             <Header />
 
-            <div style={skewStyleContainer}>
-                <div className="bg-gray-800 p-4" >
-                    <h1 className="font-bold text-lg ml-4 text-red-500" style={skewStyleText}>{groupName}</h1>
-                </div>
-            </div>
+            <SkewTitle>{groupName}</SkewTitle>
             <br />
 
             <div className="flex">

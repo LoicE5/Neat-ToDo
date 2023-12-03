@@ -6,6 +6,7 @@ import { todoomGetResponse, userGetResponse } from "@/utils/interfaces"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { decodeSafeHtmlChars } from "@/utils/functions"
+import SkewTitle from "@/components/SkewTitle"
 
 export default function Workplace() {
 
@@ -55,24 +56,10 @@ export default function Workplace() {
         setTodooms(todoomElements as any)
     }
 
-    const skewStyleContainer = {
-        transform: 'skewX(-30deg)',
-        transformOrigin: 'top right',
-        width: '50%',
-    };
-
-    const skewStyleText = {
-        transform: 'skewX(30deg)',
-    }
-
     return (
         <div>
             <Header />
-            <div style={skewStyleContainer}>
-                <div className="bg-gray-800 p-4" >
-                    <h1 className="font-bold text-lg ml-4 text-red-500 " style={skewStyleText}>Vos ToDoom Perso</h1>
-                </div>
-            </div>
+            <SkewTitle>Vos ToDoom Perso</SkewTitle>
             {todooms}
         </div>
     )
