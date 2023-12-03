@@ -5,6 +5,7 @@ import { NextRouter, useRouter } from "next/router"
 import storage from "@/utils/storage"
 import { userGetResponse, userGroupGetResponse } from "@/utils/interfaces"
 import { server } from '../../config.json'
+import { decodeSafeHtmlChars } from "@/utils/functions"
 
 interface TodoomFormProps {
     todoomId?: number,
@@ -43,6 +44,9 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
 
     if (deadline instanceof Date)
         deadline = deadline.toISOString().split('T')[0]
+
+    if (deadline?.includes('T'))
+        deadline = deadline.split('T')[0]
 
     // Hooks
     const [groups, setGroups] = useState([])
@@ -118,7 +122,9 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
 
         let url = `http://${server.host}:${server.port}/todoom`
         if (context === 'edit')
-            url.concat(`/${todoomId}`)
+            url = url.concat(`/${todoomId}`)
+
+        console.log(url)
 
         const method = context === 'create' ? 'POST' : 'PUT'
 
@@ -160,6 +166,7 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
                         placeholder="Faire virement Paypal à Alexandre"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         required
+                        value={decodeSafeHtmlChars(todoomTitle)}
                         onChange={event => setTodoomTitle(event.target.value)}
                     />
                 </div>
@@ -172,6 +179,7 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
                         name="inptNewTDDescription"
                         placeholder="Pour le café d'avant-hier"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        value={decodeSafeHtmlChars(todoomDescription)}
                         onChange={event => setTodoomDescription(event.target.value)}
                     />
                 </div>
@@ -183,8 +191,8 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
                         name="inptNewTDDeadline"
                         min="2023-01-01"
                         max="2050-12-31"
-                        value={deadline}
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        value={todoomDeadline}
                         onChange={event => setTodoomDeadline(event.target.value)}
                     />
                 </div>
@@ -194,6 +202,7 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
                     <select
                         name="groupTD"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        value={selectedGroupId}
                         onChange={event => setselectedGroupId(Number(event.target.value))}
                     >
                         {groupOptions}
@@ -209,6 +218,7 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
                         name="groupTD"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         disabled={selectedGroupId <= 0}
+                        value={todoomAssigneeId}
                         onChange={event => setTodoomAssigneeId(Number(event.target.value))}
                     >
                         {groupUsersOptionElements(selectedGroupId) as any}
@@ -220,6 +230,7 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
                     <select
                         name="statusTD"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        value={todoomFirstStatus}
                         onChange={event => setTodoomFirstStatus(event.target.value as TodoomStatus)}
                     >
                         <option value={TodoomStatus.NotStarted}>Pas commencé</option>

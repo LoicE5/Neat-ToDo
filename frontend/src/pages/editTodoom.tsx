@@ -12,26 +12,54 @@ export default function createTodoom() {
     const user = storage.user.load() as userGetResponse
     const router = useRouter()
 
-    const [todoomResponsePayload, setTodoomResponsePayload] = useState({} as todoomGetResponse)
-    
+    const [todoomFormElement, setTodoomFormElement] = useState((<p>Please wait for the Todoom to load</p>))
+
     useEffect(() => {
 
         const { todoom_id } = router.query
-        const todoomIdInteger = parseInt(todoom_id as string)
+        let todoomIdInteger = parseInt(todoom_id as string)
 
         if (!todoomIdInteger) {
-            router.push(`/404`)
-            return
+
+            // If we access the page via another way than the Next Router (direct URL access or other), we can check the GET params the old way
+            const urlSearchParams = new URLSearchParams(window.location.search)
+            const todoomIdFromQueryString = urlSearchParams.get('todoom_id')
+
+            if (todoomIdFromQueryString) {
+                todoomIdInteger = parseInt(todoomIdFromQueryString)
+            } else {
+                router.push('/404')
+                return
+            }
         }
 
         getTodoomById(todoomIdInteger).then((todoom: any) => {
-            setTodoomResponsePayload(todoom)
+            setTodoomFormElement((
+                <TodoomForm
+                    todoomId={todoom.id}
+                    title={todoom.title}
+                    description={todoom.description}
+                    deadline={todoom.deadline}
+                    groupId={todoom.group_id}
+                    assigneeId={todoom.assignee_id}
+                    status={todoom.status}
+                    user={user}
+                    router={router}
+                    context="edit"
+                />
+            ))
         })
 
     }, [])
 
     async function getTodoomById(todoomId: number): Promise<todoomGetResponse | void> {
-        const response = await fetch(`http://${server.host}:${server.port}/todoom/${todoomId}`)
+        const response = await fetch(`http://${server.host}:${server.port}/todoom/${todoomId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': storage.jwt.load(),
+                'Content-Type': 'application/json'
+            }
+        })
 
         if (!response.ok) {
             if (response.status === 404)
@@ -48,18 +76,7 @@ export default function createTodoom() {
     return (
         <>
             <Header />
-            <TodoomForm
-                todoomId={todoomResponsePayload.id}
-                title={todoomResponsePayload.title}
-                description={todoomResponsePayload.description}
-                deadline={todoomResponsePayload.deadline}
-                groupId={todoomResponsePayload.group_id}
-                assigneeId={todoomResponsePayload.assignee_id}
-                status={todoomResponsePayload.status}
-                user={user}
-                router={router}
-                context="edit"
-            />
+            {todoomFormElement}
         </>
     )
 
