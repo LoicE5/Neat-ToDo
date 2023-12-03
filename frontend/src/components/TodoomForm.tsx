@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useState } from "react"
 import { getGroups } from "@/pages/groups"
 import { NextRouter, useRouter } from "next/router"
 import storage from "@/utils/storage"
-import { userGetResponse, userGroupResponse } from "@/utils/interfaces"
+import { userGetResponse, userGroupGetResponse } from "@/utils/interfaces"
 import { server } from '../../config.json'
 
 interface TodoomFormProps {
@@ -70,7 +70,7 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
 
                 (<option key={0} value={0}>🏡 ToDoom Perso</option>),
 
-                ...groups.map((group: userGroupResponse) => (
+                ...groups.map((group: userGroupGetResponse) => (
                     <option key={group.id} value={group.id}>{group.name}</option>
                 ))
             ]
@@ -90,7 +90,7 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
         if (selectedGroupId <= 0)
             return
 
-        const foundUsers = groups.find((group: userGroupResponse) => group.id === groupId)! as userGroupResponse
+        const foundUsers = groups.find((group: userGroupGetResponse) => group.id === groupId)! as userGroupGetResponse
 
         if (!foundUsers)
             return
