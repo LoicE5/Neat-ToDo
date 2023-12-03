@@ -1,6 +1,6 @@
 import Header from "@/components/Header"
 import Todoom from "@/components/Todoom"
-import { todoomGetResponse, userGetResponse } from "@/utils/interfaces"
+import { groupGetResponse, todoomGetResponse, userGetResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import React, { useEffect, useState } from 'react'
 import { server } from '../../config.json'
@@ -55,6 +55,13 @@ export default function GroupDetails() {
 
         getGroupTodoomsById(groupIdInteger).then((todooms: any) => {
 
+            if (todooms.length <= 0) {
+                setTodoomElements([(<h2 key={0}>Il n'y a aucune Todoom dans ce groupe</h2>)] as any)
+                getGroupNameById(groupIdInteger).then(name => setGroupName(name as string))
+                return
+            }
+
+            // If we can, we avoid another API call by setting the group name from the todoom list
             setGroupName((todooms as todoomGetResponse[])[0].group!.name)
 
             setTodoomElements(
@@ -85,7 +92,7 @@ export default function GroupDetails() {
 
     }, [])
 
-    const toggleInput = () => {
+    function toggleInput() {
         setInputVisible(!inputVisible);
 
         // If hiding the input, clear the text
@@ -94,15 +101,9 @@ export default function GroupDetails() {
         }
     }
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            // Requete pour le backend
-            alert('Request backend: ' + textInput);
-
-            // Vide et cache l'input
-            setTextInput('');
-            setInputVisible(false);
-        }
+    function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement> | React.ChangeEvent<HTMLInputElement>) {
+        if ((event as React.KeyboardEvent<HTMLInputElement>).key === 'Enter')
+            addUserToGroupByEmail((event as React.ChangeEvent<HTMLInputElement>).target.value, groupId)
     }
 
     async function getGroupTodoomsById(groupId: number): Promise<todoomGetResponse[] | void> {
@@ -156,6 +157,37 @@ export default function GroupDetails() {
         await router.push('/groups')
     }
 
+    async function getGroupNameById(groupId: number): Promise<string | void> {
+        const response = await fetch(`http://${server.host}:${server.port}/group/${groupId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': storage.jwt.load(),
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (!response.ok)
+            return console.error(`We couldn't find the group you're looking for. Response code : ${response.status}. Error message : ${await response.text()}`)
+
+        const responsePayload = await response.json() as groupGetResponse
+
+        return responsePayload.name
+    }
+
+    async function addUserToGroupByEmail(userEmail: string, groupId: number) {
+        const response = await fetch(`http://${server.host}:${server.port}/group/${groupId}/email/${userEmail}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': storage.jwt.load(),
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (!response.ok)
+            return alert(`We couldn't add the user ${userEmail} to the group. Response code : ${response.status}. Error message : ${await response.text()}`)
+
+        router.reload()
+    }
 
     return (
         <div>
@@ -210,8 +242,8 @@ export default function GroupDetails() {
                                 id="textInput"
                                 className="border rounded px-2 py-1"
                                 style={{ width: "20vw" }}
-                                type="text"
-                                placeholder="Mail de la personne à ajouter"
+                                type="email"
+                                placeholder="valentin@dauphine.eu"
                                 value={textInput}
                                 onChange={(e) => setTextInput(e.target.value)}
                                 onKeyDown={handleKeyDown}
