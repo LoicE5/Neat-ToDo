@@ -12,8 +12,27 @@ const UserGroup = sequelize.define('UserGroup', {}, {
         primaryKey: true
 } as any)
 
-User.belongsToMany(Group, { through: UserGroup })
-Group.belongsToMany(User, { through: UserGroup })
+User.belongsToMany(Group, { through: UserGroup, onDelete: 'cascade', foreignKey: 'UserId' })
+Group.belongsToMany(User, { through: UserGroup, onDelete: 'cascade', foreignKey: 'GroupId' })
+
+Group.beforeDestroy(async (instance: Model<any, any>, options: InstanceDestroyOptions): Promise<void> => {
+    const groupId = instance.get().id;
+
+    // Manually delete Todooms associated with the group
+    await Todoom.destroy({
+        where: {
+            group_id: groupId,
+        },
+        transaction: options.transaction
+    })
+
+    await UserGroup.destroy({
+        where: {
+            GroupId: groupId
+        },
+        transaction: options.transaction
+    })
+})
 
 UserGroup.afterDestroy(async (instance: Model<any, any>, options: InstanceDestroyOptions): Promise<void> => {
     const groupId = instance.get().GroupId;
