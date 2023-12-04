@@ -10,7 +10,7 @@ interface GroupProps {
     userCount: number
 }
 
-export default function Group({ id, title, userCount }: GroupProps) {
+const Group = ({ id, title, userCount }: GroupProps) => {
     const router = useRouter()
 
     async function deleteUserFromGroup(): Promise<void> {
@@ -63,3 +63,5 @@ export default function Group({ id, title, userCount }: GroupProps) {
     )
 
 }
+
+export default Group

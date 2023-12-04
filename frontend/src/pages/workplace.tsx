@@ -55,7 +55,7 @@ export default function Workplace() {
     const skewStyleContainer = {
         transform: 'skewX(-30deg)',
         transformOrigin: 'top right',
-        width: '50%',
+        width: '45%',
     };
 
     const skewStyleText = {
