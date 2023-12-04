@@ -18,4 +18,4 @@ Open two terminals, then type :
 `cd frontend && npm run start`
 `cd server && npm run start`
 
-Then, open your browser and head to `http://localhost:3000` or the port you have set on .env instead.
+Then, open your browser and head to `http://localhost:3000`.
