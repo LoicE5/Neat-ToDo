@@ -8,7 +8,7 @@ interface ToDoomProps {
     author: string
 }
 
-export default function Todoom({ deadline, status, title, description, author }: ToDoomProps) {
+const Todoom = ({ deadline, status, title, description, author }: ToDoomProps) => {
     let showStatus;
     switch (status) {
         case TodoomStatus.NotStarted:
@@ -58,3 +58,4 @@ export default function Todoom({ deadline, status, title, description, author }:
         </div>
     )
 }
+export default Todoom
