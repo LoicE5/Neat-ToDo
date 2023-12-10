@@ -1,8 +1,8 @@
 import { FormEvent, useEffect, useState } from "react"
 import { server } from '../../config.json'
-import { useRouter } from 'next/router';
-import storage from "@/utils/storage";
-import { userLogin } from "./login";
+import { useRouter } from 'next/router'
+import storage from "@/utils/storage"
+import { userLogin } from "./login"
 import Link from "next/link"
 
 export default function signup() {

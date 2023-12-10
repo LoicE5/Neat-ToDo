@@ -66,9 +66,9 @@ const Todoom = sequelize.define('Todoom', {
     timestamps: true,
 })
 
-Todoom.belongsTo(User, { as: 'author', foreignKey: 'author_id' });
-Todoom.belongsTo(User, { as: 'assignee', foreignKey: 'assignee_id' });
-Todoom.belongsTo(Group, { as: 'group', foreignKey: 'group_id' });
+Todoom.belongsTo(User, { as: 'author', foreignKey: 'author_id' })
+Todoom.belongsTo(User, { as: 'assignee', foreignKey: 'assignee_id' })
+Todoom.belongsTo(Group, { as: 'group', foreignKey: 'group_id' })
 
 Todoom.afterDestroy(async (instance:Model<any,any>, options:InstanceDestroyOptions):Promise<void> => {
     await TodoomHistory.create(instance.get(), { transaction: options.transaction }) as any
