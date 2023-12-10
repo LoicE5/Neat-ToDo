@@ -192,7 +192,7 @@ export default function TodoomForm({ todoomId, title, description, deadline, gro
                 </div>
 
                 <div className="flex flex-col items-center" style={{ marginTop: "25px" }}>
-                    <label>Dans quel groupe souhaitez-vous créer cette ToDoom ?</label>
+                    <label>Dans quel groupe souhaitez-vous {context === 'create' ? 'créer' : 'modifier'} cette ToDoom ?</label>
                     <select
                         name="groupTD"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
