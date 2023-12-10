@@ -1,14 +1,14 @@
-import { TodoomStatus } from "@/utils/enums";
-import { NextRouter, useRouter } from "next/router";
+import { TodoomStatus } from "@/utils/enums"
+import { NextRouter, useRouter } from "next/router"
 
 interface ToDoomProps {
-    id: number;
-    deadline: Date | string;
-    status: string;
-    title: string;
-    description: string;
-    author: string;
-    router?: NextRouter;
+    id: number,
+    deadline: Date | string,
+    status: string,
+    title: string,
+    description: string,
+    author: string,
+    router?: NextRouter,
 }
 
 export default function Todoom({
@@ -24,30 +24,30 @@ export default function Todoom({
     switch (status) {
         case TodoomStatus.NotStarted:
             statusElement = <p className="italic text-white"><span className="inline-block h-5 w-5 rounded-full bg-gray-300 mr-2"></span>Pas commencé</p>
-            break;
+            break
 
         case TodoomStatus.InProgress:
             statusElement = <p className="italic text-white"><span className="inline-block h-5 w-5 rounded-full bg-blue-300 mr-2"></span>En cours</p>
-            break;
+            break
 
         case TodoomStatus.Done:
             statusElement = <p className="italic text-white"><span className="inline-block h-5 w-5 rounded-full bg-green-500 mr-2"></span>Terminé</p>
-            break;
+            break
 
         default:
             statusElement = <p className="italic text-white"><span className="inline-block h-5 w-5 rounded-full bg-gray-500 mr-2"></span>Pas de Status</p>
-            break;
+            break
     }
 
-    if (!(deadline instanceof Date)) deadline = new Date(deadline);
+    if (!(deadline instanceof Date)) deadline = new Date(deadline)
 
-    if (!router) router = useRouter();
+    if (!router) router = useRouter()
 
-    let todayDate = new Date();
-    let late = null;
+    let todayDate = new Date()
+    let late = null
 
     if (deadline < todayDate && status !== TodoomStatus.Done)
-        late = <p className="mr-2 font-bold text-red-500">EN RETARD</p>;
+        late = <p className="mr-2 font-bold text-red-500">EN RETARD</p>
 
     return (
         <div
@@ -74,5 +74,5 @@ export default function Todoom({
                 <p className="ml-auto">Deadline :<i> {deadline.getDate()}/{deadline.getMonth() + 1}/{deadline.getFullYear()}</i></p>
             </div>
         </div>
-    );
+    )
 }

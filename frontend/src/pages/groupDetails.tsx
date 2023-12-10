@@ -13,8 +13,8 @@ export default function GroupDetails() {
     const router = useRouter()
     const user = storage.user.load() as userGetResponse
 
-    const [inputVisible, setInputVisible] = useState(false);
-    const [textInput, setTextInput] = useState('');
+    const [inputVisible, setInputVisible] = useState(false)
+    const [textInput, setTextInput] = useState('')
     const [todoomElements, setTodoomElements] = useState([])
     const [userElements, setUserElements] = useState([])
     const [groupName, setGroupName] = useState("Groupe inconnu")
@@ -84,11 +84,11 @@ export default function GroupDetails() {
     }, [])
 
     function toggleInput() {
-        setInputVisible(!inputVisible);
+        setInputVisible(!inputVisible)
 
         // If hiding the input, clear the text
         if (!inputVisible) {
-            setTextInput('');
+            setTextInput('')
         }
     }
 

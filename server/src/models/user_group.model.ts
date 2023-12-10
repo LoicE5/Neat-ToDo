@@ -16,7 +16,7 @@ User.belongsToMany(Group, { through: UserGroup, onDelete: 'cascade', foreignKey:
 Group.belongsToMany(User, { through: UserGroup, onDelete: 'cascade', foreignKey: 'GroupId' })
 
 Group.beforeDestroy(async (instance: Model<any, any>, options: InstanceDestroyOptions): Promise<void> => {
-    const groupId = instance.get().id;
+    const groupId = instance.get().id
 
     // Manually delete Todooms associated with the group
     await Todoom.destroy({
@@ -35,7 +35,7 @@ Group.beforeDestroy(async (instance: Model<any, any>, options: InstanceDestroyOp
 })
 
 UserGroup.afterDestroy(async (instance: Model<any, any>, options: InstanceDestroyOptions): Promise<void> => {
-    const groupId = instance.get().GroupId;
+    const groupId = instance.get().GroupId
 
     await Todoom.update(
         { group_id: null },
