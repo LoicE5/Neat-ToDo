@@ -15,7 +15,7 @@ body {
 .skew-style-container {
     transform: skewX(-30deg);
     transform-origin: top right;
-    width: 50%;
+    width: 35%;
 }
 
 .skew-style-text {
