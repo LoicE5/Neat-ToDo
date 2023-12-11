@@ -1,13 +1,14 @@
 import Header from "@/components/Header"
 import Group from "@/components/Group"
-import { userGetResponse, userGroupResponse } from "@/utils/interfaces"
+import { userGetResponse, userGroupGetResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { server } from '../../config.json'
 import Link from "next/link"
+import SkewTitle from "@/components/SkewTitle"
 
-export async function getGroups(user: userGetResponse): Promise<userGroupResponse[] | void> {
+export async function getGroups(user: userGetResponse): Promise<userGroupGetResponse[] | void> {
     const response = await fetch(`http://${server.host}:${server.port}/user/${user.id}/groups`, {
         method: "GET",
         headers: {
@@ -40,8 +41,8 @@ export default function Groups() {
 
         getGroups(user).then((groups: any) => {
 
-            const elements = groups.map((group: userGroupResponse) => (
-                <Group id={group.id} title={group.name} userCount={group.userCount} />
+            const elements = groups.map((group: userGroupGetResponse) => (
+                <Group id={group.id} title={group.name} userCount={group.userCount} user={user} />
             ))
 
             setGroupElements(elements)
@@ -51,25 +52,11 @@ export default function Groups() {
 
     const [groupElements, setGroupElements] = useState([])
 
-    const skewStyleContainer = {
-        transform: 'skewX(-30deg)',
-        transformOrigin: 'top right',
-        width: '50%',
-    }
-
-    const skewStyleText = {
-        transform: 'skewX(30deg)',
-    }
-
     return (
         <div>
             <Header />
 
-            <div style={skewStyleContainer}>
-                <div className="bg-gray-800 p-4" >
-                    <h1 className="font-bold text-lg ml-4 text-red-500 " style={skewStyleText}>Vos Groupes</h1>
-                </div>
-            </div>
+            <SkewTitle>Vos Groupes</SkewTitle>
             <br />
             <div style={{ zIndex: "1" }}>
 

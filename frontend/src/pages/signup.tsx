@@ -1,8 +1,9 @@
 import { FormEvent, useEffect, useState } from "react"
 import { server } from '../../config.json'
-import { useRouter } from 'next/router';
-import storage from "@/utils/storage";
-import { userLogin } from "./login";
+import { useRouter } from 'next/router'
+import storage from "@/utils/storage"
+import { userLogin } from "./login"
+import Link from "next/link"
 
 export default function signup() {
     const router = useRouter()
@@ -52,10 +53,10 @@ export default function signup() {
             backgroundSize: "cover",
             height: "100vh"
         }}>
-            <a href="#">
+            <Link href="/">
                 <img src="logoV1.png" alt="logo" style={{ position: "absolute", top: "0", right: "0", width: "100px", }} />
-            </a>
-
+            </Link>
+                
             <form onSubmit={handleFormSubmit}>
                 <div className="flex flex-col items-center mx-auto" style={{ paddingTop: "5vw" }}>
                     <div className="text-left" style={{ width: "35vw" }}>
