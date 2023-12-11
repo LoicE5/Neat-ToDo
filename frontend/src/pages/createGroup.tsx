@@ -4,20 +4,11 @@ import storage from "@/utils/storage"
 import { FormEvent, useState } from "react"
 import { server } from '../../config.json'
 import { useRouter } from "next/router"
+import SkewTitle from "@/components/SkewTitle"
 
 export default function CreateGroup() {
     const user = storage.user.load() as userGetResponse
     const router = useRouter()
-
-    const skewStyleContainer = {
-        transform: 'skewX(-30deg)',
-        transformOrigin: 'top right',
-        width: '50%',
-    };
-
-    const skewStyleText = {
-        transform: 'skewX(30deg)',
-    }
 
     const [groupName, setGroupName] = useState("")
     const [firstUserEmail, setFirstUserEmail] = useState(user.email)
@@ -45,17 +36,13 @@ export default function CreateGroup() {
         if (!response.ok)
             return alert(`We failed creating your group. Response code : ${response.status}. Error message : ${await response.text()}`)
 
-        router.push('/groups')
+        await router.push('/groups')
     }
 
     return (
         <div>
             <Header />
-            <div style={skewStyleContainer}>
-                <div className="bg-gray-800 p-4" >
-                    <h1 className="font-bold text-lg ml-4 text-red-500 " style={skewStyleText}>Créez votre nouveau groupe</h1>
-                </div>
-            </div>
+            <SkewTitle>Créez votre nouveau groupe</SkewTitle>
 
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col items-center" style={{ marginTop: "50px" }}>
@@ -78,7 +65,7 @@ export default function CreateGroup() {
                         name="email"
                         placeholder="jean.dupont@dauphine.eu"
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
-                        value={user.email}
+                        value={firstUserEmail}
                         onChange={event => setFirstUserEmail(event.target.value)}
                         required
                     />

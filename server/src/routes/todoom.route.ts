@@ -117,7 +117,8 @@ async function updateTodoById(req: Request,res: Response):Promise<void> {
             description,
             deadline,
             status,
-            assignee_id
+            assignee_id,
+            group_id
         }: todoUpdatePayload = req.body
 
         let updatePayload: todoUpdatePayload = {}
@@ -144,6 +145,11 @@ async function updateTodoById(req: Request,res: Response):Promise<void> {
 
         if (assignee_id)
             updatePayload.assignee_id = Number(assignee_id)
+
+        if (group_id)
+            updatePayload.group_id = Number(group_id)
+        else if (group_id === null)
+            updatePayload.group_id = null
 
         // If the payload we generate haven't been populated (wrong params, empty body, ...), we fail the req
         if (isObjectEmpty(updatePayload))
@@ -210,7 +216,25 @@ async function getAllTodoOfGroup(req: Request, res: Response): Promise<void> {
         return failRequest(res, 401, 'Unauthorized')
 
     const todos = await Todoom.findAll({
-        where: {group_id: id}
+        where: {
+            group_id: id
+        },
+        include: [
+            {
+                model: User,
+                as: 'assignee',
+                attributes: { exclude: ['password'] }
+            },
+            {
+                model: User,
+                as: 'author',
+                attributes: { exclude: ['password'] }
+            },
+            {
+                model: Group,
+                as: 'group'
+            }
+        ]
     })
 
     res.json(todos)

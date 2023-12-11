@@ -2,10 +2,11 @@ import Header from "@/components/Header"
 import Todoom from "@/components/Todoom"
 import { server } from '../../config.json'
 import storage from "@/utils/storage"
-import { TodoomResponse, userGetResponse } from "@/utils/interfaces"
+import { todoomGetResponse, userGetResponse } from "@/utils/interfaces"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { decodeSafeHtmlChars } from "@/utils/functions"
+import SkewTitle from "@/components/SkewTitle"
 
 export default function Workplace() {
 
@@ -36,40 +37,29 @@ export default function Workplace() {
         if (!response.ok)
             return alert(`We failed fetching your todoom. Response code : ${response.status}. Error message : ${await response.text()}`)
 
-        const responsePayload = await response.json() as TodoomResponse[]
+        const responsePayload = await response.json() as todoomGetResponse[]
 
-        const todoomElements = responsePayload.map((todoom: TodoomResponse) =>
-        (
-            <Todoom
-                title={todoom.title}
-                status={todoom.status}
-                description={decodeSafeHtmlChars(todoom.description as string) || ""}
-                author={todoom.author ? todoom.author.nickname : "Auteur supprimé"}
-                deadline={todoom.deadline || "Pas de deadline"}
-            />
-        ))
+        const todoomElements = responsePayload
+            .sort((a: todoomGetResponse, b: todoomGetResponse) => b.status.localeCompare(a.status))
+            .map((todoom: todoomGetResponse) => (
+                <Todoom
+                    key={todoom.id}
+                    id={todoom.id}
+                    title={todoom.title}
+                    status={todoom.status}
+                    description={decodeSafeHtmlChars(todoom.description as string) || ""}
+                    author={todoom.author ? todoom.author.nickname : "Auteur supprimé"}
+                    deadline={todoom.deadline || "Pas de deadline"}
+                />
+            ))
 
         setTodooms(todoomElements as any)
-    }
-
-    const skewStyleContainer = {
-        transform: 'skewX(-30deg)',
-        transformOrigin: 'top right',
-        width: '45%',
-    };
-
-    const skewStyleText = {
-        transform: 'skewX(30deg)',
     }
 
     return (
         <div>
             <Header />
-            <div style={skewStyleContainer}>
-                <div className="bg-gray-800 p-4" >
-                    <h1 className="font-bold text-lg ml-4 text-red-500 " style={skewStyleText}>Vos ToDoom Perso</h1>
-                </div>
-            </div>
+            <SkewTitle>Vos ToDoom Perso</SkewTitle>
             {todooms}
         </div>
     )
