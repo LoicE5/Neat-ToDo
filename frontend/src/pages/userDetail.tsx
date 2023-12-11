@@ -34,6 +34,7 @@ export default function UserDetail() {
 
 
     async function editUserOnSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
+        event.preventDefault()
 
         let payload: userEditPayload = {
             nickname: userNickname,
@@ -43,6 +44,7 @@ export default function UserDetail() {
         if (userPassword && userPassword !== "false") {
             payload.password = userPassword
         }
+        
         let url = `http://${server.host}:${server.port}/user/${user.id}`
 
         const response = await fetch(url, {
@@ -56,6 +58,8 @@ export default function UserDetail() {
 
         if (!response.ok)
             return alert(`We failed creating or editing your User. Response code : ${response.status}. Error message : ${await response.text()}`)
+
+        await router.push('/workplace')
     }
 
 
