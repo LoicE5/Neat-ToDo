@@ -44,8 +44,8 @@ export default function UserDetail() {
         if (userPassword && userPassword !== "false") {
             payload.password = userPassword
         }
-        
-        let url = `http://${server.host}:${server.port}/user/${user.id}`
+
+        const url = `http://${server.host}:${server.port}/user/${user.id}`
 
         const response = await fetch(url, {
             method: 'PUT',
