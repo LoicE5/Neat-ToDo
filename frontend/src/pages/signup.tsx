@@ -54,7 +54,7 @@ export default function signup() {
             height: "100vh"
         }}>
             <Link href="/">
-                <img src="logoV1.png" alt="logo" style={{ position: "absolute", top: "0", right: "0", width: "100px", }} />
+                <img src="neat_logo.png" alt="logo" style={{ position: "absolute", top: "0", right: "0", width: "100px", }} />
             </Link>
 
             <form onSubmit={handleFormSubmit}>
