@@ -49,14 +49,14 @@ export default function signup() {
 
     return (
         <div style={{
-            backgroundImage: `url("doom_eternal_blur.jpg")`,
+            backgroundImage: `url("golden_gate.webp")`,
             backgroundSize: "cover",
             height: "100vh"
         }}>
             <Link href="/">
                 <img src="logoV1.png" alt="logo" style={{ position: "absolute", top: "0", right: "0", width: "100px", }} />
             </Link>
-                
+
             <form onSubmit={handleFormSubmit}>
                 <div className="flex flex-col items-center mx-auto" style={{ paddingTop: "5vw" }}>
                     <div className="text-left" style={{ width: "35vw" }}>
