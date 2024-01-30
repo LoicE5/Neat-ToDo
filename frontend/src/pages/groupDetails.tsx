@@ -197,7 +197,7 @@ export default function GroupDetails() {
                 <aside className="bg-gray-300 rounded-md p-4 items-center ml-auto w-20vw mr-4 border border-gray-800"
                     style={{ height: "50vh" }}
                 >
-                    <h3 style={{ color: "red", fontWeight: "bold", textAlign: "center", marginBottom: "0.5em" }}>{groupName}</h3>
+                    <h3 className="text-gray-800" style={{ fontWeight: "bold", textAlign: "center", marginBottom: "0.5em" }}>{groupName}</h3>
                     <div className="flex space-x-4 justify-center">
                         <img
                             className="h-8 w-auto cursor-pointer"

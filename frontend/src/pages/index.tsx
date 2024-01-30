@@ -5,7 +5,7 @@ export default function Home(){
     
     <div
       style={{
-        backgroundImage: `url("doom_eternal_focus.jpg")`,
+        backgroundImage: `url("golden_gate.webp")`,
         backgroundSize: "cover",
         height: "100vh",
       }}

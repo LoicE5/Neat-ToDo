@@ -27,14 +27,14 @@ export default function Header() {
                     </button>
                 </div>
                 <div className="hidden lg:flex lg:gap-x-12">
-                    <Link href="/createTodoom" className="text-lg font-semibold leading-6 text-red-500 no-underline">Créer une ToDoom</Link>
-                    <Link href="/groups" className="text-lg font-semibold leading-6 text-red-500 no-underline">Vos groupes</Link>
-                    <Link href="/userDetail" className="text-lg font-semibold leading-6 text-red-500 no-underline">Paramètres</Link>
+                    <Link href="/createTodoom" className="text-lg font-semibold leading-6 text-white no-underline">Créer une ToDoom</Link>
+                    <Link href="/groups" className="text-lg font-semibold leading-6 text-white no-underline">Vos groupes</Link>
+                    <Link href="/userDetail" className="text-lg font-semibold leading-6 text-white no-underline">Paramètres</Link>
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                     <a
                         href="#"
-                        className="text-lg font-semibold leading-6 text-red-500 no-underline"
+                        className="text-lg font-semibold leading-6 text-white no-underline"
                         onClick={userLogout}
                     >
                         Log out

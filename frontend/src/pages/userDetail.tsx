@@ -102,39 +102,39 @@ export default function UserDetail() {
                         </div>
                     </div>
                     <div className="bg-gray-300 rounded-md p-4 items-center border border-gray-800 ml-5 shadow-2xl" style={{ width: "40%", height: "350px" }}>
-                        <h3 style={{ color: "red", fontWeight: "bold", textAlign: "center", marginBottom: 0 }}>Compte</h3>
+                        <h3 className="text-gray-800" style={{ fontWeight: "bold", textAlign: "center", marginBottom: 0 }}>Compte</h3>
                         <br />
                         <div className=" items-center mx-auto" style={{ paddingTop: "1vw" }}>
                             <div className="text-left" style={{ width: "35vw" }}>
-                                <label htmlFor="nickname" className="text-white block">Nickname</label>
+                                <label htmlFor="nickname" className="text-gray-800 block">Nickname</label>
                                 <input
                                     type="nickname"
                                     name="inputNickname"
                                     value={userNickname}
-                                    className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                                    className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4 italic"
                                     onChange={event => setUserNickname(event.target.value)}
                                 />
-                                <label htmlFor="email" className="text-white block">Email</label>
+                                <label htmlFor="email" className="text-gray-800 block">Email</label>
                                 <input
                                     type="email"
                                     name="inputEmail"
                                     value={userEmail}
-                                    className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                                    className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4 italic"
                                     onChange={event => setUserEmail(event.target.value)}
                                 />
-                                <label htmlFor="password" className="text-white block">Mot de passe</label>
+                                <label htmlFor="password" className="text-gray-800 block">Mot de passe</label>
                                 <input
                                     type="password"
                                     name="inputPassword"
                                     value={userPassword}
-                                    className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                                    className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4 italic"
                                     onChange={event => setUserPassword(event.target.value)}
                                 />
                             </div>
                         </div>
                     </div>
                     <div className="bg-gray-300 rounded-md p-4 items-center border border-gray-800 ml-5 shadow-2xl" style={{ width: "40%", height: "350px" }}>
-                        <h3 style={{ color: "red", fontWeight: "bold", textAlign: "center", marginBottom: 0 }}>Données Personnelles (en travaux)</h3>
+                        <h3 className="text-gray-800" style={{ fontWeight: "bold", textAlign: "center", marginBottom: 0 }}>Données Personnelles (en travaux)</h3>
                         <br />
                         <div className="flex items-center justify-center mx-auto" style={{ paddingTop: "1vw", width: "14vw", height: "80%" }}>
                             <img
