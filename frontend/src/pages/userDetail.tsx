@@ -101,7 +101,7 @@ export default function UserDetail() {
 
                         </div>
                     </div>
-                    <div className="bg-gray-300 rounded-md p-4 items-center border border-gray-800 ml-5 shadow-2xl" style={{ width: "40%", height: "350px" }}>
+                    <div className="bg-gray-300 rounded-md p-4 items-center border border-gray-800 ml-5 shadow-2xl" style={{ width: "90%", height: "350px", marginRight: '1.25rem' }}>
                         <h3 className="text-gray-800" style={{ fontWeight: "bold", textAlign: "center", marginBottom: 0 }}>Compte</h3>
                         <br />
                         <div className=" items-center mx-auto" style={{ paddingTop: "1vw" }}>
@@ -133,23 +133,8 @@ export default function UserDetail() {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-gray-300 rounded-md p-4 items-center border border-gray-800 ml-5 shadow-2xl" style={{ width: "40%", height: "350px" }}>
-                        <h3 className="text-gray-800" style={{ fontWeight: "bold", textAlign: "center", marginBottom: 0 }}>Données Personnelles (en travaux)</h3>
-                        <br />
-                        <div className="flex items-center justify-center mx-auto" style={{ paddingTop: "1vw", width: "14vw", height: "80%" }}>
-                            <img
-                                className="h-full w-full object-cover cursor-pointer"
-                                src="work.png"
-                                alt="coneIcon"
-                                draggable={false}
-                            />
-                        </div>
-                    </div>
-
                 </div>
             </form>
-
-
         </div>
     )
 
