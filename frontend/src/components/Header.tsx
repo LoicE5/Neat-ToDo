@@ -15,7 +15,7 @@ export default function Header() {
             <nav className="mx-auto flex max-w-7xl items-center justify-between p-2 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1" >
                     <Link href="/workplace" className="-m-1.5 p-1.5">
-                        <img className="h-8 w-auto" src="logoV1.png" alt="" style={{ display: "block", height: "80px" }} />
+                        <img className="h-8 w-auto" src="neat_logo.png" alt="" style={{ display: "block", height: "80px" }} />
                     </Link>
                 </div>
                 <div className="flex lg:hidden">

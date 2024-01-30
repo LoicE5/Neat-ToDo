@@ -67,7 +67,7 @@ export default function login() {
             }}
         >
             <Link href="/">
-                <img src="logoV1.png" alt="logo" style={{ width: "200px" }} />
+                <img src="neat_logo.png" alt="logo" style={{ width: "200px" }} />
             </Link>
 
 
