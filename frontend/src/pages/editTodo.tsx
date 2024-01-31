@@ -4,7 +4,7 @@ import storage from "@/utils/storage"
 import { todoGetResponse, userGetResponse } from "@/utils/interfaces"
 import TodoForm from "@/components/TodoForm"
 import { useEffect, useState } from "react"
-import { server } from '../../config.json'
+import { server } from '../../config'
 
 export default function createTodo() {
 

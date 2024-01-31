@@ -3,7 +3,7 @@ import Todo from "@/components/Todo"
 import { groupGetResponse, todoGetResponse, userGetResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import React, { useEffect, useState } from 'react'
-import { server } from '../../config.json'
+import { server } from '../../config'
 import { useRouter } from "next/router"
 import { removeUserFromGroup } from "@/components/Group"
 import SkewTitle from "@/components/SkewTitle"

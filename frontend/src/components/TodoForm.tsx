@@ -4,7 +4,7 @@ import { getGroups } from "@/pages/groups"
 import { NextRouter, useRouter } from "next/router"
 import storage from "@/utils/storage"
 import { userGetResponse, userGroupGetResponse } from "@/utils/interfaces"
-import { server } from '../../config.json'
+import { server } from '../../config'
 import { decodeSafeHtmlChars } from "@/utils/functions"
 import SkewTitle from "./SkewTitle"
 

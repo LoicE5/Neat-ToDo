@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { server } from '../../config.json'
+import { server } from '../../config'
 import storage from "@/utils/storage"
 import { userGetResponse } from "@/utils/interfaces"
 import { NextRouter, useRouter } from "next/router"

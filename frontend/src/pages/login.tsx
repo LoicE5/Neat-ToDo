@@ -1,7 +1,7 @@
 import { FormEvent, useState, useEffect } from "react"
 import { NextRouter, useRouter } from 'next/router'
 import storage from "@/utils/storage"
-import { server } from '../../config.json'
+import { server } from '../../config'
 import { loginResponse } from "@/utils/interfaces"
 import Link from "next/link"
 

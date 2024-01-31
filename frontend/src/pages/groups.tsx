@@ -4,7 +4,7 @@ import { userGetResponse, userGroupGetResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { server } from '../../config.json'
+import { server } from '../../config'
 import Link from "next/link"
 import SkewTitle from "@/components/SkewTitle"
 
