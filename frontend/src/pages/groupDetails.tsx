@@ -47,7 +47,7 @@ export default function GroupDetails() {
         getGroupTodosById(groupIdInteger).then((todos: any) => {
 
             if (todos.length <= 0) {
-                setTodoElements([(<h2 key={0}>Il n'y a aucune Todo dans ce groupe</h2>)] as any)
+                setTodoElements([(<h2 key={0}>There is no ToDo in this group</h2>)] as any)
                 getGroupNameById(groupIdInteger).then(name => setGroupName(name as string))
                 return
             }
@@ -222,7 +222,7 @@ export default function GroupDetails() {
                         />
                     </div>
 
-                    {/* Div cachée qui s'active quand on clique sur l'icone Ajouter une personne dans le groupe */}
+                    {/* When we add someone, this div gets visible */}
                     {inputVisible && (
                         <div className="mt-4 flex items-center justify-center">
                             <input
@@ -230,7 +230,7 @@ export default function GroupDetails() {
                                 className="border rounded px-2 py-1"
                                 style={{ width: "20vw" }}
                                 type="email"
-                                placeholder="valentin@dauphine.eu"
+                                placeholder="someone@dauphine.eu"
                                 value={textInput}
                                 onChange={(e) => setTextInput(e.target.value)}
                                 onKeyDown={handleKeyDown}

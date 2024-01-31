@@ -65,37 +65,37 @@ export default function signup() {
                         <input
                             type="email"
                             name="email"
-                            placeholder="Votre email"
+                            placeholder="someone@dauphine.eu"
                             className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             required
                             onChange={event => setEmail(event.target.value)}
                         />
 
-                        <label htmlFor="nickname" className="text-white block">Pseudo</label>
+                        <label htmlFor="nickname" className="text-white block">Nickname</label>
                         <input
                             type="text"
                             name="nickname"
-                            placeholder="Votre pseudo"
+                            placeholder="someone"
                             className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             required
                             onChange={event => setNickname(event.target.value)}
                         />
 
-                        <label htmlFor="password" className="text-white block">Mot de passe</label>
+                        <label htmlFor="password" className="text-white block">Password</label>
                         <input
                             type="password"
                             name="password"
-                            placeholder="Votre mot de passe"
+                            placeholder="Your password"
                             className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             required
                             onChange={event => setPassword(event.target.value)}
                         />
 
-                        <label htmlFor="password-confirm" className="text-white block">Confirmez votre mot de passe</label>
+                        <label htmlFor="password-confirm" className="text-white block">Confirm password</label>
                         <input
                             type="password"
                             name="password-confirm"
-                            placeholder="Confirmez votre mot de passe"
+                            placeholder="Your password (one more time)"
                             className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             required
                             onChange={event => setPasswordConfirm(event.target.value)}
@@ -108,7 +108,7 @@ export default function signup() {
                         type="submit"
                         className="bg-gray-400 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
                     >
-                        Se connecter
+                        Signup
                     </button>
                 </div>
             </form>

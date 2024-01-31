@@ -27,9 +27,9 @@ export default function Header() {
                     </button>
                 </div>
                 <div className="hidden lg:flex lg:gap-x-12">
-                    <Link href="/createTodo" className="text-lg font-semibold leading-6 text-white no-underline">Créer une ToDo</Link>
-                    <Link href="/groups" className="text-lg font-semibold leading-6 text-white no-underline">Vos groupes</Link>
-                    <Link href="/userDetail" className="text-lg font-semibold leading-6 text-white no-underline">Paramètres</Link>
+                    <Link href="/createTodo" className="text-lg font-semibold leading-6 text-white no-underline">Create ToDo</Link>
+                    <Link href="/groups" className="text-lg font-semibold leading-6 text-white no-underline">Groups</Link>
+                    <Link href="/userDetail" className="text-lg font-semibold leading-6 text-white no-underline">Settings</Link>
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                     <a

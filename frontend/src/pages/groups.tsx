@@ -56,15 +56,14 @@ export default function Groups() {
         <div>
             <Header />
 
-            <SkewTitle>Vos Groupes</SkewTitle>
+            <SkewTitle>Your Groups</SkewTitle>
             <br />
             <div style={{ zIndex: "1" }}>
 
 
-                {groupElements.length > 0 ? groupElements : (<h2 style={{ textAlign: "center" }}>Vous n'êtes dans aucun groupe.</h2>)}
+                {groupElements.length > 0 ? groupElements : (<h2 style={{ textAlign: "center" }}>You don't belong to a group yet.</h2>)}
 
-                {/* Div ci dessous permet de compenser la place pris par le footer,
-                Pour pas que le dernier groupe de la liste se retrouve caché derrière */}
+                {/* Compensate the footer's space for aesthetics */}
                 <div style={{ height: "10vh" }}></div>
             </div>
 
@@ -82,10 +81,9 @@ export default function Groups() {
                         left: "50%",
                         transform: "translateX(-50%)",
                     }}>
-                    Créer un groupe
+                    Create group
                 </button>
             </Link>
-
         </div>
     )
 

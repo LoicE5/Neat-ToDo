@@ -42,11 +42,11 @@ export default function CreateGroup() {
     return (
         <div>
             <Header />
-            <SkewTitle>Créez votre nouveau groupe</SkewTitle>
+            <SkewTitle>Create a new group</SkewTitle>
 
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col items-center" style={{ marginTop: "50px" }}>
-                    <label>Nom de votre groupe</label>
+                    <label>The group's name</label>
                     <input
                         type="text"
                         name="inputNewGroupName"
@@ -59,7 +59,7 @@ export default function CreateGroup() {
 
 
                 <div className="flex flex-col items-center" style={{ marginTop: "25px" }}>
-                    <label htmlFor="email">Premier membre du groupe</label>
+                    <label htmlFor="email">First group member</label>
                     <input
                         type="email"
                         name="email"
@@ -81,7 +81,7 @@ export default function CreateGroup() {
                         left: "50%",
                         transform: "translateX(-50%)",
                     }}>
-                    Créer le groupe
+                    Create group
                 </button>
 
             </form>

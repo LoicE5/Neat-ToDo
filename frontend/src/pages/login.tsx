@@ -79,16 +79,16 @@ export default function login() {
                         <input
                             type="email"
                             name="inputEmail"
-                            placeholder="Votre email"
+                            placeholder="someone@dauphine.eu"
                             className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             onChange={event => setEmail(event.target.value)}
                         />
 
-                        <label htmlFor="password" className="text-white block">Mot de passe</label>
+                        <label htmlFor="password" className="text-white block">Password</label>
                         <input
                             type="password"
                             name="password"
-                            placeholder="Votre mot de passe"
+                            placeholder="Your password"
                             className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             onChange={event => setPassword(event.target.value)}
                         />
@@ -101,7 +101,7 @@ export default function login() {
                         type="submit"
                         className="bg-gray-400 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
                     >
-                        Se connecter
+                        Login
                     </button>
                 </div>
             </form>

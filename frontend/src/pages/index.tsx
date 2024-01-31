@@ -39,7 +39,7 @@ export default function Home() {
                 </Link>
                 <br />
                 <Link href="/signup" style={{ marginTop: "2em" }}>
-                    Pas encore de compte ?
+                    No account yet ?
                 </Link>
             </div>
         </div>

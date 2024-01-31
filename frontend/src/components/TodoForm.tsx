@@ -23,11 +23,6 @@ interface TodoFormProps {
 
 export default function TodoForm({ todoId, title, description, deadline, groupId, assigneeId, status, user, router, context }: TodoFormProps) {
 
-    // Style
-
-    // Component logic
-
-    // Props check and definition
     if (!router)
         router = useRouter()
 
@@ -64,7 +59,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
 
             const groupOptions: any = [
 
-                (<option key={0} value={0}>🏡 ToDo Perso</option>),
+                (<option key={0} value={0}>🏡 Personal ToDo</option>),
 
                 ...groups.map((group: userGroupGetResponse) => (
                     <option key={group.id} value={group.id}>{group.name}</option>
@@ -142,22 +137,21 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
             return alert(`We failed creating or editing your ToDo. Response code : ${response.status}. Error message : ${await response.text()}`)
 
         if (selectedGroupId > 0)
-            // TODO If the group_id is set, redirect to the page of this group instead of workplace (GET param)
-            router!.push('/workplace')
+            router!.push(`/groupDetails?group_id=${selectedGroupId}`)
         else
             router!.push('/workplace')
     }
 
     return (
         <div>
-            <SkewTitle>{context === 'create' ? 'Créez une nouvelle ToDo' : 'Modifiez une ToDo'}</SkewTitle>
+            <SkewTitle>{context === 'create' ? 'Create a new ToDo' : 'Edit the ToDo'}</SkewTitle>
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col items-center" style={{ marginTop: "50px" }}>
-                    <label>Le titre de votre ToDo</label>
+                    <label>Your ToDo's title</label>
                     <input
                         type="text"
                         name="inptNewTDTitle"
-                        placeholder="Faire virement Paypal à Alexandre"
+                        placeholder="Wire money to Alexandre"
                         className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         required
                         value={decodeSafeHtmlChars(todoTitle)}
@@ -167,11 +161,11 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
 
 
                 <div className="flex flex-col items-center" style={{ marginTop: "25px" }}>
-                    <label>Ajouter une description ?</label>
+                    <label>The description</label>
                     <input
                         type="text"
                         name="inptNewTDDescription"
-                        placeholder="Pour le café d'avant-hier"
+                        placeholder="For yesterday's coffee"
                         className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         value={decodeSafeHtmlChars(todoDescription)}
                         onChange={event => setTodoDescription(event.target.value)}
@@ -179,7 +173,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
                 </div>
 
                 <div className="flex flex-col items-center" style={{ marginTop: "25px" }}>
-                    <label>La deadline de cette ToDo</label>
+                    <label>ToDo's deadline</label>
                     <input
                         type="date"
                         name="inptNewTDDeadline"
@@ -192,7 +186,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
                 </div>
 
                 <div className="flex flex-col items-center" style={{ marginTop: "25px" }}>
-                    <label>Dans quel groupe souhaitez-vous {context === 'create' ? 'créer' : 'modifier'} cette ToDo ?</label>
+                    <label>In which group would you like to {context === 'create' ? 'create' : 'edit'} this ToDo ?</label>
                     <select
                         name="groupTD"
                         className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
@@ -207,7 +201,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
                     marginTop: "25px",
                     display: selectedGroupId <= 0 ? 'none' : 'flex'
                 }}>
-                    <label>À quel membre du groupe souhaitez-vous assigner cette ToDo ?</label>
+                    <label>Which group member do you want to assign this ToDo to?</label>
                     <select
                         name="groupTD"
                         className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
@@ -220,23 +214,23 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
                 </div>
 
                 <div className="flex flex-col items-center" style={{ marginTop: "25px" }}>
-                    <label>Le statut de la ToDo</label>
+                    <label>The ToDo's status</label>
                     <select
                         name="statusTD"
                         className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         value={todoFirstStatus}
                         onChange={event => setTodoFirstStatus(event.target.value as TodoStatus)}
                     >
-                        <option value={TodoStatus.NotStarted}>Pas commencé</option>
-                        <option value={TodoStatus.InProgress}>En cours</option>
-                        <option value={TodoStatus.Done}>Terminé</option>
+                        <option value={TodoStatus.NotStarted}>Not started</option>
+                        <option value={TodoStatus.InProgress}>In progress</option>
+                        <option value={TodoStatus.Done}>Done</option>
                     </select>
                 </div>
 
                 <button type="submit"
                     className="bg-gray-400 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
                     style={{ display: "block", margin: "auto", marginTop: "1em", marginBottom: "2em" }}>
-                    {context === 'create' ? 'Créer la ToDo' : 'Modifier la ToDo'}
+                    {context === 'create' ? 'Create ToDo' : 'Edit ToDo'}
                 </button>
 
             </form>
