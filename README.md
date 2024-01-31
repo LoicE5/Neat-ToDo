@@ -1,3 +1,12 @@
+# About this project
+
+This project is a simple to-do application. It allows you to add a to-do, create groups to manage your to-dos with your friends, and manage your account.
+It was developed by [Loïc](https://github.com/LoicE5), [Maxime](https://github.com/Mbourdon95) & [Valentin](https://github.com/ValReault) as part of a student project (awarded the highest grade).
+
+## Stack
+
+
+
 # How to run the project
 
 ## Create a .env file for the server (only once)
