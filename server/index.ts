@@ -29,6 +29,6 @@ app.all('/', (req:Request,res:Response):void=>failRequest(res,418,`You cannot po
 
 app.listen(port, ():void => console.info(`The server is listening to the port ${port}`))
 
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: true }).then(() => {
     console.info('The database have been synced')
 })
