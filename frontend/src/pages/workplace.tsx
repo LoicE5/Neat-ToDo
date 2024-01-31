@@ -48,8 +48,8 @@ export default function Workplace() {
                     title={todo.title}
                     status={todo.status}
                     description={decodeSafeHtmlChars(todo.description as string) || ""}
-                    author={todo.author ? todo.author.nickname : "Auteur supprimé"}
-                    deadline={todo.deadline || "Pas de deadline"}
+                    author={todo.author ? todo.author.nickname : "Author removed"}
+                    deadline={todo.deadline || "No deadline"}
                 />
             ))
 
@@ -59,7 +59,7 @@ export default function Workplace() {
     return (
         <div>
             <Header />
-            <SkewTitle>Vos ToDo Perso</SkewTitle>
+            <SkewTitle>Your personal ToDos</SkewTitle>
             {todos}
         </div>
     )
