@@ -2,7 +2,7 @@ import Header from "@/components/Header"
 import { userGetResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import { FormEvent, useState } from "react"
-import { server } from '../../config.json'
+import { server } from '../../config'
 import { useRouter } from "next/router"
 import SkewTitle from "@/components/SkewTitle"
 

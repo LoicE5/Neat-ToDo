@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react"
-import { server } from '../../config.json'
+import { server } from '../../config'
 import { useRouter } from 'next/router'
 import storage from "@/utils/storage"
 import { userLogin } from "./login"

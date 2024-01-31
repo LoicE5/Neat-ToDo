@@ -1,6 +1,6 @@
 import Header from "@/components/Header"
 import Todo from "@/components/Todo"
-import { server } from '../../config.json'
+import { server } from '../../config'
 import storage from "@/utils/storage"
 import { todoGetResponse, userGetResponse } from "@/utils/interfaces"
 import { useEffect, useState } from "react"
