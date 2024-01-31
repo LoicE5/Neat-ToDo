@@ -158,7 +158,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
                         type="text"
                         name="inptNewTDTitle"
                         placeholder="Faire virement Paypal à Alexandre"
-                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         required
                         value={decodeSafeHtmlChars(todoTitle)}
                         onChange={event => setTodoTitle(event.target.value)}
@@ -172,7 +172,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
                         type="text"
                         name="inptNewTDDescription"
                         placeholder="Pour le café d'avant-hier"
-                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         value={decodeSafeHtmlChars(todoDescription)}
                         onChange={event => setTodoDescription(event.target.value)}
                     />
@@ -185,7 +185,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
                         name="inptNewTDDeadline"
                         min="2023-01-01"
                         max="2050-12-31"
-                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         value={todoDeadline}
                         onChange={event => setTodoDeadline(event.target.value)}
                     />
@@ -195,7 +195,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
                     <label>Dans quel groupe souhaitez-vous {context === 'create' ? 'créer' : 'modifier'} cette ToDo ?</label>
                     <select
                         name="groupTD"
-                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         value={selectedGroupId}
                         onChange={event => setselectedGroupId(Number(event.target.value))}
                     >
@@ -210,7 +210,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
                     <label>À quel membre du groupe souhaitez-vous assigner cette ToDo ?</label>
                     <select
                         name="groupTD"
-                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         disabled={selectedGroupId <= 0}
                         value={todoAssigneeId}
                         onChange={event => setTodoAssigneeId(Number(event.target.value))}
@@ -223,7 +223,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
                     <label>Le statut de la ToDo</label>
                     <select
                         name="statusTD"
-                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         value={todoFirstStatus}
                         onChange={event => setTodoFirstStatus(event.target.value as TodoStatus)}
                     >
@@ -234,7 +234,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
                 </div>
 
                 <button type="submit"
-                    className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
+                    className="bg-gray-400 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
                     style={{ display: "block", margin: "auto", marginTop: "1em", marginBottom: "2em" }}>
                     {context === 'create' ? 'Créer la ToDo' : 'Modifier la ToDo'}
                 </button>

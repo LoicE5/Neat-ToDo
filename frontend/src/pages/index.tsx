@@ -29,7 +29,7 @@ export default function Home() {
                 <Link href="/login">
                     <button
                         type="submit"
-                        className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
+                        className="bg-gray-400 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
                         style={{
                             marginTop: "2em",
                         }}
