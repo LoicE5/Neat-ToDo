@@ -51,7 +51,7 @@ export default function CreateGroup() {
                         type="text"
                         name="inputNewGroupName"
                         placeholder="Projet Todo, Département IT..."
-                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         onChange={event => setGroupName(event.target.value)}
                         required
                     />
@@ -64,7 +64,7 @@ export default function CreateGroup() {
                         type="email"
                         name="email"
                         placeholder="jean.dupont@dauphine.eu"
-                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         value={firstUserEmail}
                         onChange={event => setFirstUserEmail(event.target.value)}
                         required
@@ -72,7 +72,7 @@ export default function CreateGroup() {
                 </div>
 
                 <button type="submit"
-                    className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
+                    className="bg-gray-400 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
                     style={{
                         position: "fixed",
                         zIndex: "2",

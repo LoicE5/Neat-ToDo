@@ -23,7 +23,7 @@ export default function Todo({
     let statusElement = <p>ERREUR : Pas de status</p>
     switch (status) {
         case TodoStatus.NotStarted:
-            statusElement = <p className="italic text-white"><span className="inline-block h-5 w-5 rounded-full bg-gray-300 mr-2"></span>Pas commencé</p>
+            statusElement = <p className="italic text-white"><span className="inline-block h-5 w-5 rounded-full bg-gray-400 mr-2"></span>Pas commencé</p>
             break
 
         case TodoStatus.InProgress:

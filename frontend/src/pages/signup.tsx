@@ -66,7 +66,7 @@ export default function signup() {
                             type="email"
                             name="email"
                             placeholder="Votre email"
-                            className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                            className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             required
                             onChange={event => setEmail(event.target.value)}
                         />
@@ -76,7 +76,7 @@ export default function signup() {
                             type="text"
                             name="nickname"
                             placeholder="Votre pseudo"
-                            className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                            className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             required
                             onChange={event => setNickname(event.target.value)}
                         />
@@ -86,7 +86,7 @@ export default function signup() {
                             type="password"
                             name="password"
                             placeholder="Votre mot de passe"
-                            className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                            className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             required
                             onChange={event => setPassword(event.target.value)}
                         />
@@ -96,7 +96,7 @@ export default function signup() {
                             type="password"
                             name="password-confirm"
                             placeholder="Confirmez votre mot de passe"
-                            className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                            className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             required
                             onChange={event => setPasswordConfirm(event.target.value)}
                         />
@@ -106,7 +106,7 @@ export default function signup() {
                 <div className="fixed bottom-0 w-full text-center mb-16" style={{ textAlign: "center" }}>
                     <button
                         type="submit"
-                        className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
+                        className="bg-gray-400 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
                     >
                         Se connecter
                     </button>

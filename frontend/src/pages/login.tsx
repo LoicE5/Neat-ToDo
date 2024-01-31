@@ -80,7 +80,7 @@ export default function login() {
                             type="email"
                             name="inputEmail"
                             placeholder="Votre email"
-                            className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                            className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             onChange={event => setEmail(event.target.value)}
                         />
 
@@ -89,7 +89,7 @@ export default function login() {
                             type="password"
                             name="password"
                             placeholder="Votre mot de passe"
-                            className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                            className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             onChange={event => setPassword(event.target.value)}
                         />
                     </div>
@@ -99,7 +99,7 @@ export default function login() {
                 <div className="bottom-0 w-full text-center mb-16" style={{ textAlign: "center" }}>
                     <button
                         type="submit"
-                        className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
+                        className="bg-gray-400 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
                     >
                         Se connecter
                     </button>
