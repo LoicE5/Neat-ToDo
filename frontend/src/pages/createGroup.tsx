@@ -50,7 +50,7 @@ export default function CreateGroup() {
                     <input
                         type="text"
                         name="inputNewGroupName"
-                        placeholder="Projet Todoom, Département IT..."
+                        placeholder="Projet Todo, Département IT..."
                         className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         onChange={event => setGroupName(event.target.value)}
                         required

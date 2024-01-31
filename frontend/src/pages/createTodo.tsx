@@ -1,11 +1,11 @@
 import Header from "@/components/Header"
-import { TodoomStatus } from "@/utils/enums"
+import { TodoStatus } from "@/utils/enums"
 import { useRouter } from "next/router"
 import storage from "@/utils/storage"
 import { userGetResponse } from "@/utils/interfaces"
-import TodoomForm from "@/components/TodoomForm"
+import TodoForm from "@/components/TodoForm"
 
-export default function createTodoom() {
+export default function createTodo() {
 
     const user = storage.user.load()
     const router = useRouter()
@@ -14,14 +14,14 @@ export default function createTodoom() {
     return (
         <>
             <Header />
-            <TodoomForm
-                todoomId={undefined}
+            <TodoForm
+                todoId={undefined}
                 title={undefined}
                 description={undefined}
                 deadline={defaultDeadline}
                 groupId={undefined}
                 assigneeId={undefined}
-                status={TodoomStatus.NotStarted}
+                status={TodoStatus.NotStarted}
                 user={user as userGetResponse}
                 router={router}
                 context="create"

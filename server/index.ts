@@ -7,7 +7,7 @@ import sequelize from "./db"
 import routerAuth from "./src/routes/auth.route"
 import routerUser from "./src/routes/user.route"
 import jwtStrategy from "./src/utils/jwt_strategy"
-import routerToDoom from "./src/routes/todoom.route"
+import routerToDo from "./src/routes/todo.route"
 import routerGroup from "./src/routes/group.route"
 import { failRequest } from "./src/utils/functions"
 
@@ -22,7 +22,7 @@ app.use(cors({origin: 'http://localhost:3000'}))
 
 app.use('/auth', routerAuth)
 app.use('/user', passport.authenticate('jwt', { session: false }) , routerUser)
-app.use('/todoom', passport.authenticate('jwt', { session: false }), routerToDoom)
+app.use('/todo', passport.authenticate('jwt', { session: false }), routerToDo)
 app.use('/group', passport.authenticate('jwt', { session: false }), routerGroup)
 
 app.all('/', (req:Request,res:Response):void=>failRequest(res,418,`You cannot pour coffee here, please use tea instead.`))
