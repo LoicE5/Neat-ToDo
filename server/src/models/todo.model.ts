@@ -1,7 +1,12 @@
 import sequelize from "../../db"
-import { DataTypes } from "sequelize"
+import {
+    DataTypes, InstanceDestroyOptions, Model
+} from "sequelize"
+import TodoHistory from "./todo_history.model"
+import User from "./user.model"
+import Group from "./group.model"
 
-const TodoomHistory = sequelize.define('TodoomHistory', {
+const Todo = sequelize.define('Todo', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -56,9 +61,17 @@ const TodoomHistory = sequelize.define('TodoomHistory', {
             isAlphanumeric: true
         }
     },
-  }, {
-    tableName: 'todoom_history',
+}, {
+    tableName: 'todo',
     timestamps: true,
-  })  
+})
 
-export default TodoomHistory
+Todo.belongsTo(User, { as: 'author', foreignKey: 'author_id' })
+Todo.belongsTo(User, { as: 'assignee', foreignKey: 'assignee_id' })
+Todo.belongsTo(Group, { as: 'group', foreignKey: 'group_id' })
+
+Todo.afterDestroy(async (instance:Model<any,any>, options:InstanceDestroyOptions):Promise<void> => {
+    await TodoHistory.create(instance.get(), { transaction: options.transaction }) as any
+})
+
+export default Todo

@@ -1,6 +1,6 @@
 import Header from "@/components/Header"
-import Todoom from "@/components/Todoom"
-import { groupGetResponse, todoomGetResponse, userGetResponse } from "@/utils/interfaces"
+import Todo from "@/components/Todo"
+import { groupGetResponse, todoGetResponse, userGetResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import React, { useEffect, useState } from 'react'
 import { server } from '../../config.json'
@@ -15,7 +15,7 @@ export default function GroupDetails() {
 
     const [inputVisible, setInputVisible] = useState(false)
     const [textInput, setTextInput] = useState('')
-    const [todoomElements, setTodoomElements] = useState([])
+    const [todoElements, setTodoElements] = useState([])
     const [userElements, setUserElements] = useState([])
     const [groupName, setGroupName] = useState("Groupe inconnu")
     const [groupId, setGroupId] = useState(0)
@@ -44,27 +44,27 @@ export default function GroupDetails() {
             }
         }
 
-        getGroupTodoomsById(groupIdInteger).then((todooms: any) => {
+        getGroupTodosById(groupIdInteger).then((todos: any) => {
 
-            if (todooms.length <= 0) {
-                setTodoomElements([(<h2 key={0}>Il n'y a aucune Todoom dans ce groupe</h2>)] as any)
+            if (todos.length <= 0) {
+                setTodoElements([(<h2 key={0}>Il n'y a aucune Todo dans ce groupe</h2>)] as any)
                 getGroupNameById(groupIdInteger).then(name => setGroupName(name as string))
                 return
             }
 
-            // If we can, we avoid another API call by setting the group name from the todoom list
-            setGroupName((todooms as todoomGetResponse[])[0].group!.name)
+            // If we can, we avoid another API call by setting the group name from the todo list
+            setGroupName((todos as todoGetResponse[])[0].group!.name)
 
-            setTodoomElements(
-                todooms.map((todoom: todoomGetResponse) => (
-                    <Todoom
-                        key={todoom.id}
-                        id={todoom.id}
-                        deadline={todoom.deadline as string}
-                        status={todoom.status}
-                        title={todoom.title}
-                        description={todoom.description as string}
-                        author={todoom.author!.nickname}
+            setTodoElements(
+                todos.map((todo: todoGetResponse) => (
+                    <Todo
+                        key={todo.id}
+                        id={todo.id}
+                        deadline={todo.deadline as string}
+                        status={todo.status}
+                        title={todo.title}
+                        description={todo.description as string}
+                        author={todo.author!.nickname}
                         router={router}
                     />
                 ))
@@ -97,8 +97,8 @@ export default function GroupDetails() {
             addUserToGroupByEmail((event as React.ChangeEvent<HTMLInputElement>).target.value, groupId)
     }
 
-    async function getGroupTodoomsById(groupId: number): Promise<todoomGetResponse[] | void> {
-        const response = await fetch(`http://${server.host}:${server.port}/todoom/group/${groupId}`, {
+    async function getGroupTodosById(groupId: number): Promise<todoGetResponse[] | void> {
+        const response = await fetch(`http://${server.host}:${server.port}/todo/group/${groupId}`, {
             method: 'GET',
             headers: {
                 'Authorization': storage.jwt.load(),
@@ -107,11 +107,11 @@ export default function GroupDetails() {
         })
 
         if (!response.ok) {
-            console.error(`We failed getting the todooms of your group. Response code : ${response.status}. Error message : ${await response.text()}`)
+            console.error(`We failed getting the todos of your group. Response code : ${response.status}. Error message : ${await response.text()}`)
             return await router.push('/groups') as any
         }
 
-        const responsePayload = await response.json() as todoomGetResponse[]
+        const responsePayload = await response.json() as todoGetResponse[]
 
         return responsePayload
     }
@@ -190,7 +190,7 @@ export default function GroupDetails() {
             <div className="flex">
 
                 <div className="flex-grow">
-                    {todoomElements}
+                    {todoElements}
                 </div>
 
 

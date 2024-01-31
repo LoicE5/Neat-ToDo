@@ -1,8 +1,8 @@
 import Header from "@/components/Header"
-import Todoom from "@/components/Todoom"
+import Todo from "@/components/Todo"
 import { server } from '../../config.json'
 import storage from "@/utils/storage"
-import { todoomGetResponse, userGetResponse } from "@/utils/interfaces"
+import { todoGetResponse, userGetResponse } from "@/utils/interfaces"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { decodeSafeHtmlChars } from "@/utils/functions"
@@ -23,10 +23,10 @@ export default function Workplace() {
     }, [])
 
     const user = storage.user.load() as userGetResponse
-    const [todooms, setTodooms] = useState([])
+    const [todos, setTodos] = useState([])
 
     async function getAssigneeTodos(): Promise<void> {
-        const response = await fetch(`http://${server.host}:${server.port}/todoom/assignee/${user.id}`, {
+        const response = await fetch(`http://${server.host}:${server.port}/todo/assignee/${user.id}`, {
             method: 'GET',
             headers: {
                 'Authorization': storage.jwt.load(),
@@ -35,32 +35,32 @@ export default function Workplace() {
         })
 
         if (!response.ok)
-            return alert(`We failed fetching your todoom. Response code : ${response.status}. Error message : ${await response.text()}`)
+            return alert(`We failed fetching your todo. Response code : ${response.status}. Error message : ${await response.text()}`)
 
-        const responsePayload = await response.json() as todoomGetResponse[]
+        const responsePayload = await response.json() as todoGetResponse[]
 
-        const todoomElements = responsePayload
-            .sort((a: todoomGetResponse, b: todoomGetResponse) => b.status.localeCompare(a.status))
-            .map((todoom: todoomGetResponse) => (
-                <Todoom
-                    key={todoom.id}
-                    id={todoom.id}
-                    title={todoom.title}
-                    status={todoom.status}
-                    description={decodeSafeHtmlChars(todoom.description as string) || ""}
-                    author={todoom.author ? todoom.author.nickname : "Auteur supprimé"}
-                    deadline={todoom.deadline || "Pas de deadline"}
+        const todoElements = responsePayload
+            .sort((a: todoGetResponse, b: todoGetResponse) => b.status.localeCompare(a.status))
+            .map((todo: todoGetResponse) => (
+                <Todo
+                    key={todo.id}
+                    id={todo.id}
+                    title={todo.title}
+                    status={todo.status}
+                    description={decodeSafeHtmlChars(todo.description as string) || ""}
+                    author={todo.author ? todo.author.nickname : "Auteur supprimé"}
+                    deadline={todo.deadline || "Pas de deadline"}
                 />
             ))
 
-        setTodooms(todoomElements as any)
+        setTodos(todoElements as any)
     }
 
     return (
         <div>
             <Header />
-            <SkewTitle>Vos ToDoom Perso</SkewTitle>
-            {todooms}
+            <SkewTitle>Vos ToDo Perso</SkewTitle>
+            {todos}
         </div>
     )
 
