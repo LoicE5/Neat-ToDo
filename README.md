@@ -23,6 +23,9 @@ It was developed by [Loïc](https://github.com/LoicE5), [Maxime](https://github.
 `cd server && cp .env.example .env`
 
 For this exercise purpose, you don't need to edit the .env config (you may if you desire to). It works from scratch with the example. Indeed, in a business context, we don't do that.
+Then set a JWT_SECRET as well as your credentials for your MySQL DB.
+
+Note : Use `127.0.0.1` instead of `localhost` (if applicable), some bugs may occur.
 
 ## Run
 
