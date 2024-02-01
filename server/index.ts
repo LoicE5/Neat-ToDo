@@ -20,7 +20,7 @@ app.use(express.text())
 app.use(cors({
     origin: [
         'http://localhost:3000', // Local
-        '/https:\/\/.*-loicprojects\.vercel\.app$/', // Preview
+        /https:\/\/.*-loicprojects\.vercel\.app$/, // Preview
         'https://neat-todo.vercel.app/' // Prod
     ]
 }))
