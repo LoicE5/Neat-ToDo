@@ -7,7 +7,7 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST || '127.0.0.1',
         port: parseInt(process.env.DB_PORT) || 3306,
-        dialect: 'mysql',
+        dialect: process.env.DB_DIALECT || 'mysql',
         logging: false
     } as Options
 )
@@ -16,7 +16,7 @@ sequelize.authenticate()
     .then(():void => {
         console.info('Connection to the database has been established successfully.')
     })
-    .catch((err:string) => {
+    .catch((err:string):void => {
         console.error('Unable to connect to the database :',err)
     })
 

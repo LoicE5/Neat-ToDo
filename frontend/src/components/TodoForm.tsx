@@ -120,8 +120,6 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
         if (context === 'edit')
             url = url.concat(`/${todoId}`)
 
-        console.log(url)
-
         const method = context === 'create' ? 'POST' : 'PUT'
 
         const response = await fetch(url, {
