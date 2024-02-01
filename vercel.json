@@ -11,14 +11,6 @@
             "use": "@vercel/next"
         }
     ],
-    "routes": [
-        {
-          "src": "/server/(.*)",
-          "dest": "/"
-        },
-        {
-          "src": "/(.*)",
-          "dest": "/frontend/$1"
-        }
-    ]
+    "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }]
+    
 }
