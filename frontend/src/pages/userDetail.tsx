@@ -2,7 +2,7 @@ import Header from "@/components/Header"
 import { userGetResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import React, { FormEvent, useEffect, useState } from 'react'
-import { server } from '../../config.json'
+import { server } from '../../config'
 import { useRouter } from "next/router"
 import SkewTitle from "@/components/SkewTitle"
 
@@ -66,12 +66,12 @@ export default function UserDetail() {
     return (
         <div>
             <Header />
-            <SkewTitle>Paramètres</SkewTitle>
+            <SkewTitle>Settings</SkewTitle>
             <br />
 
             <form onSubmit={editUserOnSubmit}>
                 <div className="flex items-center">
-                    <div className="bg-gray-300 rounded-md p-4 items-center border border-gray-800 ml-5 flex shadow-2xl">
+                    <div className="bg-gray-400 rounded-md p-4 items-center border border-gray-800 ml-5 flex shadow-2xl">
                         <div className="flex flex-col items-center space-y-4">
                             <img
                                 className="h-8 w-auto cursor-pointer"
@@ -101,55 +101,43 @@ export default function UserDetail() {
 
                         </div>
                     </div>
-                    <div className="bg-gray-300 rounded-md p-4 items-center border border-gray-800 ml-5 shadow-2xl" style={{ width: "40%", height: "350px" }}>
-                        <h3 style={{ color: "red", fontWeight: "bold", textAlign: "center", marginBottom: 0 }}>Compte</h3>
+                    <div className="bg-gray-400 rounded-md p-4 items-center border border-gray-800 ml-5 shadow-2xl" style={{ width: "90%", height: "350px", marginRight: '1.25rem' }}>
+                        <h3 className="text-gray-800" style={{ fontWeight: "bold", textAlign: "center", marginBottom: 0 }}>Account</h3>
                         <br />
                         <div className=" items-center mx-auto" style={{ paddingTop: "1vw" }}>
                             <div className="text-left" style={{ width: "35vw" }}>
-                                <label htmlFor="nickname" className="text-white block">Nickname</label>
+                                <label htmlFor="nickname" className="text-gray-800 block">Nickname</label>
                                 <input
                                     type="nickname"
                                     name="inputNickname"
+                                    placeholder="someone"
                                     value={userNickname}
-                                    className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                                    className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4 italic"
                                     onChange={event => setUserNickname(event.target.value)}
                                 />
-                                <label htmlFor="email" className="text-white block">Email</label>
+                                <label htmlFor="email" className="text-gray-800 block">Email</label>
                                 <input
                                     type="email"
                                     name="inputEmail"
+                                    placeholder="someone@dauphine.eu"
                                     value={userEmail}
-                                    className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                                    className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4 italic"
                                     onChange={event => setUserEmail(event.target.value)}
                                 />
-                                <label htmlFor="password" className="text-white block">Mot de passe</label>
+                                <label htmlFor="password" className="text-gray-800 block">Password</label>
                                 <input
                                     type="password"
                                     name="inputPassword"
+                                    placeholder="Your password"
                                     value={userPassword}
-                                    className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                                    className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4 italic"
                                     onChange={event => setUserPassword(event.target.value)}
                                 />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-gray-300 rounded-md p-4 items-center border border-gray-800 ml-5 shadow-2xl" style={{ width: "40%", height: "350px" }}>
-                        <h3 style={{ color: "red", fontWeight: "bold", textAlign: "center", marginBottom: 0 }}>Données Personnelles (en travaux)</h3>
-                        <br />
-                        <div className="flex items-center justify-center mx-auto" style={{ paddingTop: "1vw", width: "14vw", height: "80%" }}>
-                            <img
-                                className="h-full w-full object-cover cursor-pointer"
-                                src="work.png"
-                                alt="coneIcon"
-                                draggable={false}
-                            />
-                        </div>
-                    </div>
-
                 </div>
             </form>
-
-
         </div>
     )
 

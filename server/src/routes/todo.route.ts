@@ -3,22 +3,22 @@ import User from '../models/user.model'
 import { Model, Optional } from 'sequelize'
 import { secret } from '../utils/jwt_strategy'
 import { todoCreationPayload, todoUpdatePayload } from '../utils/interfaces'
-import { failRequest, isObjectEmpty, decodeJwtToken, isUserRelatedToTodo, isValidTodoomStatus } from '../utils/functions'
+import { failRequest, isObjectEmpty, decodeJwtToken, isUserRelatedToTodo, isValidTodoStatus } from '../utils/functions'
 import validator from 'validator'
-import Todoom from '../models/todoom.model'
+import Todo from '../models/todo.model'
 import Group from '../models/group.model'
 
-const routerToDoom: Router = express.Router()
+const routerToDo: Router = express.Router()
 
-routerToDoom.post('/', createATodo)
-routerToDoom.get('/:id', getTodoById)
-routerToDoom.put('/:id', updateTodoById)
-routerToDoom.get('/author/:user_id', getAllTodoOfAuthor)
-routerToDoom.get('/assignee/:user_id', getAllTodoOfAssignee)
-routerToDoom.delete('/:id', deleteTodoById)
-routerToDoom.get('/group/:group_id', getAllTodoOfGroup)
+routerToDo.post('/', createATodo)
+routerToDo.get('/:id', getTodoById)
+routerToDo.put('/:id', updateTodoById)
+routerToDo.get('/author/:user_id', getAllTodoOfAuthor)
+routerToDo.get('/assignee/:user_id', getAllTodoOfAssignee)
+routerToDo.delete('/:id', deleteTodoById)
+routerToDo.get('/group/:group_id', getAllTodoOfGroup)
 
-export default routerToDoom
+export default routerToDo
 
 async function createATodo(req: Request,res: Response):Promise<void>{
     try {
@@ -60,13 +60,13 @@ async function createATodo(req: Request,res: Response):Promise<void>{
         }
 
         if (status) {
-            if(isValidTodoomStatus(status))
+            if(isValidTodoStatus(status))
                 createPayload.status = validator.escape(status)
             else
-                return failRequest(res, 400, `Your todoom's status is not valid`)
+                return failRequest(res, 400, `Your todo's status is not valid`)
         }
     
-        const newTodo: Model = await Todoom.create(createPayload as Optional<any, any>)
+        const newTodo: Model = await Todo.create(createPayload as Optional<any, any>)
         res.status(201).json(newTodo)
     
     } catch (error) {
@@ -78,7 +78,7 @@ async function getTodoById(req: Request, res: Response): Promise<void> {
     try {
         const id = Number(req.params.id)
 
-        const toDo = await Todoom.findByPk(id) as any
+        const toDo = await Todo.findByPk(id) as any
 
         if (!toDo) 
             return failRequest(res, 404, `ToDo not found`)
@@ -103,7 +103,7 @@ async function updateTodoById(req: Request,res: Response):Promise<void> {
         const currentUserId = decodeJwtToken(req.headers.authorization, secret).id
         const currentUser = await User.findByPk(currentUserId) as any
 
-        const toBeUpdatedTodo = await Todoom.findByPk(id) as any
+        const toBeUpdatedTodo = await Todo.findByPk(id) as any
         
         if (!toBeUpdatedTodo)
             return failRequest(res,404, `Todo not found`)
@@ -130,10 +130,10 @@ async function updateTodoById(req: Request,res: Response):Promise<void> {
             updatePayload.description = validator.escape(description)
 
         if (status) {
-            if(isValidTodoomStatus(status))
+            if(isValidTodoStatus(status))
                 updatePayload.status = validator.escape(status)
             else
-                return failRequest(res, 400, `Your todoom's status is not valid`)
+                return failRequest(res, 400, `Your todo's status is not valid`)
         }
 
         if (deadline) {
@@ -172,7 +172,7 @@ async function updateTodoById(req: Request,res: Response):Promise<void> {
 async function deleteTodoById(req: Request, res: Response):Promise<void>{
     try {
         const id = Number(req.params.id)
-        const todo = await Todoom.findByPk(id)
+        const todo = await Todo.findByPk(id)
 
         if (!todo) 
         return failRequest(res, 404, `Todo not found`)
@@ -215,7 +215,7 @@ async function getAllTodoOfGroup(req: Request, res: Response): Promise<void> {
     if (!await currentUser.hasGroup(id))
         return failRequest(res, 401, 'Unauthorized')
 
-    const todos = await Todoom.findAll({
+    const todos = await Todo.findAll({
         where: {
             group_id: id
         },
@@ -253,7 +253,7 @@ async function getAllTodoByCriteria(req: Request, res: Response, criteria:"autho
         if (userId !== currentUserId)
             return failRequest(res, 401, `Unauthorized`)
 
-        const todos = await Todoom.findAll({
+        const todos = await Todo.findAll({
             where: criteria == "author" ? { author_id: userId } : { assignee_id: userId },
             include: [
                 {

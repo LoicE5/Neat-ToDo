@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { server } from '../../config.json'
+import { server } from '../../config'
 import storage from "@/utils/storage"
 import { userGetResponse } from "@/utils/interfaces"
 import { NextRouter, useRouter } from "next/router"
@@ -46,7 +46,7 @@ export default function Group({ id, title, userCount, user, router }: GroupProps
 
                 <h3 className="mr-auto ml-8 text-lg font-bold">{title}</h3>
                 <div className="flex justify-between">
-                    <p style={{ marginLeft: "4em" }}>{userCount} membres</p>
+                    <p style={{ marginLeft: "4em" }}>{userCount} members</p>
                     <div
                         style={{
                             display: "block",

@@ -1,4 +1,4 @@
-import { TodoomStatus } from './enums'
+import { TodoStatus } from './enums'
 
 export interface loginResponse {
     message: string,
@@ -17,13 +17,13 @@ export interface groupGetResponse {
     name: string
 }
 
-export interface todoomGetResponse {
+export interface todoGetResponse {
     id: number,
     group_id?: number,
     title: string,
     description?: string,
     deadline?: string|Date,
-    status: TodoomStatus,
+    status: TodoStatus,
     assignee_id: number,
     author_id: number,
     createdAt: string|Date,

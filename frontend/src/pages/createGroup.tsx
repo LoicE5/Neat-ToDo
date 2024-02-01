@@ -2,7 +2,7 @@ import Header from "@/components/Header"
 import { userGetResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import { FormEvent, useState } from "react"
-import { server } from '../../config.json'
+import { server } from '../../config'
 import { useRouter } from "next/router"
 import SkewTitle from "@/components/SkewTitle"
 
@@ -42,16 +42,16 @@ export default function CreateGroup() {
     return (
         <div>
             <Header />
-            <SkewTitle>Créez votre nouveau groupe</SkewTitle>
+            <SkewTitle>Create a new group</SkewTitle>
 
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col items-center" style={{ marginTop: "50px" }}>
-                    <label>Nom de votre groupe</label>
+                    <label>The group's name</label>
                     <input
                         type="text"
                         name="inputNewGroupName"
-                        placeholder="Projet Todoom, Département IT..."
-                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        placeholder="Projet Todo, Département IT..."
+                        className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         onChange={event => setGroupName(event.target.value)}
                         required
                     />
@@ -59,12 +59,12 @@ export default function CreateGroup() {
 
 
                 <div className="flex flex-col items-center" style={{ marginTop: "25px" }}>
-                    <label htmlFor="email">Premier membre du groupe</label>
+                    <label htmlFor="email">First group member</label>
                     <input
                         type="email"
                         name="email"
                         placeholder="jean.dupont@dauphine.eu"
-                        className="mx-auto w-1/3 bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                        className="mx-auto w-1/3 bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                         value={firstUserEmail}
                         onChange={event => setFirstUserEmail(event.target.value)}
                         required
@@ -72,7 +72,7 @@ export default function CreateGroup() {
                 </div>
 
                 <button type="submit"
-                    className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
+                    className="bg-gray-400 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
                     style={{
                         position: "fixed",
                         zIndex: "2",
@@ -81,7 +81,7 @@ export default function CreateGroup() {
                         left: "50%",
                         transform: "translateX(-50%)",
                     }}>
-                    Créer le groupe
+                    Create group
                 </button>
 
             </form>
