@@ -1,7 +1,7 @@
 import { FormEvent, useState, useEffect } from "react"
 import { NextRouter, useRouter } from 'next/router'
 import storage from "@/utils/storage"
-import { server } from '../../config'
+import config from '../../config'
 import { loginResponse } from "@/utils/interfaces"
 import Link from "next/link"
 
@@ -13,7 +13,7 @@ export async function userLogin(email: string, password: string, router: NextRou
         password: password
     }
 
-    const response = await fetch(`http://${server.host}:${server.port}/auth/login`, {
+    const response = await fetch(`http://${config.server.host}:${config.server.port}/auth/login`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

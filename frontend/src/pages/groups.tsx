@@ -4,12 +4,12 @@ import { userGetResponse, userGroupGetResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { server } from '../../config'
+import config from '../../config'
 import Link from "next/link"
 import SkewTitle from "@/components/SkewTitle"
 
 export async function getGroups(user: userGetResponse): Promise<userGroupGetResponse[] | void> {
-    const response = await fetch(`http://${server.host}:${server.port}/user/${user.id}/groups`, {
+    const response = await fetch(`http://${config.server.host}:${config.server.port}/user/${user.id}/groups`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
