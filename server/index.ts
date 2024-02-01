@@ -26,8 +26,10 @@ app.use('/group', passport.authenticate('jwt', { session: false }), routerGroup)
 
 app.all('/', (req:Request,res:Response):void=>failRequest(res,418,`You cannot pour coffee here, please use tea instead.`))
 
-app.listen(port, (): void => console.info(`The server is listening to the port ${port}`))
-
 sequelize.sync({ force: false }).then(() => {
     console.info('The database have been synced')
 })
+
+app.listen(port, (): void => console.info(`The server is listening to the port ${port}`))
+
+export default app
