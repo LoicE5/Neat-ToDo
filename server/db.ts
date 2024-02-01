@@ -3,13 +3,13 @@ import { Sequelize, Options } from "sequelize"
 const isSSLEnabled: boolean = process.env.DB_SSL === 'true'
 
 const sequelize = new Sequelize(
-    process.env.DB_NAME || 'neat_todo',
-    process.env.DB_USERNAME || 'admin',
+    process.env.DB_DATABASE || 'neat_todo',
+    process.env.DB_USER || 'admin',
     process.env.DB_PASSWORD || 'postgres',
     {
         host: process.env.DB_HOST || '127.0.0.1',
         port: parseInt(process.env.DB_PORT) || 5432,
-        dialect: process.env.DB_DIALECT || 'postgres',
+        dialect: 'postgres',
         logging: false,
         ssl: isSSLEnabled,
         dialectOptions: {
