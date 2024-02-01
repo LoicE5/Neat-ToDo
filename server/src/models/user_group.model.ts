@@ -4,7 +4,7 @@ import {
 } from "sequelize"
 import User from "./user.model"
 import Group from "./group.model"
-import Todoom from "./todoom.model"
+import Todo from "./todo.model"
 
 const UserGroup = sequelize.define('UserGroup', {}, {
         tableName: 'user_group',
@@ -18,8 +18,8 @@ Group.belongsToMany(User, { through: UserGroup, onDelete: 'cascade', foreignKey:
 Group.beforeDestroy(async (instance: Model<any, any>, options: InstanceDestroyOptions): Promise<void> => {
     const groupId = instance.get().id
 
-    // Manually delete Todooms associated with the group
-    await Todoom.destroy({
+    // Manually delete Todos associated with the group
+    await Todo.destroy({
         where: {
             group_id: groupId,
         },
@@ -37,7 +37,7 @@ Group.beforeDestroy(async (instance: Model<any, any>, options: InstanceDestroyOp
 UserGroup.afterDestroy(async (instance: Model<any, any>, options: InstanceDestroyOptions): Promise<void> => {
     const groupId = instance.get().GroupId
 
-    await Todoom.update(
+    await Todo.update(
         { group_id: null },
         {
           where: {

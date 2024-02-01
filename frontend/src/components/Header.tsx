@@ -11,11 +11,11 @@ export default function Header() {
     }
 
     return (
-        <header className="bg-gray-800 shadow-2xl" style={{ marginBottom: "20px" }}>
+        <header className="bg-gray-500 shadow-2xl" style={{ marginBottom: "20px" }}>
             <nav className="mx-auto flex max-w-7xl items-center justify-between p-2 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1" >
                     <Link href="/workplace" className="-m-1.5 p-1.5">
-                        <img className="h-8 w-auto" src="logoV1.png" alt="" style={{ display: "block", height: "80px" }} />
+                        <img className="h-8 w-auto" src="neat_logo.png" alt="" style={{ display: "block", height: "80px" }} />
                     </Link>
                 </div>
                 <div className="flex lg:hidden">
@@ -27,14 +27,14 @@ export default function Header() {
                     </button>
                 </div>
                 <div className="hidden lg:flex lg:gap-x-12">
-                    <Link href="/createTodoom" className="text-lg font-semibold leading-6 text-red-500 no-underline">Créer une ToDoom</Link>
-                    <Link href="/groups" className="text-lg font-semibold leading-6 text-red-500 no-underline">Vos groupes</Link>
-                    <Link href="/userDetail" className="text-lg font-semibold leading-6 text-red-500 no-underline">Paramètres</Link>
+                    <Link href="/createTodo" className="text-lg font-semibold leading-6 text-white no-underline">Create ToDo</Link>
+                    <Link href="/groups" className="text-lg font-semibold leading-6 text-white no-underline">Groups</Link>
+                    <Link href="/userDetail" className="text-lg font-semibold leading-6 text-white no-underline">Settings</Link>
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                     <a
                         href="#"
-                        className="text-lg font-semibold leading-6 text-red-500 no-underline"
+                        className="text-lg font-semibold leading-6 text-white no-underline"
                         onClick={userLogout}
                     >
                         Log out

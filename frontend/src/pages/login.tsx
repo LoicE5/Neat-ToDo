@@ -1,7 +1,7 @@
 import { FormEvent, useState, useEffect } from "react"
 import { NextRouter, useRouter } from 'next/router'
 import storage from "@/utils/storage"
-import { server } from '../../config.json'
+import { server } from '../../config'
 import { loginResponse } from "@/utils/interfaces"
 import Link from "next/link"
 
@@ -61,13 +61,13 @@ export default function login() {
         <div
             className="flex flex-col items-center mx-auto"
             style={{
-                backgroundImage: `url("doom_eternal_blur.jpg")`,
+                backgroundImage: `url("golden_gate.webp")`,
                 backgroundSize: "cover",
                 height: "100vh"
             }}
         >
             <Link href="/">
-                <img src="logoV1.png" alt="logo" style={{ width: "200px" }} />
+                <img src="neat_logo.png" alt="logo" style={{ width: "200px" }} />
             </Link>
 
 
@@ -79,17 +79,17 @@ export default function login() {
                         <input
                             type="email"
                             name="inputEmail"
-                            placeholder="Votre email"
-                            className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                            placeholder="someone@dauphine.eu"
+                            className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             onChange={event => setEmail(event.target.value)}
                         />
 
-                        <label htmlFor="password" className="text-white block">Mot de passe</label>
+                        <label htmlFor="password" className="text-white block">Password</label>
                         <input
                             type="password"
                             name="password"
-                            placeholder="Votre mot de passe"
-                            className="w-full bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
+                            placeholder="Your password"
+                            className="w-full bg-gray-400 hover:bg-gray-400 text-black py-2 px-4 rounded mb-4"
                             onChange={event => setPassword(event.target.value)}
                         />
                     </div>
@@ -99,9 +99,9 @@ export default function login() {
                 <div className="bottom-0 w-full text-center mb-16" style={{ textAlign: "center" }}>
                     <button
                         type="submit"
-                        className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
+                        className="bg-gray-400 hover:bg-gray-400 text-black font-bold py-2 px-8 rounded-full border border-black"
                     >
-                        Se connecter
+                        Login
                     </button>
                 </div>
             </form>
