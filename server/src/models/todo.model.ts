@@ -16,7 +16,7 @@ const Todo = sequelize.define('Todo', {
     group_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'Group',
+            model: 'group_',
             key: 'id',
         },
         validate: {
@@ -43,7 +43,7 @@ const Todo = sequelize.define('Todo', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'User',
+            model: 'user_',
             key: 'id',
         },
         validate: {
@@ -54,7 +54,7 @@ const Todo = sequelize.define('Todo', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'User',
+            model: 'user_',
             key: 'id',
         },
         validate: {
@@ -62,8 +62,9 @@ const Todo = sequelize.define('Todo', {
         }
     },
 }, {
-    tableName: 'todo',
     timestamps: true,
+    tableName: 'todo_',
+    freezeTableName: true
 })
 
 Todo.belongsTo(User, { as: 'author', foreignKey: 'author_id' })

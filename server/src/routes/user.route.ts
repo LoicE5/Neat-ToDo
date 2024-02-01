@@ -51,7 +51,7 @@ async function getUserGroupsById(req: Request, res: Response): Promise<void> {
                     'id',
                     'name',
                     [
-                        sequelize.literal('(SELECT COUNT(*) FROM user_group WHERE user_group.GroupId = `Groups`.`id`)'),
+                        sequelize.literal(`(SELECT COUNT(*) FROM user_group_ WHERE user_group_.group_id = "Groups"."id")`),
                         'userCount'
                     ]
                 ],
