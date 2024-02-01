@@ -11,7 +11,7 @@ const TodoHistory = sequelize.define('TodoHistory', {
     group_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'Group',
+            model: 'group_',
             key: 'id',
         },
         validate: {
@@ -38,7 +38,7 @@ const TodoHistory = sequelize.define('TodoHistory', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'User',
+            model: 'user_',
             key: 'id',
         },
         validate: {
@@ -49,7 +49,7 @@ const TodoHistory = sequelize.define('TodoHistory', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'User',
+            model: 'user_',
             key: 'id',
         },
         validate: {
@@ -57,8 +57,9 @@ const TodoHistory = sequelize.define('TodoHistory', {
         }
     },
   }, {
-    tableName: 'todo_history',
     timestamps: true,
+    freezeTableName: true,
+    tableName: 'todo_history_'
   })  
 
 export default TodoHistory

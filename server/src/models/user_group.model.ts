@@ -7,13 +7,14 @@ import Group from "./group.model"
 import Todo from "./todo.model"
 
 const UserGroup = sequelize.define('UserGroup', {}, {
-        tableName: 'user_group',
-        timestamps: false,
-        primaryKey: true
+    timestamps: false,
+    primaryKey: true,
+    freezeTableName: true,
+    tableName: 'user_group_'
 } as any)
 
-User.belongsToMany(Group, { through: UserGroup, onDelete: 'cascade', foreignKey: 'UserId' })
-Group.belongsToMany(User, { through: UserGroup, onDelete: 'cascade', foreignKey: 'GroupId' })
+User.belongsToMany(Group, { through: UserGroup, onDelete: 'cascade', foreignKey: 'user_id' })
+Group.belongsToMany(User, { through: UserGroup, onDelete: 'cascade', foreignKey: 'group_id' })
 
 Group.beforeDestroy(async (instance: Model<any, any>, options: InstanceDestroyOptions): Promise<void> => {
     const groupId = instance.get().id
@@ -28,14 +29,14 @@ Group.beforeDestroy(async (instance: Model<any, any>, options: InstanceDestroyOp
 
     await UserGroup.destroy({
         where: {
-            GroupId: groupId
+            group_id: groupId
         },
         transaction: options.transaction
     })
 })
 
 UserGroup.afterDestroy(async (instance: Model<any, any>, options: InstanceDestroyOptions): Promise<void> => {
-    const groupId = instance.get().GroupId
+    const groupId = instance.get().group_id
 
     await Todo.update(
         { group_id: null },

@@ -15,8 +15,9 @@ const Group = sequelize.define('Group', {
         allowNull: false
     },
 }, {
-    tableName: 'group',
     timestamps: false,
+    freezeTableName: true,
+    tableName: 'group_'
 })
 
 export default Group
