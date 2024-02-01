@@ -28,13 +28,14 @@ const User = sequelize.define('User', {
             }
         },
     }, {
-        tableName: 'user',
-        timestamps: false,
-        uniqueKeys: {
-            user_unique: {
-                fields: ['email', 'nickname'],
-            },
+    timestamps: false,
+    freezeTableName: true,
+    tableName: 'user_',
+    uniqueKeys: {
+        user_unique: {
+            fields: ['email', 'nickname'],
         },
+    },
 } as any)
 
 export default User

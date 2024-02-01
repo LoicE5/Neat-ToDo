@@ -10,7 +10,6 @@ import jwtStrategy from "./src/utils/jwt_strategy"
 import routerToDo from "./src/routes/todo.route"
 import routerGroup from "./src/routes/group.route"
 import { failRequest } from "./src/utils/functions"
-
 const app:Express = express()
 const port:number = Number(process.env.PORT) || 3001
 
@@ -27,7 +26,7 @@ app.use('/group', passport.authenticate('jwt', { session: false }), routerGroup)
 
 app.all('/', (req:Request,res:Response):void=>failRequest(res,418,`You cannot pour coffee here, please use tea instead.`))
 
-app.listen(port, ():void => console.info(`The server is listening to the port ${port}`))
+app.listen(port, (): void => console.info(`The server is listening to the port ${port}`))
 
 sequelize.sync({ force: false }).then(() => {
     console.info('The database have been synced')
