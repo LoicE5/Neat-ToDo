@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { server } from '../../config'
+import config from '../../config'
 import storage from "@/utils/storage"
 import { userGetResponse } from "@/utils/interfaces"
 import { NextRouter, useRouter } from "next/router"
@@ -14,7 +14,7 @@ interface GroupProps {
 
 export async function removeUserFromGroup(groupId: number, user: userGetResponse, router: NextRouter, reload: boolean = true): Promise<void> {
 
-    const response = await fetch(`http://${server.host}:${server.port}/group/${groupId}/${user.id}`, {
+    const response = await fetch(`http://${config.server.host}:${config.server.port}/group/${groupId}/${user.id}`, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',

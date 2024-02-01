@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react"
-import { server } from '../../config'
+import config from '../../config'
 import { useRouter } from 'next/router'
 import storage from "@/utils/storage"
 import { userLogin } from "./login"
@@ -33,7 +33,7 @@ export default function signup() {
             email: email
         }
 
-        const response = await fetch(`http://${server.host}:${server.port}/auth/signup`, {
+        const response = await fetch(`http://${config.server.host}:${config.server.port}/auth/signup`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'

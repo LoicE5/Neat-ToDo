@@ -1,6 +1,6 @@
 import Header from "@/components/Header"
 import Todo from "@/components/Todo"
-import { server } from '../../config'
+import config from '../../config'
 import storage from "@/utils/storage"
 import { todoGetResponse, userGetResponse } from "@/utils/interfaces"
 import { useEffect, useState } from "react"
@@ -26,7 +26,7 @@ export default function Workplace() {
     const [todos, setTodos] = useState([])
 
     async function getAssigneeTodos(): Promise<void> {
-        const response = await fetch(`http://${server.host}:${server.port}/todo/assignee/${user.id}`, {
+        const response = await fetch(`http://${config.server.host}:${config.server.port}/todo/assignee/${user.id}`, {
             method: 'GET',
             headers: {
                 'Authorization': storage.jwt.load(),

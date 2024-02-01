@@ -4,7 +4,7 @@ import { getGroups } from "@/pages/groups"
 import { NextRouter, useRouter } from "next/router"
 import storage from "@/utils/storage"
 import { userGetResponse, userGroupGetResponse } from "@/utils/interfaces"
-import { server } from '../../config'
+import config from '../../config'
 import { decodeSafeHtmlChars } from "@/utils/functions"
 import SkewTitle from "./SkewTitle"
 
@@ -116,7 +116,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
             status: todoFirstStatus
         }
 
-        let url = `http://${server.host}:${server.port}/todo`
+        let url = `http://${config.server.host}:${config.server.port}/todo`
         if (context === 'edit')
             url = url.concat(`/${todoId}`)
 

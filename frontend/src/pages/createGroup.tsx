@@ -2,7 +2,7 @@ import Header from "@/components/Header"
 import { userGetResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import { FormEvent, useState } from "react"
-import { server } from '../../config'
+import config from '../../config'
 import { useRouter } from "next/router"
 import SkewTitle from "@/components/SkewTitle"
 
@@ -24,7 +24,7 @@ export default function CreateGroup() {
             firstUsersEmails: [firstUserEmail]
         }
 
-        const response = await fetch(`http://${server.host}:${server.port}/group`, {
+        const response = await fetch(`http://${config.server.host}:${config.server.port}/group`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

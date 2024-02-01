@@ -2,7 +2,7 @@ import Header from "@/components/Header"
 import { userGetResponse } from "@/utils/interfaces"
 import storage from "@/utils/storage"
 import React, { FormEvent, useEffect, useState } from 'react'
-import { server } from '../../config'
+import config from '../../config'
 import { useRouter } from "next/router"
 import SkewTitle from "@/components/SkewTitle"
 
@@ -45,7 +45,7 @@ export default function UserDetail() {
             payload.password = userPassword
         }
 
-        const url = `http://${server.host}:${server.port}/user/${user.id}`
+        const url = `http://${config.server.host}:${config.server.port}/user/${user.id}`
 
         const response = await fetch(url, {
             method: 'PUT',
