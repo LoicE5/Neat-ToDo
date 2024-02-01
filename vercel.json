@@ -11,13 +11,13 @@
             "config": { "includeFiles": ["server/build/**"] }
         }
     ],
-    "routes": [
+    "rewrites": [
         {
-          "src": "/api/(.*)",
+          "source": "/api/(.*)",
           "dest": "/api"
         },
         {
-          "src": "/(.*)",
+          "destination": "/(.*)",
           "dest": "/frontend/$1"
         }
     ]
