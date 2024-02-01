@@ -17,7 +17,7 @@ passport.use(jwtStrategy)
 
 app.use(express.json())
 app.use(express.text())
-app.use(cors({origin: '*'}))
+app.use(cors({origin: 'http://localhost:3000'}))
 
 app.use('/auth', routerAuth)
 app.use('/user', passport.authenticate('jwt', { session: false }) , routerUser)
