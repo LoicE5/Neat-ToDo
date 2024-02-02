@@ -6,5 +6,5 @@ var TodoStatus;
     TodoStatus["NotStarted"] = "not_started";
     TodoStatus["InProgress"] = "in_progress";
     TodoStatus["Done"] = "done";
-})(TodoStatus = exports.TodoStatus || (exports.TodoStatus = {}));
+})(TodoStatus || (exports.TodoStatus = TodoStatus = {}));
 //# sourceMappingURL=enums.js.map

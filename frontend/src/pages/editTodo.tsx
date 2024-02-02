@@ -57,7 +57,7 @@ export default function createTodo() {
     }, [])
 
     async function getTodoById(todoId: number): Promise<todoGetResponse | void> {
-        const response = await fetch(`http://${config.server.host}:${config.server.port}/todo/${todoId}`, {
+        const response = await fetch(`http://${config.server.host}:${config.server.port}/api/todo/${todoId}`, {
             method: 'GET',
             headers: {
                 'Authorization': storage.jwt.load(),
