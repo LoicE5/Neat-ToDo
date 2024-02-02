@@ -10,7 +10,8 @@ import jwtStrategy from "./src/utils/jwt_strategy"
 import routerToDo from "./src/routes/todo.route"
 import routerGroup from "./src/routes/group.route"
 import { failRequest } from "./src/utils/functions"
-const app:Express = express()
+
+const app: Express = express()
 const port:number = Number(process.env.PORT) || 3001
 
 passport.use(jwtStrategy)
@@ -25,12 +26,12 @@ app.use(cors({
     ]
 }))
 
-app.use('/auth', routerAuth)
-app.use('/user', passport.authenticate('jwt', { session: false }) , routerUser)
-app.use('/todo', passport.authenticate('jwt', { session: false }), routerToDo)
-app.use('/group', passport.authenticate('jwt', { session: false }), routerGroup)
+app.use('/api/auth', routerAuth)
+app.use('/api/user', passport.authenticate('jwt', { session: false }) , routerUser)
+app.use('/api/todo', passport.authenticate('jwt', { session: false }), routerToDo)
+app.use('/api/group', passport.authenticate('jwt', { session: false }), routerGroup)
 
-app.all('/', (req:Request,res:Response):void=>failRequest(res,418,`You cannot pour coffee here, please use tea instead.`))
+app.all('/api', (req:Request,res:Response):void=>failRequest(res,418,`You cannot pour coffee here, please use tea instead.`))
 
 sequelize.sync({ force: false }).then(() => {
     console.info('The database have been synced')
