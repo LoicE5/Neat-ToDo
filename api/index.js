@@ -1,3 +1,3 @@
-import app from '../server/build/index.js'
+const app = require('../server/build/index.js')
 
-export default app
+exports.default = app
