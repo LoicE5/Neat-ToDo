@@ -33,7 +33,7 @@ export default function signup() {
             email: email
         }
 
-        const response = await fetch(`http://${config.server.host}:${config.server.port}/auth/signup`, {
+        const response = await fetch(`http://${config.server.host}:${config.server.port}/api/auth/signup`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
