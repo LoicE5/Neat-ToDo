@@ -116,7 +116,7 @@ export default function TodoForm({ todoId, title, description, deadline, groupId
             status: todoFirstStatus
         }
 
-        let url = `http://${config.server.host}:${config.server.port}/api/todo`
+        let url = `/api/todo`
         if (context === 'edit')
             url = url.concat(`/${todoId}`)
 

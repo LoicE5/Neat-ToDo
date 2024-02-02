@@ -98,7 +98,7 @@ export default function GroupDetails() {
     }
 
     async function getGroupTodosById(groupId: number): Promise<todoGetResponse[] | void> {
-        const response = await fetch(`http://${config.server.host}:${config.server.port}/api/todo/group/${groupId}`, {
+        const response = await fetch(`/api/todo/group/${groupId}`, {
             method: 'GET',
             headers: {
                 'Authorization': storage.jwt.load(),
@@ -117,7 +117,7 @@ export default function GroupDetails() {
     }
 
     async function getUsersOfGroupById(groupId: number): Promise<userGetResponse[] | void> {
-        const response = await fetch(`http://${config.server.host}:${config.server.port}/api/group/${groupId}/users`, {
+        const response = await fetch(`/api/group/${groupId}/users`, {
             method: 'GET',
             headers: {
                 'Authorization': storage.jwt.load(),
@@ -134,7 +134,7 @@ export default function GroupDetails() {
     }
 
     async function deleteGroupById(groupId: number): Promise<void> {
-        const response = await fetch(`http://${config.server.host}:${config.server.port}/api/group/${groupId}`, {
+        const response = await fetch(`/api/group/${groupId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': storage.jwt.load(),
@@ -149,7 +149,7 @@ export default function GroupDetails() {
     }
 
     async function getGroupNameById(groupId: number): Promise<string | void> {
-        const response = await fetch(`http://${config.server.host}:${config.server.port}/api/group/${groupId}`, {
+        const response = await fetch(`/api/group/${groupId}`, {
             method: 'GET',
             headers: {
                 'Authorization': storage.jwt.load(),
@@ -166,7 +166,7 @@ export default function GroupDetails() {
     }
 
     async function addUserToGroupByEmail(userEmail: string, groupId: number) {
-        const response = await fetch(`http://${config.server.host}:${config.server.port}/api/group/${groupId}/email/${userEmail}`, {
+        const response = await fetch(`/api/group/${groupId}/email/${userEmail}`, {
             method: 'PUT',
             headers: {
                 'Authorization': storage.jwt.load(),

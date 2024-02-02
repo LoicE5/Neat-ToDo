@@ -26,7 +26,7 @@ export default function Workplace() {
     const [todos, setTodos] = useState([])
 
     async function getAssigneeTodos(): Promise<void> {
-        const response = await fetch(`http://${config.server.host}:${config.server.port}/api/todo/assignee/${user.id}`, {
+        const response = await fetch(`/api/todo/assignee/${user.id}`, {
             method: 'GET',
             headers: {
                 'Authorization': storage.jwt.load(),

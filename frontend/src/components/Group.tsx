@@ -14,7 +14,7 @@ interface GroupProps {
 
 export async function removeUserFromGroup(groupId: number, user: userGetResponse, router: NextRouter, reload: boolean = true): Promise<void> {
 
-    const response = await fetch(`http://${config.server.host}:${config.server.port}/api/group/${groupId}/${user.id}`, {
+    const response = await fetch(`/api/group/${groupId}/${user.id}`, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
