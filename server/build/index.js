@@ -27,11 +27,11 @@ app.use((0, cors_1.default)({
         'https://neat-todo.vercel.app/' // Prod
     ]
 }));
-app.use('/auth', auth_route_1.default);
-app.use('/user', passport_1.default.authenticate('jwt', { session: false }), user_route_1.default);
-app.use('/todo', passport_1.default.authenticate('jwt', { session: false }), todo_route_1.default);
-app.use('/group', passport_1.default.authenticate('jwt', { session: false }), group_route_1.default);
-app.all('/', (req, res) => (0, functions_1.failRequest)(res, 418, `You cannot pour coffee here, please use tea instead.`));
+app.use('/api/auth', auth_route_1.default);
+app.use('/api/user', passport_1.default.authenticate('jwt', { session: false }), user_route_1.default);
+app.use('/api/todo', passport_1.default.authenticate('jwt', { session: false }), todo_route_1.default);
+app.use('/api/group', passport_1.default.authenticate('jwt', { session: false }), group_route_1.default);
+app.all('/api', (req, res) => (0, functions_1.failRequest)(res, 418, `You cannot pour coffee here, please use tea instead.`));
 db_1.default.sync({ force: false }).then(() => {
     console.info('The database have been synced');
 });
