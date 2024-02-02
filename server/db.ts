@@ -1,4 +1,5 @@
 import { Sequelize, Options } from "sequelize"
+import * as pg from 'pg'
 
 const isSSLEnabled: boolean = process.env.DB_SSL === 'true'
 
@@ -10,6 +11,7 @@ const sequelize = new Sequelize(
         host: process.env.DB_HOST || '127.0.0.1',
         port: parseInt(process.env.DB_PORT) || 5432,
         dialect: 'postgres',
+        dialectModule: pg,
         logging: false,
         ssl: isSSLEnabled,
         dialectOptions: {
