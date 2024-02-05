@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
+    "workspaces": [
+        "frontend",
+        "server"
+    ],
     "scripts": {
         "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:server\"",
         "dev:frontend": "cd frontend && next dev",
