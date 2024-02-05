@@ -45,7 +45,7 @@ export default function UserDetail() {
             payload.password = userPassword
         }
 
-        const url = `http://${config.server.host}:${config.server.port}/user/${user.id}`
+        const url = `/api/user/${user.id}`
 
         const response = await fetch(url, {
             method: 'PUT',

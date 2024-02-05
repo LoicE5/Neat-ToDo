@@ -13,7 +13,7 @@ export async function userLogin(email: string, password: string, router: NextRou
         password: password
     }
 
-    const response = await fetch(`http://${config.server.host}:${config.server.port}/auth/login`, {
+    const response = await fetch(`/api/auth/login`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
