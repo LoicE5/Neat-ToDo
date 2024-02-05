@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx parallelshell \"npx tsc -w\" \"nodemon --no-warnings build\"",
-    "start": "npx tsc && node build"
+    "build": "npx tsc && node build"
   },
   "author": "",
   "license": "ISC",
