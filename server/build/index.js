@@ -22,8 +22,8 @@ app.use(express_1.default.json());
 app.use(express_1.default.text());
 app.use((0, cors_1.default)({
     origin: [
-        'http://localhost:3000',
-        /https:\/\/.*-loicprojects\.vercel\.app$/,
+        'http://localhost:3000', // Local
+        /https:\/\/.*-loicprojects\.vercel\.app$/, // Preview
         'https://neat-todo.vercel.app/' // Prod
     ]
 }));
