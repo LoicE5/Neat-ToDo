@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
-server/build/*
+# server/build/* # Removed for vercel upload compatibility
 .idea
 .vscode
 .env
 *.sqlite
+.vercel

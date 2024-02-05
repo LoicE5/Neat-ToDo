@@ -24,7 +24,7 @@ export default function CreateGroup() {
             firstUsersEmails: [firstUserEmail]
         }
 
-        const response = await fetch(`http://${config.server.host}:${config.server.port}/group`, {
+        const response = await fetch(`/api/group`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
