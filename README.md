@@ -29,15 +29,14 @@ Note : Use `127.0.0.1` instead of `localhost` (if applicable), some bugs may occ
 
 ## Run
 
-Open two terminals, then type :
-
 ### Development
-`cd frontend && npm run dev`
+`npm run dev`
 
-`cd server && npm run dev`
+**For only front-end or server :** `npm run dev:frontend`or `npm run dev:server`
 
 ### Production
-`cd frontend && npm run start`
-`cd server && npm run start`
+`npm run build`
+
+**For only front-end or server :** `npm run build:frontend`or `npm run build:server`
 
 Then, open your browser and head to `http://localhost:3000`.
