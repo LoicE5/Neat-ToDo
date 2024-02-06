@@ -29,7 +29,7 @@ function App({ Component, pageProps, router }: AppProps) {
                 </motion.div>
 
             </AnimatePresence>
-            <Analytics mode='production' />
+            <Analytics mode='auto' />
         </>
     );
 }
