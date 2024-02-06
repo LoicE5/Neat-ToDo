@@ -11,11 +11,9 @@
         "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:server\"",
         "dev:frontend": "cd frontend && next dev",
         "dev:server": "cd server && concurrently \"tsc -w\" \"nodemon --no-warnings build\"",
-
         "build": "concurrently \"npm run build:frontend\" \"npm run build:server\"",
         "build:frontend": "cd frontend && next build",
         "build:server": "cd server && tsc && node build",
-
         "lint:frontend": "cd frontend && next lint",
         "tsc:server": "cd server && tsc"
     },
@@ -42,6 +40,8 @@
         "@types/passport-jwt": "^3.0.13",
         "@types/pg": "^8.11.0",
         "@types/sequelize": "^4.28.18",
+        "@vercel/analytics": "^1.1.2",
+        "@vercel/speed-insights": "^1.0.9",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
         "dotenv": "^16.3.1",
