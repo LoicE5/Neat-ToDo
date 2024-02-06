@@ -31,6 +31,7 @@ function App({ Component, pageProps, router }: AppProps) {
 
             </AnimatePresence>
             <Analytics mode='auto' />
+            <SpeedInsights />
         </>
     );
 }
