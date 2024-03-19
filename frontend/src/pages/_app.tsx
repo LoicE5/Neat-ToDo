@@ -1,9 +1,9 @@
 // pages/_app.tsx
-import { AppProps } from 'next/app';
+import { AppProps } from 'next/app'
 
-import '@/styles/globals.css';
-import '@/styles/home.css';
-import { AnimatePresence, motion } from 'framer-motion';
+import '@/styles/globals.css'
+import '@/styles/home.css'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
