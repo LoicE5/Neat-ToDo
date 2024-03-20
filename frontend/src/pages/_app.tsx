@@ -5,7 +5,6 @@ import '@/styles/globals.css'
 import '@/styles/home.css'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 
 function App({ Component, pageProps, router }: AppProps) {
     return (
@@ -31,7 +30,6 @@ function App({ Component, pageProps, router }: AppProps) {
 
             </AnimatePresence>
             <Analytics mode='auto' />
-            <SpeedInsights />
         </>
     );
 }
