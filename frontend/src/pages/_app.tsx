@@ -4,7 +4,7 @@ import { AppProps } from 'next/app'
 import '@/styles/globals.css'
 import '@/styles/home.css'
 import { AnimatePresence, motion } from 'framer-motion'
-// import { Analytics } from '@vercel/analytics/react'
+import { Analytics } from '@vercel/analytics/react'
 
 function App({ Component, pageProps, router }: AppProps) {
     return (
@@ -29,7 +29,7 @@ function App({ Component, pageProps, router }: AppProps) {
                 </motion.div>
 
             </AnimatePresence>
-            {/* <Analytics mode='auto' /> */}
+            <Analytics mode='auto' />
         </>
     );
 }
